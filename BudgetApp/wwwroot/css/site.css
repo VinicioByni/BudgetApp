@@ -26,6 +26,10 @@ body {
     overflow-y: auto;
 }
 
+.debtsClass {
+    height: 180px;
+    overflow-y: auto;
+}
 ::-webkit-scrollbar {
     width: 8px;
     border-radius: 5px;
@@ -33,6 +37,7 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
+    display: none;
     background: #181c3a;
     border-radius: 5px;
 }

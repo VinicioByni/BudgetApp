@@ -13,6 +13,7 @@ namespace BudgetApp.Models
         public DateTime DueDate { get; set; }
         public float AmountOwed { get; set; }
         public float CreditLimit { get; set; }
+        public bool AutoPayment { get; set; }
         public virtual Expense? Expense { get; set; }
         public virtual RecurrentExpense? RecurrentExpense { get; set; }
     }
