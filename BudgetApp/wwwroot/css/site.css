@@ -2,11 +2,27 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media(max-width: 949px) and (min-width: 0px) {
+    #budget {
+        order: 2;
+    }
+
+    #forms {
+        order: 1;
+    }
+
+    #balance {
+        order: 3;
+    }
+}
+
+@media(min-width: 950px) {
   html {
     font-size: 16px;
   }
 }
+
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -21,25 +37,219 @@ body {
   margin-bottom: 60px;
 }
 
-.formClass {
-    height: 550px;
-    overflow-y: auto;
+.dashboardRows {
+    max-width: 350px;
+    min-width: 300px;
 }
 
-.debtsClass {
-    height: 180px;
+.formClass {
+    background-color: #181c3a;
+    border-radius: 1rem;
     overflow-y: auto;
+    max-height: 600px;
 }
+    /* The background color turned white when doing one input in general for all types*/
+    .formClass input[type=number] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .formClass input[type=date] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .formClass input[type=text] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .formClass select {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+/* Budget and Montlhy Balance */
+.tilesClass {
+    background-color: #00d394;
+    border-radius: 1rem;
+}
+
+/* Credit Cards, Debt and Recurrent Expenses */
+.debtsClass {
+    background-color: #181c3a;
+    border-radius: 1rem;
+}
+
+    .debtsClass:hover .debtsBodyClass {
+        overflow-y: auto;
+        height: 21.75rem;
+    }
+
+.debtsBodyClass {
+    overflow-y: hidden;
+    transition: .5s;
+    height: 11.25rem;
+}
+
+    .debtsBodyClass:hover {
+        overflow-y: auto;
+        height: 21.75rem;
+    }
+
+/* Cards */
+.cardInfoClass {
+    background-color: #252849;
+    border-radius: 1rem;
+    overflow-y: hidden;
+    transition: .5s;
+    height: 9.875rem;
+}
+    .cardInfoClass:hover {
+        background-color: #2c2f4d;
+        height: 12rem;
+    }
+
+.cardEditFormClass {
+    background-color: #252849;
+    border-radius: 1rem;
+    transition: .5s;
+}
+    .cardEditFormClass input[type=number] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .cardEditFormClass input[type=date] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .cardEditFormClass input[type=text] {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+    .cardEditFormClass select {
+        background-color: #181c3a;
+        border: 2px solid white;
+        color: white;
+    }
+
+.cardDeleteClass {
+    background-color: #252849;
+    border-radius: 1rem;
+    overflow-y: auto;
+    height: 9.875rem;
+}
+
+.cardPaymentClass {
+    background-color: #252849;
+    border-radius: 1rem;
+
+}
+    .cardPaymentClass input[type=number] {
+    background-color: #181c3a;
+    border: 2px solid white;
+    color: white;
+    }
+
+/* Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 1.7rem;
+}
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #181c3a;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 1.3rem;
+        width: 1.3rem;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 2px white;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(1.3rem);
+    -ms-transform: translateX(1.3rem);
+    transform: translateX(1.3rem);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 1.7rem;
+
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
 ::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 5px;
+    width: 4px;
+    border-radius: 2px;
+    margin: 0;
 }
+
+/* Back Button */
+.backButton {
+    background-color: #252849;
+    border: none;
+    color: white;
+}
+    .backButton:hover {
+        color: #8ee0fa;
+    }
 
 /* Track */
 ::-webkit-scrollbar-track {
     display: none;
     background: #181c3a;
     border-radius: 5px;
+    margin: 0;
 }
 
 /* Handle */

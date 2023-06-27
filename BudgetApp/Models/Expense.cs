@@ -14,18 +14,15 @@ namespace BudgetApp.Models
         // Method has 3 options for selection (Cash/Debit, Credit Card, Debt), front end takes care of it
         public string Method { get; set; } = string.Empty;
 
-        [ForeignKey("ExpensesCategory")]
+        [ForeignKey("ExpenseCategory")]
         public int? ExpenseCategoryId { get; set; }
         public virtual ExpenseCategory? ExpenseCategory { get; set; }
-        public bool AccountVisible { get; set; }
         [ForeignKey("Account")]
         public int? AccountId { get; set; }
         public virtual Account? Account { get; set; }
-        public bool CreditCardVisible { get; set; }
         [ForeignKey("CreditCard")]
         public int? CreditCardId { get; set; }
         public virtual CreditCard? CreditCard { get; set; }
-        public bool DebtVisible { get; set; }
         [ForeignKey("Debt")]
         public int? DebtId { get; set; }
         public virtual Debt? Debt { get; set; }

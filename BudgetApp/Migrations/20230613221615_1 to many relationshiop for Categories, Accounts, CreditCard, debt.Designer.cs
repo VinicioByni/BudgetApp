@@ -4,6 +4,7 @@ using BudgetApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetApp.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    partial class BudgetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230613221615_1 to many relationshiop for Categories, Accounts, CreditCard, debt")]
+    partial class _1tomanyrelationshiopforCategoriesAccountsCreditCarddebt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +70,7 @@ namespace BudgetApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CreditCardId"));
 
-                    b.Property<float?>("AmountOwed")
+                    b.Property<float>("AmountOwed")
                         .HasColumnType("real");
 
                     b.Property<bool>("AutoPayment")
@@ -139,17 +142,26 @@ namespace BudgetApp.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("AccountVisible")
+                        .HasColumnType("bit");
+
                     b.Property<float>("Amount")
                         .HasColumnType("real");
 
                     b.Property<int?>("CreditCardId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("CreditCardVisible")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DebtId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("DebtVisible")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -257,11 +269,17 @@ namespace BudgetApp.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("AccountVisible")
+                        .HasColumnType("bit");
+
                     b.Property<float>("Amount")
                         .HasColumnType("real");
 
                     b.Property<int?>("CreditCardId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("CreditCardVisible")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DayOfTheMonth")
                         .HasColumnType("datetime2");
@@ -271,6 +289,9 @@ namespace BudgetApp.Migrations
 
                     b.Property<int?>("DebtId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("DebtVisible")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("ExpenseCategoryId")
                         .HasColumnType("int");

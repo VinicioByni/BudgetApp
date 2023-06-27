@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\_ExpensesPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -15,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Shared\_ExpensesPartial.cshtml" />
     <None Include="wwwroot\js\cs50JS\counter.js" />
   </ItemGroup>
 

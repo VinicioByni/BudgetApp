@@ -1,0 +1,101 @@
+﻿@using BudgetApp.Models
+@model List<CreditCard>
+
+    @foreach(CreditCard creditCard in Model)
+{
+    <div id="creditCard-@creditCard.CreditCardId" class="card me-0 ms-0 mt-0 mb-3 pb-1 text-md-start text-light cardInfoClass">
+        <!-- Credit Card Info -->
+        <div id="creditCardInfo-@creditCard.CreditCardId" class="card-body">
+            <h5>
+                <i class="bi bi-credit-card"></i> @creditCard.Name 
+                <button onclick="showEditForm(@creditCard.CreditCardId)" type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button>
+                <button onclick="showDeleteCreditCard(@creditCard.CreditCardId)" type="button" class="btn btn-outline-danger float-end btn-sm me-1 ms-1"><i class="bi bi-trash"></i></button>
+            </h5>
+            <p id="displayAmountOwed-@creditCard.CreditCardId" ><strong>MXN $ @creditCard.AmountOwed</strong></p>
+            <small class="text-light">
+                Cut-Off Date: @creditCard.CutOffDate.ToString("d MMMM") <button id="creditPaymentButton-@creditCard.CreditCardId" onclick="showPaymentForm(@creditCard.CreditCardId)" type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button>
+            </small><br />
+            <small class="text-light">
+                Due Date: @creditCard.DueDate.ToString("d MMMM")
+            </small>
+            <div class="text-light mt-3">
+                <small>
+                    <strong>Credit Limit: </strong>$ @creditCard.CreditLimit 
+                </small>
+            </div>
+            
+        </div>
+        <!-- Edit Credit Card Form-->
+        <div id="creditCardEdit-@creditCard.CreditCardId" class="card-body">
+            <button onclick="hideEditForm(@creditCard.CreditCardId)" class=" backButton float-start"><i class="bi bi-arrow-return-left"></i></button>
+            <h5 class="text-center"></h5>
+            <form id="creditCardEditForm-@creditCard.CreditCardId" class="m-3">
+                <div class="form-group mb-3 text-center">
+                    <h4 class="form-label"><i class="bi bi-credit-card"></i><strong> @creditCard.Name</strong></h4>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Name</label>
+                    <input id="name-@creditCard.CreditCardId" value="@creditCard.Name" type="text" class="form-control">
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Credit Limit</label>
+                    <input id="creditLimit-@creditCard.CreditCardId" value="@creditCard.CreditLimit" type="number" class="form-control" required>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Cut-Off Date</label>
+                    <input id="cutOffDate-@creditCard.CreditCardId" value="@creditCard.CutOffDate.ToString("yyyy-MM-dd")" type="date" class="form-control" required>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Due Date</label>
+                    <input id="dueDate-@creditCard.CreditCardId" value="@creditCard.DueDate.ToString("yyyy-MM-dd")" type="date" class="form-control" required>
+                </div>
+                <div class="form-group mt-1 mb-2">
+                    <label class="form-label me-2">Automatic Payment </label>
+                    <label class="switch">
+                        <input id="autoPayment-@creditCard.CreditCardId" type="checkbox" onclick="autoPayment(@creditCard.CreditCardId)">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </form>
+            <div class="text-center text-light">
+                <button onclick="updateForm(@creditCard.CreditCardId)" class="btn btn-outline-light me-1">Update</button>
+                <button onclick="hideEditForm(@creditCard.CreditCardId)" class="btn btn-outline-danger ms-1">Cancel</button>
+            </div>
+           
+        </div>
+        <!-- Pay Credit Card Debt Form-->
+        <div id="creditCardPayment-@creditCard.CreditCardId" class="card-body">
+            <button onclick="hidePaymentForm(@creditCard.CreditCardId)" class="backButton float-start"><i class="bi bi-arrow-return-left"></i></button>
+            <form id="creditCardPaymentForm-@creditCard.CreditCardId" class="m-3">
+                <div class="form-group mb-3 text-center">
+                    <h4 class="form-label"><i class="bi bi-credit-card"></i><strong> @creditCard.Name</strong></h4>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Amount Paid</label>
+                    <input id="payment-@creditCard.CreditCardId" type="number" class="form-control" required>
+                </div>
+                <div class="form-group text-center mb-2">
+                    <label class="form-label">Amount Owed</label>
+                    <p id="amountOwedDisplay-@creditCard.CreditCardId" class="card-text fs-3 text-danger mb-1"><strong>$ @creditCard.AmountOwed</strong></p>
+                </div>
+                <div class="form-group text-center mb-2">
+                    <input hidden id="amountOwed-@creditCard.CreditCardId" value="@creditCard.AmountOwed" type="text" class="form-control">
+                </div>
+            </form>
+            <div class="text-center text-light">
+                <button onclick="updatePaymentForm(@creditCard.CreditCardId)" class="btn btn-outline-success me-1">Update</button>
+                <button onclick="hidePaymentForm(@creditCard.CreditCardId)" class="btn btn-outline-danger ms-1">Cancel</button>
+            </div>
+            
+        </div>
+        <!-- Delete Credit Card confirmation -->
+        <div id="creditCardDelete-@creditCard.CreditCardId" class="card-body text-center">
+            <h5> Are you sure you want to delete <strong class="text-danger">@creditCard.Name</strong> Credit Card?</h5>
+            <button onclick="deleteCreditCard(@creditCard.CreditCardId)" class="btn btn-outline-danger text-light">Confirm</button>
+            <button onclick="hideDeleteCreditCard(@creditCard.CreditCardId)" class="btn btn-outline-light text-light">Cancel</button>
+        </div>
+    </div>
+       
+}
+
+

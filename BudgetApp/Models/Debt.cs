@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BudgetApp.Models
 {
@@ -17,8 +18,9 @@ namespace BudgetApp.Models
         public float Amount { get; set; }
         public DateTime Date { get; set; }
         public DateTime DueDate { get; set; }
-        public virtual Expense? Expense { get; set; }
-        public virtual RecurrentExpense? RecurrentExpense { get; set; }
+        [JsonIgnore]
+        public virtual List<Expense>? Expense { get; set; }
+        public virtual List<RecurrentExpense>? RecurrentExpense { get; set; }
 
     }
 }

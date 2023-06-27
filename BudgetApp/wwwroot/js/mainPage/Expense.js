@@ -20,8 +20,8 @@ function expenseMethod() {
     var Value = method.value;
 
     // Show account & make it required
-    if (Value == 1) {
-
+    if (Value == "Cash/Debit") {
+        expenseAccount.style.transitionDelay = "3s";
         expenseAccount.style.display = 'block';
         expenseCreditCard.style.display = 'none';
         expenseDebt.style.display = 'none';
@@ -31,7 +31,7 @@ function expenseMethod() {
         expenseSelectDebt.removeAttribute('required');
     }
     // Show credit card & make it required
-    else if (Value == 2) {
+    else if (Value == "Credit Card") {
 
         expenseAccount.style.display = 'none';
         expenseCreditCard.style.display = 'block';
@@ -43,7 +43,7 @@ function expenseMethod() {
         expenseSelectDebt.removeAttribute('required');
     }
     // Show debt & make it required
-    else if (Value == 3) {
+    else if (Value == "Debt") {
 
         expenseAccount.style.display = 'none';
         expenseCreditCard.style.display = 'none';
