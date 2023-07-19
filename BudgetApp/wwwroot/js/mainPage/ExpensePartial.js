@@ -1,1 +1,0 @@
-﻿$('#expensePartialZone').load("/Home/GetExpensesPartial")

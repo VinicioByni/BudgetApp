@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BudgetApp.Models
 {
@@ -10,6 +11,7 @@ namespace BudgetApp.Models
         [Required]
         [StringLength(25)]
         public string Name { get; set; } = string.Empty;
+        [JsonIgnore]
         public virtual List<Income>? Income { get; set; }
         // Add something if needed to be able to assign an icon
     }

@@ -8,6 +8,7 @@ namespace BudgetApp.Models
         [Key]
         public int Id { get; set; }
         public float Amount { get; set; }
+        [DisplayFormat(DataFormatString = "{0:ddd d MMM yyyy}")]
         public DateTime Date { get; set; }
         [StringLength(40)]
         public string Description { get; set; } = string.Empty;

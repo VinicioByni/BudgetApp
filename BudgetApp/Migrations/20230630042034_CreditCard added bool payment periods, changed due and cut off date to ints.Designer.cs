@@ -4,6 +4,7 @@ using BudgetApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetApp.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    partial class BudgetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230630042034_CreditCard added bool payment periods, changed due and cut off date to ints")]
+    partial class CreditCardaddedboolpaymentperiodschangeddueandcutoffdatetoints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +70,7 @@ namespace BudgetApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CreditCardId"));
 
-                    b.Property<float?>("AmountPaid")
+                    b.Property<float?>("AmountOwed")
                         .HasColumnType("real");
 
                     b.Property<bool>("AutoPayment")
@@ -76,14 +79,17 @@ namespace BudgetApp.Migrations
                     b.Property<float>("CreditLimit")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("CurrentCutOffDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("CutOffDateDay")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("DueDateDay")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("LastCutOffDate")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("FirstPeriodPayment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LastPeriodPayment")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

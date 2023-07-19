@@ -1,471 +1,240 @@
-﻿@model BudgetApp.Models.FormsViewModel
+﻿@using BudgetApp.Models
+@model FormsViewModel
+
 
 
 @{
     ViewBag.Title = "Index"; 
+    DateTime currentDate = DateTime.Now;
+    string today = currentDate.ToString("dd-MMMM-yyyy");
+    string monthAndYear = currentDate.ToString("yyyy-MM");
 }
 
 <!-- Main Page -->
-<div class="container-fluid" >
-
-    <div class="row mb-2 mt-3 justify-content-center" style="background-color: #090e27">
-        
-        <!-- Budget & Credit Cards-->
-        <div id="budget" class="col-4 p-0 ms-2 me-2 dashboardRows" >
-            <!-- Budget -->
-            <div class="card mt-3 me-0 ms-0 mb-2 pt-1 pb-1 text-md-start tilesClass">
-                <div class="card-body">
-                    <h5>Monthly Budget Balance </h5>
-                    <hr class="bg-dark mt-0 mb-3">
-                    <p class="card-text fs-3"><strong>MXN $5,300</strong> <button type="button" class="btn btn-outline-dark float-end btn-md">$10,000 <i class="bi bi-pencil-square"></i></button></p>
-                </div>
-            </div>
-            
-            <!-- Credit Cards-->
-            <div id="creditCardsCard" class="card me-0 ms-0 mt-3 mb-3 pt-1 pb-1 text-md-start text-light debtsClass" >
-                <div class="card-header">
-                    <h3><i class="bi bi-credit-card"></i> Credit Cards <button onclick="createCreditCard()" class="btn btn-outline-info float-end btn-sm"><i class="bi bi-plus"></i></button></h3>
-                </div>
-                <div id="creditCards" class="card-body debtsBodyClass" >
-                    <div id="creditCard" class="card me-0 ms-0 mt-0 mb-3 pb-1 text-md-start text-light cardEditFormClass">
+<div class="container-fluid">
+    <div class="row my-3 justify-content-center">
+        <!--First Level-->
+        <div class="col-11 col-xl-8">
+            <h4 class="text-light ms-4 mb-0">Today: @today</h4>
+            <div class="row justify-content-around px-1">
+                
+                
+                <div class="col-md-4">
+                    <div class="card mt-3 mx-0 mb-2 py-1 text-light text-md-start tilesBudget">
                         <div class="card-body">
-                            <!-- Add Credit Card Form-->
-                            <form id="addCreditCardForm" asp-controller="Home" asp-action="AddCreditCard" class="m-3">
-                                <div class="form-group mb-3 text-center">
-                                    <h4 class="form-label"><strong>New Credit Card</strong></h4>
+                            <div class="row mb-1">
+                                <div class="col-9 align-content-center pe-0">
+                                    <h5 class="mb-2">Monthly Balance </h5>
                                 </div>
-                                <div class="form-group mb-2">
-                                    <label class="form-label">Name</label>
-                                    <input id="nameCreditCard" type="text" class="form-control" asp-for="CreditCard.Name" required>
+                                <div class="col-3 align-content-center ps-0">
+                                    <button id="updateBudgetBtn" form="budgetForm" type="submit" class="btn btn-outline-light float-end btn-sm hiddenElement">Save</button>
                                 </div>
-                                <div class="form-group mb-2">
-                                    <label class="form-label">Credit Limit</label>
-                                    <input id="creditLimitCreditCard" type="number" class="form-control" asp-for="CreditCard.CreditLimit" required>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label class="form-label">Cut-Off Date</label>
-                                    <input id="cutOffDateCreditCard" type="date" class="form-control" asp-for="CreditCard.CutOffDate" required>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Due Date</label>
-                                    <input id="dueDateCreditCard" type="date" class="form-control" asp-for="CreditCard.DueDate" required>
-                                </div>
-                                <div class="form-group mt-1 mb-2">
-                                    <label class="form-label me-2">Automatic Payment </label>
-                                    <label class="switch">
-                                        <input type="checkbox" asp-for="CreditCard.AutoPayment">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                                <div class="text-center text-light">
-                                    <button type="submit" class="btn btn-outline-info">Add Credit Card</button>
-                                    <button onclick="cancelCreditCard()" class="btn btn-outline-danger ms-1">Cancel</button>
+                            </div>
+                            <hr class="bg-ligth mt-0 mb-3">
+                            <div id="budgetDisplay">
+                                <button id="editBudgetBtn" class="buttonEditable">
+                                    <p class="card-text text-light fs-5 mb-0 pEditable">Budget: @Html.DisplayFor(model => model.Budget.Amount)</p>
+                                </button>
+                            </div>
+                            <form id="budgetForm" onsubmit="updateBudget(@Model.Budget.Id)" class="transparentForm hiddenElement">
+                                <div class="tilesBudgetH5Input">
+                                    <input id="budgetValue" value="@Model.Budget.Amount" type="number" step="any" required>
                                 </div>
                             </form>
+                            <p id="budgetBalance" class="card-text fs-3"></p>
                         </div>
                     </div>
-                    <div id="creditCardsPartialView">
-
-                    </div>    
                 </div>
-            </div> 
-            <!-- Recurrrent Expenses -->
-            <div class="card me-0 ms-0 mt-3 mb-3 pt-1 pb-1 text-md-start text-light debtsClass">
-                <div class="card-header">
-                    <h3><i class="bi bi-cash"></i> Recurrrent Expenses</h3>
-                </div>
-                <div class="card-body debtsBodyClass" id="recurrentExpenses">
-                    <div class="card me-0 ms-0 mt-0 mb-2 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Netflix <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$219</strong></p>
-                            <small class="text-light">Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            
-                        </div>
-                    </div>
 
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
+
+                <div class="col-md-4">
+                    <div class="card mt-3 mx-0 mb-2 py-1 text-md-start text-light tiles">
                         <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
+                            <div class="row mb-1">
+                                <div class="col-8 align-content-center pe-0">
+                                    <h5 class="mb-2">Total Income</h5>
+                                </div>
+                                <div class="col-4 align-content-center ps-0">
+                                    <div id="totalIncomeEditBtns" class="hiddenElement">
+                                        <button id="saveIncomeMonth" type="button" aria-label="save month" class="btn btn-outline-light ms-1 float-end btn-sm">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="bg-light mt-0 mb-3">
+                            <div id="incomeMonthDisplay">
+                                <button id="editIncomeMonthBtn" class="buttonEditable">
+                                    <p id="incomeMonth" class="card-text text-light fs-5 mb-0 pEditable"> </p>
+                                </button>
+                            </div>
+                            <div id="totalIncomeMonthForm" class="hiddenElement">
+                                <div id="incomeMonthForm" class="transparentForm">
+                                    <div class="tilesH5Input">
+                                        <input id="incomeMonthValue" class="p-0" value="@monthAndYear" type="month">
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="incomes" class="card-text text-success fs-3"> </p>
                         </div>
                     </div>
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="card mt-3 mx-0 mb-2 py-1 text-md-start text-light tiles">
                         <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
+                            <div class="row mb-1">
+                                <div class="col-8 align-content-center pe-0">
+                                    <h5 class="mb-2">Total Expense</h5>
+                                </div>
+                                <div class="col-4 align-content-center ps-0">
+                                    <div id="totalExpenseEditBtns" class="hiddenElement">
+                                        <button id="saveExpenseMonth" type="button" form="expenseMonthForm" aria-label="save month" class="btn btn-outline-light ms-1 float-end btn-sm">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="bg-light mt-0 mb-3">
+                            <div id="expenseMonthDisplay">
+                                <button id="editExpenseMonthBtn" class="buttonEditable">
+                                    <p id="expenseMonth" class="card-text text-light fs-5 mb-0 pEditable"></p>
+                                </button>
+                            </div>
+                            <div id="totalExpenseMonthForm" class="hiddenElement">
+                                <div id="expenseMonthForm" class="transparentForm">
+                                    <div class="tilesH5Input">
+                                        <input id="expenseMonthValue" value="@monthAndYear" type="month">
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="expenses" class="card-text fs-3 text-danger"></p>
                         </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="w-100">
+            </div>
+            <div class="row justify-content-center px-2">
+                <div class="expenseTable text-light my-3">
+                    <h4 class="text-light ms-4">Expenses</h4>
+                    <div class="card basicCard my-3 text-light">
+                        <table id="expenseTable" class="my-2">
+                            <thead>
+                                <tr>
+                                    <th>@Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })</th>
+                                    <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm })</th>
+                                    <th>Category</th>
+                                    <th>Payment Account</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Expense expense in Model.Expenses)
+                                {
+                                    <tr>
+                                        <td data-cell="Amount" id="expenseAmountCol-@expense.Id">
+                                            <span id="expenseAmountSpan-@expense.Id">@Html.DisplayFor(model => expense.Amount)</span>
+                                        </td>
+                                        <td data-cell="Date" id="expenseDateCol-@expense.Id">
+                                            <span id="expenseDateSpan-@expense.Id">@Html.DisplayFor(model => expense.Date)</span>
+                                        </td>
+                                        <td data-cell="Category" id="expenseCategoryCol-@expense.Id">
+                                            <span id="expenseCategorySpan-@expense.Id">@Html.DisplayFor(model => expense.ExpenseCategory.Name)</span>
+                                        </td>
+                                        <td data-cell="Payment Account" id="expensePaymentAccountCol-@expense.Id">
+                                            <span id="expenseAccountSpan-@expense.Id">@Html.DisplayFor(model => expense.Account.Name)</span>
+                                            <span id="expenseCreditCardSpan-@expense.Id">@Html.DisplayFor(model => expense.CreditCard.Name)</span>
+                                            <span id="expenseDebtSpan-@expense.Id">@Html.DisplayFor(model => expense.Debt.Entity)</span>
+                                        </td>
+                                        <td data-cell="Description" id="expenseDescriptionCol-@expense.Id">
+                                            <span id="expenseDescriptionSpan-@expense.Id">@Html.DisplayFor(model => expense.Description)</span>
+                                        </td>
+                                        <td data-cell="Action">
+                                            <form id="expense_form-@expense.Id" onsubmit="updateExpenseForm(@expense.Id)"> </form>
+                                            <button id="showEditExpenseBtn-@expense.Id" aria-label="EditExpense" onclick="createExpenseForm(@expense.Id)" class="btn btn-outline-info mb-1"><i class="bi bi-pencil-square"></i></button>
+                                            <button id="deleteEditExpenseBtn-@expense.Id" aria-label="DeleteExpense" onclick="deleteExpenseForm(@expense.Id)" class="btn btn-outline-danger mb-1"><i class="bi bi-trash"></i></button>
+                                            <button id="updateEditExpenseBtn-@expense.Id" type="submit" form="expense_form-@expense.Id" aria-label="UpdateExpense" class="btn btn-outline-light mb-1 hiddenElement"><i class="bi bi-arrow-repeat"></i></button>
+                                            <button id="cancelEditExpenseBtn-@expense.Id" aria-label="CancelUpdate" onclick="cancelExpenseForm(@expense.Id)" class="btn btn-outline-danger mb-1 hiddenElement"><i class="bi bi-x"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Forms-->
-        <div id="forms" class="col-4 p-0 ms-2 me-2 text-center text-dark dashboardRows" >
-                <!-- Form selection-->
-                <div class="btn-group mt-3 me-0 ms-0 mb-3 align-items-center">
-                    <input id="Expense" type="radio" class="btn-check" onclick="formchange(2)" name="options"  autocomplete="off" checked>
-                    <label class="btn btn-outline-primary" for="Expense">Expense</label>
 
-                    <input id="Recurrent_Expense" type="radio" class="btn-check" onclick="formchange(3)" name="options"  autocomplete="off">
-                    <label class="btn btn-outline-primary" for="Recurrent_Expense">Recurrent Expense</label>
-
-                    <input id="Income" type="radio" class="btn-check" onclick="formchange(1)" name="options"  autocomplete="off">
-                    <label class="btn btn-outline-primary" for="Income">Income</label>
-                </div>     
-                <!-- Expense -->
-                <div id="expense" class="card mt-2 me-2 ms-2 text-light border-danger formClass"  >
-                    <div class="card-header bg-danger text-light">
-                        <h4 class="mb-0"><i class="bi bi-coin"></i> Expense</h4>
-                    </div>
-                    <div class="card-body">
-                    <form class="m-3" asp-controller="Expense" asp-action="Add" method="post">
-                        <div class="form-group mb-2">
-                            <label class="form-label">Amount</label>
-                            <input type="number" class="form-control" asp-for="Expense.Amount" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Date</label>
-                            <input type="date" class="form-control" asp-for="Expense.Date" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Description</label>
-                            <input type="text" class="form-control" asp-for="Expense.Description">
-                            <small class="form-text text-light">
-                                (40 character limit).
-                            </small>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Category</label>
-                            <select class="form-select my-1 mr-sm-2 bg-blueform" asp-for="Expense.ExpenseCategoryId" required>
-                                <option value="" selected>Select Category</option>
-                                <option value="1">House</option>
-                                <option value="2">Gym</option>
-                                <option value="3">Food</option>
-                            </select>
-
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <label class="form-label">Payment Method</label>
-                            <select class="form-select my-1 mr-sm-2" id="expenseMethod" asp-for="Expense.Method" required>
-                                <option value="" selected>Select Method</option>
-                                <option value="Cash/Debit">Cash/Debit</option>
-                                <option value="Credit Card">Credit Card</option>
-                                <option value="Debt">Debt</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2" id="expenseAccount">
-                            <label class="form-label">Account</label>
-                            <select class="form-select my-1 mr-sm-2" id="selectAccount" asp-for="Expense.AccountId">
-                                <option value="" selected>Select Account</option>
-                                <option value="1">BBVA</option>
-                                <option value="2">Hey Banco</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2" id="expenseCreditCard">
-                            <label class="form-label">Credit Card</label>
-                            <select class="form-select my-1 mr-sm-2" id="selectCreditCard" asp-for="Expense.CreditCardId">
-                                <option value="" selected>Select Credit Card</option>
-                                <option value="1">Story</option>
-                                <option value="2">Hey Banco</option>
-                            </select>
-                            <button class="btn btn-outline-light mt-2">+ Add Credit Card</button>
-                        </div>
-
-                        <div class="form-group mb-2" id="expenseDebt">
-                            <label class="form-label">Type of Debt</label>
-                            <div class="form-check text-start">
-                                <input class="form-check-input" name="expenseDebtRadio" type="radio" id="expenseBorrowed" value="Borrowed" checked>
-                                <label class="form-check-label" for="expenseBorrowed">Borrowed</label>
+        <div class="col-11 col-xl-3 ">
+            <div class="row justify-content-center">
+                <div id="column_1_second_level" class="col-5 col-xl-12">
+                    <h4 class="text-light ms-4 mb-0"><i class="bi bi-credit-card"></i> Credit Cards</h4>
+                    <div id="creditCardsCard" class="card me-0 ms-0 mt-3 mb-4 pb-1 text-md-start text-light creditCardContainer">
+                        <div id="creditCards" class="card-body creditCardContainerBody ">
+                            <div id="creditCardsPartialView">
                             </div>
-                            <div class="form-check text-start">
-                                <input class="form-check-input" name="expenseDebtRadio" type="radio" id="expenseLent" value="Lent">
-                                <label class="form-check-label" for="expenseLent">Lent</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="column_2_second_level" class="col-5 col-xl-12">
+                    <h4 class="text-light ms-4 mb-0"><i class="bi bi-cash"></i> Recurrent Expenses</h4>
+                    <!-- future partial view of recurrent expenses, and debt-->
+
+                    <div class="card netflixCard mt-3 text-light">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <h3>NETFLIX</h3>
+                                <small>Jul 17</small>
                             </div>
-                            <label class="form-label">Debt with:</label>
-                            <select class="form-select my-1 mr-sm-2" id="selectDebt" asp-for="Expense.DebtId">
-                                <option value="" selected>Select</option>
-                                <option value="1">Mom</option>
-                                <option value="2">Brother</option>
-                            </select>
-                            <button class="btn btn-outline-light mt-2">+ Add Entity</button>
-                        </div>
-
-                        <button type="submit" class="btn btn-danger text-light">Submit</button>
-                    </form>
-                    </div>
-                    
-                </div>
-                <!-- Recurrent Expense -->
-                <div id="recurrent_expense" class="card mt-2 me-2 ms-2  text-light border-danger formClass">
-                    <div class="card-header bg-danger text-light">
-                        <h4 class="mb-0"><i class="bi bi-coin"></i>Recurrent Expense</h4>
-                    </div>
-                    <form class="m-3">
-                        <div class="form-group mb-2">
-                            <label class="form-label">
-                                Amount
-                            </label>
-                            <input type="number" class="form-control" required placeholder="$...">
-                        </div>
-
-                        <div class="btn-group mb-2">
-
-                            <input type="radio" class="btn-check" onclick="periodChange(1)" name="options" id="Monthly" autocomplete="off" checked>
-                            <label class="btn btn-outline-secondary" for="Monthly">Monthly</label>
-
-                            <input type="radio" class="btn-check" onclick="periodChange(2)" name="options" id="Weekly" autocomplete="off">
-                            <label class="btn btn-outline-secondary" for="Weekly">Weekly</label>
-
-                            <input type="radio" class="btn-check" onclick="periodChange(3)" name="options" id="Daily" autocomplete="off">
-                            <label class="btn btn-outline-secondary" for="Daily">Daily</label>
-                        </div>
-                        <div class="form-group mb-2" id="dateOfTheMonth">
-                            <label class="form-label">Date of the Month</label>
-                            <input type="date" class="form-control" required>
-                        </div>
-                        <div class="form-group mb-2" id="dayOfTheWeek">
-                            <label class="form-label">Day of the Week</label>
-                            <select class="form-select  mr-sm-2" required>
-                                <option value="" selected>Select Day</option>
-                                <option value="1">Monday</option>
-                                <option value="2">Tuesday</option>
-                                <option value="3">Wednesday</option>
-                                <option value="4">Thursday</option>
-                                <option value="5">Friday</option>
-                                <option value="6">Saturday</option>
-                                <option value="7">Sunday</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Description</label>
-                            <input type="text" class="form-control">
-                            <small class="form-text text-light">
-                                (40 character limit).
-                            </small>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Category</label>
-                            <select class="form-select my-1 mr-sm-2" required>
-                                <option value="" selected>Select Category</option>
-                                <option value="1">House</option>
-                                <option value="2">Gym</option>
-                                <option value="3">Food</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <label class="form-label">Payment Method</label>
-                            <select class="form-select my-1 mr-sm-2" id="recurrentExpenseMethod" required>
-                                <option value="" selected>Select Method</option>
-                                <option value="1">Cash/Debit</option>
-                                <option value="2">Credit Card</option>
-                                <option value="3">Debt</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2" id="recurrentExpenseAccount">
-                            <label class="form-label">Account</label>
-                            <select class="form-select my-1 mr-sm-2" id="recurrentExpenseSelectAccount">
-                                <option value="" selected>Select Account</option>
-                                <option value="1">BBVA</option>
-                                <option value="2">Hey Banco</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2" id="recurrentExpenseCreditCard">
-                            <label class="form-label">Credit Card</label>
-                            <select class="form-select my-1 mr-sm-2" id="recurrentExpenseSelectCreditCard">
-                                <option value="" selected>Select Credit Card</option>
-                                <option value="1">Story</option>
-                                <option value="2">Hey Banco</option>
-                            </select>
-                            <button class="btn btn-outline-light mt-2">+ Add Credit Card</button>
-                        </div>
-
-                        <div class="form-group mb-2" id="recurrentExpenseDebt">
-                            <label class="form-label">Type of Debt</label>
-                            <div class="form-check text-start" id="recurrentExpenseDebt">
-                                <input class="form-check-input" name="recurrentExpenseDebtRadio" type="radio" id="recurrentExpenseBorrowed" value="1" checked>
-                                <label class="form-check-label" for="recurrrentExpenseBorrowed">
-                                    Borrowed
-                                </label>
+                            <div class="col-auto align-self-center">
+                                <h2> $ 219</h2>
                             </div>
-                            <div class="form-check text-start" id="recurrentExpenseDebt">
-                                <input class="form-check-input" name="recurrentExpenseDebtRadio" type="radio" id="recurrentExpenseLent" value="2">
-                                <label class="form-check-label" for="recurrentExpenseLent">
-                                    Lent
-                                </label>
+
+                        </div>
+                    </div>
+                    <div class="card spotifyCard mt-3 text-light">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <h3>SPOTIFY</h3>
+                                <small>Jul 25</small>
                             </div>
-                            <label class="form-label">Debt with:</label>
-                            <select class="form-control my-1 mr-sm-2" id="recurrentExpenseSelectDebt">
-                                <option value="" selected>Select</option>
-                                <option value="1">Mom</option>
-                                <option value="2">Brother</option>
-                            </select>
-                            <button class="btn btn-outline-light mt-2">+ Add Entity</button>
-                        </div>
+                            <div class="col-auto align-self-center">
+                                <h2> $ 115</h2>
+                            </div>
 
-                        <button type="submit" class="btn btn-danger text-light">Submit</button>
-                    </form>
-                </div>
-                <!-- Income -->
-                <div id="income" class="card  mt-2 me-2 ms-2  text-light border-success formClass"  >
-                    <div class="card-header bg-success text-light">
-                        <h4 class="mb-0"><i class="bi bi-coin"></i> Income</h4>
-                    </div>
-                    <form class="m-3" asp-controller="Income" method="post">
-                        <div class="form-group mb-2">
-                            <label class="form-label">Amount</label>
-                            <input type="number" class="form-control" id="incomeAmount" asp-for="Income.Amount" required placeholder="$...">
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Date</label>
-                            <input type="date" class="form-control" id="incomeDate" asp-for="Income.Date" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Description</label>
-                            <input type="text" class="form-control" id="incomeDescription" asp-for="Income.Description">
-                            <small class="form-text text-light">
-                                (40 character limit).
-                            </small>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label">Category</label>
-                            <select class="form-select my-1 mr-sm-2" id="incomeCategory" asp-for="Income.IncomeCategoryId" required>
-                                <option value="" selected>Select Category...</option>
-                                <option value="1">Work</option>
-                                <option value="2">Other</option>
-                            </select>
-                            <div class="invalid-feedback">Select a category</div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Account</label>
-                            <select class="form-select my-1 mr-sm-2" id="incomeAccount" asp-for="Income.AccountId" required>
-                                <option value="" selected>Select Account</option>
-                                <option value="1">BBVA</option>
-                                <option value="2">Hey Banco</option>
-                            </select>
-                            <div class="invalid-feedback">Select a category</div>
-                        </div>
-                        <button type="submit" class="btn btn-success text-light">Submit</button>
-                    </form>
-                </div>
-        </div>
-        <!-- Montlhy Balance & Borrowed Debt-->
-        <div id="balance" class="col-4 p-0 ms-2 me-2 dashboardRows" >
-            <!-- Montly Balance -->
-            <div class="card mt-3 me-1 ms-0 mb-2 pt-1 pb-1 ps-0 pe-0 text-md-start text-dark tilesClass">
-                <div class="card-body">
-                    <h5>Month: June 2023</h5>
-                    <hr class="bg-dark mt-0 mb-3">
-                    <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong><button class="btn btn-outline-dark btn-md float-end"><i class="bi bi-pencil-square"></i></button> </p>
-                            
-                </div>
-            </div>
-         
-            <!-- Borrowed Debt -->
-            <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light debtsClass">
-                <div class="card-header">
-                    <h3><i class="bi bi-cash-coin"></i> Borrowed Debt</h3>
-                </div>
-                <div class="card-body debtsBodyClass" id="borrowedDebts">
-                    <div class="card me-0 ms-0 mt-0 mb-2 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-cash-coin"></i> Mom <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$350</strong></p>
-                            <small class="text-light">Date:10 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            
-                        </div>
-                    </div>
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
-                        </div>
-                    </div>
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Lent Debt -->
-            <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light debtsClass" >
-                <div class="card-header">
-                    <h3><i class="bi bi-cash-coin"></i> Lent Debt</h3>
-                </div>
-                <div class="card-body debtsBodyClass" id="lentDebts">
-                    <div class="card me-0 ms-0 mt-0 mb-2 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-cash-coin"></i> Brother <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong></p>
-                            <small class="text-light">Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                          
-                        </div>
-                    </div>
-
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
-                        </div>
-                    </div>
-                    <div class="card me-0 ms-0 mt-3 mb-2 pt-1 pb-1 text-md-start text-light" style="background-color:  #252849; border-radius: 1rem">
-                        <div class="card-body">
-                            <h5><i class="bi bi-credit-card"></i> Hey Banco <button type="button" class="btn btn-outline-light float-end  btn-sm"><i class="bi bi-pencil-square"></i></button></h5>
-                            <p class="card-text fs-3 text-danger mb-1"><strong>MXN -$900</strong> </p>
-                            <small class="text-light">Cut-Off Date: 08 Jun <button type="button" class="btn btn-outline-success float-end btn-lg">Pay <i class="bi bi-wallet2"></i></button></small><br />
-                            <small class="text-light">Due Date: 21 Jun </small>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
         </div>
     </div>
-
-    <!-- Table -->
-    <div class="row justify-content-center mt-1" style="background-color: #090e27">
-        <div class="card me-0 ms-0 mt-3 mb-3 pt-1 pb-1 text-md-start text-light" style="background-color:  #181c3a; border-radius: 1rem; width: 1130px;">  
-            <br />
-            <!-- Expense Table-->
-            <!--<table id="tblData" class="table table-bordered table-responsive-xl display text-light">
-                <thead style="background-color: #252849">
-                    <tr class="text-light">
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Method</th>
-                        <th>Paid with:</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>-->
-            <div id="expensePartialZone">
-
-            </div>
-            
-        </div>
-    </div>
-    
 </div>
 
-<script src="~/js/mainPage/mainforms.js"></script>
-<script src="~/js/mainPage/Expense.js"></script>
-<script src="~/js/mainPage/RecurrentExpense.js"></script>
-<script src="~/js/mainPage/RecurrentExpensePeriod.js"></script>
-<script src="~/js/mainPage/expensesTable.js"></script>
-<script src="~/js/mainPage/ExpensePartial.js"></script>
+<script type='text/javascript'>
+    window.expensesGlobal = @Html.Raw(Json.Serialize(Model.Expenses));
+    window.expenseCategoriesGlobal = @Html.Raw(Json.Serialize(Model.ExpenseCategories));
+
+    window.recurrentExpensesGlobal = @Html.Raw(Json.Serialize(Model.RecurrentExpenses));
+
+    window.incomesGlobal = @Html.Raw(Json.Serialize(Model.Incomes));
+    window.incomeCategoriesGlobal = @Html.Raw(Json.Serialize(Model.IncomeCategories));
+
+    window.budgetGlobal = @Html.Raw(Json.Serialize(Model.Budget));
+
+    window.creditCardsGlobal = @Html.Raw(Json.Serialize(Model.CreditCards));
+    window.accountsGlobal = @Html.Raw(Json.Serialize(Model.Accounts));
+    window.debtsGlobal = @Html.Raw(Json.Serialize(Model.Debts));
+
+</script>
+
+
 <script src="~/js/mainPage/creditCardPartial.js"></script>
+<script src="~/js/mainPage/ExpenseTable.js"></script>
+<script src="~/js/mainPage/PageResponsiveness.js"></script>
+<script src="~/js/mainPage/Tiles.js"></script>
+
+
+
+
+

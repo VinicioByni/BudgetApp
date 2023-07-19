@@ -19,8 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Shared\_ExpensesPartial.cshtml" />
     <None Include="wwwroot\js\cs50JS\counter.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 
 </Project>

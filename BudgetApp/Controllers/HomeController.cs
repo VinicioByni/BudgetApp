@@ -17,9 +17,30 @@ namespace BudgetApp.Controllers
             _budgetDbContext = budgetDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            FormsViewModel viewModel = new FormsViewModel();
+            viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
+            viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
+
+            viewModel.RecurrentExpenses = await _budgetDbContext.RecurrentExpenses.ToListAsync();
+
+            viewModel.Accounts = await _budgetDbContext.Accounts.ToListAsync();
+            viewModel.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
+            viewModel.Debts = await _budgetDbContext.Debts.ToListAsync();
+            
+            
+            viewModel.Incomes = await _budgetDbContext.Incomes.Include(e => e.Account).Include(e => e.IncomeCategory).ToListAsync();
+            viewModel.IncomeCategories = await _budgetDbContext.IncomeCategories.ToListAsync();
+
+            viewModel.Budgets = await _budgetDbContext.Budgets.ToListAsync();
+            foreach (Budget budget in viewModel.Budgets)
+            {
+                viewModel.Budget = budget;
+                break;
+            }
+            
+            return View(viewModel);
         }
 
         public IActionResult Accounts()
@@ -32,99 +53,22 @@ namespace BudgetApp.Controllers
             return View();
         }
 
-        public IActionResult ExpensesPartial()
+        public async Task<IActionResult> RowTesting()
         {
-            return PartialView();
-        }
-
-        [HttpGet]
-     
-        public async Task<IActionResult> GetExpensesPartial()
-        {
-            var expenses = await _budgetDbContext.Expenses.Include(e => e.CreditCard).Include(e => e.Account).Include(e => e.ExpenseCategory).Include(e => e.Debt).ToListAsync();
-            return PartialView("_ExpensesPartial", expenses);
-        }
-
-        // CREDIT CARDS
-        [HttpGet]
-        [ActionName("GetCreditCardsPartial")]
-        public async Task<IActionResult> GetCreditCardsPartial()
-        {
-            var creditCards = await _budgetDbContext.CreditCards.ToListAsync();
-            return PartialView("_CreditCardsPartial", creditCards);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCreditCards()
-        {
-            var creditCards = await _budgetDbContext.CreditCards.ToListAsync();
-            return Json(creditCards);
-        }
-
-        [HttpPost]
-        [ActionName("AddCreditCard")]
-        public async Task<IActionResult> AddCreditCard(CreditCard creditCard)
-        {
-            if (creditCard == null)
+            FormsViewModel viewModel = new FormsViewModel();
+            viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
+            viewModel.Accounts = await _budgetDbContext.Accounts.ToListAsync();
+            viewModel.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
+            viewModel.Debts = await _budgetDbContext.Debts.ToListAsync();
+            viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
+            viewModel.Incomes = await _budgetDbContext.Incomes.ToListAsync();
+            viewModel.Budgets = await _budgetDbContext.Budgets.ToListAsync();
+            foreach (Budget budget in viewModel.Budgets)
             {
-                return RedirectToAction(nameof(Index));
+                viewModel.Budget = budget;
+                break;
             }
-            _budgetDbContext.CreditCards.Add(creditCard);
-            await _budgetDbContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ActionName("EditCreditCard")]
-        public async Task<IActionResult> EditCreditCard(CreditCard creditCard)
-        {
-            var dBCreditCard = await _budgetDbContext.CreditCards.FirstOrDefaultAsync(c => c.CreditCardId == creditCard.CreditCardId);
-            if (dBCreditCard == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            dBCreditCard.Name = creditCard.Name;
-            dBCreditCard.CreditLimit = creditCard.CreditLimit;
-            dBCreditCard.AutoPayment = creditCard.AutoPayment;
-            dBCreditCard.CutOffDate = creditCard.CutOffDate;
-            dBCreditCard.DueDate = creditCard.DueDate;
-            
-
-            _budgetDbContext.CreditCards.Update(dBCreditCard);
-            await _budgetDbContext.SaveChangesAsync();
-            return RedirectToAction("GetCreditCardsPartial");
-        }
-
-        [HttpPost]
-        [ActionName("EditCreditCardAmountOwed")]
-        public async Task<IActionResult> EditCreditCardAmountOwed(CreditCard creditCard)
-        {
-            var dBCreditCard = await _budgetDbContext.CreditCards.FirstOrDefaultAsync(c => c.CreditCardId == creditCard.CreditCardId);
-            if (dBCreditCard == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            
-            dBCreditCard.AmountOwed = creditCard.AmountOwed;
-
-            _budgetDbContext.CreditCards.Update(dBCreditCard);
-            await _budgetDbContext.SaveChangesAsync();
-            return RedirectToAction("GetCreditCardsPartial");
-        }
-
-        [HttpDelete]
-        [ActionName("DeleteCreditCard")]
-        public async Task<IActionResult> DeleteCreditCard(CreditCard creditCard)
-        {
-            var dBCreditCard = await _budgetDbContext.CreditCards.FirstOrDefaultAsync(c => c.CreditCardId == creditCard.CreditCardId);
-            if (dBCreditCard == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            _budgetDbContext.CreditCards.Remove(dBCreditCard);
-            await _budgetDbContext.SaveChangesAsync();
-            return RedirectToAction("GetCreditCardsPartial");
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

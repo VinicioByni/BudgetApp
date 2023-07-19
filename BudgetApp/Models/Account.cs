@@ -13,7 +13,9 @@ namespace BudgetApp.Models
         public float Amount { get; set; }
         [JsonIgnore]
         public virtual List<Expense>? Expense { get; set; }
+        [JsonIgnore]
         public virtual List<Income>? Income { get; set; }
+        [JsonIgnore]
         public virtual List<RecurrentExpense>? RecurrentExpense { get; set; }
     }
 }

@@ -5,16 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetApp.Controllers
 {
-    
-    public class IncomeController : Controller
+    public class BudgetController : Controller
     {
         private readonly BudgetDbContext _budgetDbContext;
-        public IncomeController(BudgetDbContext budgetDbContext) 
+        public BudgetController(BudgetDbContext budgetDbContext)
         {
             _budgetDbContext = budgetDbContext;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             FormsViewModel model = new FormsViewModel();
@@ -22,27 +20,26 @@ namespace BudgetApp.Controllers
             model.Accounts = await _budgetDbContext.Accounts.ToListAsync();
             model.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
             model.Debts = await _budgetDbContext.Debts.ToListAsync();
-            model.Expenses = await _budgetDbContext.Expenses.Include(e => e.CreditCard).Include(e => e.Account).Include(e => e.ExpenseCategory).Include(e => e.Debt).ToListAsync();
-            // Recurrent Expneses
+            model.Expenses = await _budgetDbContext.Expenses.ToListAsync();
+            // Pending Recurrent Expneses
             model.Incomes = await _budgetDbContext.Incomes.Include(e => e.Account).Include(e => e.IncomeCategory).ToListAsync();
             return View(model);
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(FormsViewModel incomeRequest)
-        {    
-            if(incomeRequest.Income.Description == null) 
-            { 
-                incomeRequest.Income.Description = string.Empty;
+        public async Task<IActionResult> Add(Budget budget)
+        {
+            var dBBudget = await _budgetDbContext.Budgets.FirstOrDefaultAsync(b => b.Id == budget.Id);
+            if (dBBudget == null)
+            {
+                return NotFound();
             }
 
-            _budgetDbContext.Incomes.Add(incomeRequest.Income);
+            dBBudget.Amount = budget.Amount;
+            _budgetDbContext.Budgets.Update(dBBudget);
             await _budgetDbContext.SaveChangesAsync();
-            return View();
+            return Json(budget);
         }
-
-        
-
     }
 }
