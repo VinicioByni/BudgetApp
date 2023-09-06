@@ -1,0 +1,114 @@
+﻿
+
+/* Credit Cards */
+.creditCardContainer {
+    background-color: var(--second-background-color);
+    border-radius: 1rem;
+    border: none;
+}
+
+
+.creditCardContainerBody {
+    background-color: transparent;
+    overflow-y: auto;
+}
+
+    .creditCardContainerBody::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 5px;
+        transition: all 1s;
+    }
+
+    .creditCardContainerBody:hover::-webkit-scrollbar-thumb {
+        background-color: white;
+        border-radius: 5px;
+    }
+
+
+
+.hiddenElement {
+    display: none;
+}
+
+.transparentForm {
+    background-color: transparent;
+}
+
+.creditCardH5Input {
+}
+
+    .creditCardH5Input input[type=text], creditCardH5Input input[type=number] {
+        background-color: transparent; /* pending Variable for the new credit card colors*/
+        /* h5 font */
+        font-size: 1.25rem;
+        border: 1px solid var(--main-text-color);
+        border-radius: 5px;
+        color: var(--main-text-color);
+        width: 100%;
+    }
+
+    .creditCardH5Input input[type="text"]:focus, creditCardH5Input input[type="number"]:focus {
+        outline: none;
+    }
+
+  
+
+.creditCardSmallInput {
+}
+
+    .creditCardSmallInput input[type=date] {
+        background-color: var(--second-background-color-hover);
+        /* small font */
+        font-size: .875rem;
+        border: 1px solid var(--main-text-color);
+        border-radius: 5px;
+        color: var(--main-text-color);
+        width: 100%;
+    }
+
+        .creditCardSmallInput input[type=date]:focus {
+            outline:none;
+        }
+.creditCardPInput {
+}
+
+    .creditCardPInput input[type=text] {
+        background-color: var(--second-background-color-hover);
+        /* p font */
+        font-size: 1rem;
+        border: 1px solid var(--main-text-color);
+        border-radius: 5px;
+        color: var(--main-text-color);
+        width: 100%;
+    }
+
+        .creditCardPInput input[type=text]:focus {
+            outline:none;
+        }
+
+.creditCardInfo, .new-creditCard-form, .creditCardDelete, .creditCardPayment {
+    border-radius: 1rem;
+    overflow-y: hidden;
+    transition: .7s;
+    
+}
+
+.new-creditCard-form {
+    background-color: var(--card-background-color);
+    border: 3px solid var(--card-border-color);
+    transition: .4s;
+}
+    .new-creditCard-form:hover {
+        background-color: var(--card-background-color-hover);
+        border-color: var(--card-background-color-hover);
+    }
+
+
+
+
+
+/* Btns for credit cards forms */
+
+.creditCardEditBtn, .creditCardUpdateBtn, .creditCardCancelUpdateBtn, .creditCardShowPaymentBtn, .creditCardCancelPaymentBtn, .creditCardUpdatePaymentBtn, .creditCardShowDeleteBtn, .creditCardHideDeleteBtn, .creditCardDeleteBtn{
+
+}

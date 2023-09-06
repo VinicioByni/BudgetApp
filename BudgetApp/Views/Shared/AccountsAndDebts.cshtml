@@ -1,0 +1,107 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="main-col mt-3">
+            <div class="row justify-content-center">
+
+                <div class="col-6 col-xxl-12">
+                    <div class="card card-pending">
+                        <div id="creditCardsPartial" class="hiddenElement" style="max-width: 360px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-xxl-12">
+                    <div class="card card-pending">
+                        @*PENDING! remove this div once I make a partial view and have classes to have the max-width assinged*@
+                        <div style="max-width: 360px;">
+                            <h4 class="text-color ms-4 mb-0"><i class="bi bi-cash"></i> Recurrent Expenses</h4>
+                            <!-- future partial view of recurrent expenses, and debt-->
+
+                            <div class="card netflixCard mt-3 text-color">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto">
+                                        <h3>NETFLIX</h3>
+                                        <small>Jul 17</small>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <h2> $ 219</h2>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card spotifyCard mt-3 text-color">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto">
+                                        <h3>SPOTIFY</h3>
+                                        <small>Jul 25</small>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <h2> $ 115</h2>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <h4 class="text-color ms-4 mb-0"><i class="bi bi-cash"></i> Debt</h4>
+                            <!-- future partial view of recurrent expenses, and debt-->
+
+                            <div class="card netflixCard mt-3 text-color">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto">
+                                        <h3>NETFLIX</h3>
+                                        <small>Jul 17</small>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <h2> $ 219</h2>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card spotifyCard mt-3 text-color">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto">
+                                        <h3>SPOTIFY</h3>
+                                        <small>Jul 25</small>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <h2> $ 115</h2>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    window.expensesGlobal = @Html.Raw(Json.Serialize(Model.Expenses));
+    window.expenseCategoriesGlobal = @Html.Raw(Json.Serialize(Model.ExpenseCategories));
+
+    window.recurrentExpensesGlobal = @Html.Raw(Json.Serialize(Model.RecurrentExpenses));
+
+    window.incomesGlobal = @Html.Raw(Json.Serialize(Model.Incomes));
+    window.incomeCategoriesGlobal = @Html.Raw(Json.Serialize(Model.IncomeCategories));
+
+    window.budgetGlobal = @Html.Raw(Json.Serialize(Model.Budget));
+
+    window.creditCardsGlobal = @Html.Raw(Json.Serialize(Model.CreditCards));
+    window.accountsGlobal = @Html.Raw(Json.Serialize(Model.Accounts));
+    window.debtsGlobal = @Html.Raw(Json.Serialize(Model.Debts));
+
+    window.expensesTableCountGlobal = 0;
+    window.incomesTableCountGlobal = 0;
+
+</script>
+<script src="~/js/mainPage/ColorElement.js"></script>
+<script src="~/js/mainPage/CreditCardPartial.js"></script>
+<script src="~/js/mainPage/Darkmode.js"></script>

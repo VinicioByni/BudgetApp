@@ -1,0 +1,29 @@
+﻿.card-transparent {
+    background-color: var(--transparent-background-color);
+    border: 2px solid var(--main-text-color);
+    border-radius: 1rem;
+}
+
+.card-pending {
+    background-color: #18202c;
+    border: 2px solid var(--main-text-color);
+    border-radius: 1rem;
+}
+
+/* Table */
+.table-card {
+    background-color: var(--table-main-color);
+    border-radius: 1rem;
+    border: 2px solid;
+}
+
+.expense-table-card {
+    border-color: var(--table-expense-color);
+}
+
+.income-table-card {
+    border-color: var(--table-income-color);
+}
+
+
+

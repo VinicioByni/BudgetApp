@@ -1,0 +1,109 @@
+﻿
+.buttonEditable {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.btnTransparent {
+    background-color: transparent;
+    border: solid 1px var(--main-text-color);
+    border-radius: .25rem;
+    transition-duration: 0.5s;
+    color: var(--main-text-color);
+}
+
+    .btnTransparent:hover {
+        background-color: var(--main-text-color);
+        color: var(--secondary-text-color);
+    }
+
+.btn-general {
+    background-color: transparent;
+    border: solid 1px var(--main-text-color);
+    border-radius: .25rem;
+    transition-duration: 0.5s;
+    color: var(--main-text-color);
+}
+    .btn-general:hover {
+        background-color: var(--main-text-color);
+        color: var(--secondary-text-color);
+    }
+    .btn-general:hover strong {
+        color: var(--secondary-text-color);
+    }
+    .btn-general:hover i {
+        color: var(--secondary-text-color);
+    }
+    .btn-general:disabled {
+        border: 1px solid #999999;
+        background-color: var(--thin-grey-color);
+        cursor:not-allowed;
+        color: var(--grey-color);
+    }
+
+.btn-transparent {
+    background-color: transparent;
+    border: transparent;
+    transition-duration: 0.5s;
+    color: var(--main-text-color);
+}
+.btn-transparent:hover i{
+    background-color: transparent;
+    color: var(--secondary-text-color);
+}
+
+.btnMain {
+    background-color: transparent;
+    border: solid 1px var(--main-text-color);
+    border-radius: .25rem;
+    transition-duration: 0.5s;
+    color: var(--main-text-color);
+}
+
+    .btnMain:hover {
+        background-color: var(--main-text-color);
+        color: var(--secondary-text-color);
+    }
+
+        .btnMain:hover strong {
+            color: var(--secondary-text-color);
+        }
+
+        .btnMain:hover i {
+            color: var(--secondary-text-color);
+        }
+
+
+.btnDanger {
+    background-color: transparent;
+    border: solid 1px var(--color-danger);
+    border-radius: .25rem;
+    transition-duration: 0.5s;
+    color: var(--main-text-color);
+}
+
+    .btnDanger:hover {
+        background-color: var(--color-danger);
+        border: solid 1px var(--color-danger);
+        color: var(--main-text-color);
+    }
+
+    
+ .icon-color{
+
+ }
+
+
+
+.btn-expense-pagination, .btn-income-pagination {
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.btn-selected {
+    background-color: var(--main-text-color);
+    color: var(--secondary-text-color);
+}
+

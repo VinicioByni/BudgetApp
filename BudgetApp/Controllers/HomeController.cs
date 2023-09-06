@@ -19,7 +19,7 @@ namespace BudgetApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            FormsViewModel viewModel = new FormsViewModel();
+            ViewModel viewModel = new ViewModel();
             viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
             viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
 
@@ -43,33 +43,32 @@ namespace BudgetApp.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Accounts()
+        public async Task<IActionResult> AccountsAndDebts()
         {
-            return View();
-        }
-
-        public IActionResult Categories()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> RowTesting()
-        {
-            FormsViewModel viewModel = new FormsViewModel();
+            ViewModel viewModel = new ViewModel();
+            viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
             viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
+
+            viewModel.RecurrentExpenses = await _budgetDbContext.RecurrentExpenses.ToListAsync();
+
             viewModel.Accounts = await _budgetDbContext.Accounts.ToListAsync();
             viewModel.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
             viewModel.Debts = await _budgetDbContext.Debts.ToListAsync();
-            viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
-            viewModel.Incomes = await _budgetDbContext.Incomes.ToListAsync();
+
+
+            viewModel.Incomes = await _budgetDbContext.Incomes.Include(e => e.Account).Include(e => e.IncomeCategory).ToListAsync();
+            viewModel.IncomeCategories = await _budgetDbContext.IncomeCategories.ToListAsync();
+
             viewModel.Budgets = await _budgetDbContext.Budgets.ToListAsync();
             foreach (Budget budget in viewModel.Budgets)
             {
                 viewModel.Budget = budget;
                 break;
             }
+
             return View(viewModel);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

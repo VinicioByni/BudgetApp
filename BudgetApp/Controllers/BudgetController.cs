@@ -15,7 +15,7 @@ namespace BudgetApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            FormsViewModel model = new FormsViewModel();
+            ViewModel model = new ViewModel();
             model.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
             model.Accounts = await _budgetDbContext.Accounts.ToListAsync();
             model.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
@@ -26,20 +26,55 @@ namespace BudgetApp.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ActionName("Add")]
-        public async Task<IActionResult> Add(Budget budget)
+        [HttpGet]
+        [ActionName("_BudgetPartial")]
+        public async Task<IActionResult> _BudgetPartial(Budget newBudget)
         {
-            var dBBudget = await _budgetDbContext.Budgets.FirstOrDefaultAsync(b => b.Id == budget.Id);
+            ViewModel viewModel = new ViewModel();
+
+            viewModel.Budgets = await _budgetDbContext.Budgets.ToListAsync();
+            foreach (Budget budget in viewModel.Budgets)
+            {
+                viewModel.Budget = budget;
+                break;
+            }
+            return PartialView("~/Views/Shared/Partial Views/_BudgetPartial.cshtml", viewModel);
+
+        }
+
+        [HttpGet]
+        [ActionName("GetBudget")]
+        public async Task<IActionResult> GetBudget()
+        {
+
+            var dBBudget = await _budgetDbContext.Budgets.SingleOrDefaultAsync();
+
             if (dBBudget == null)
             {
                 return NotFound();
             }
 
-            dBBudget.Amount = budget.Amount;
+            return Json(dBBudget);
+
+        }
+
+        [HttpPost]
+        [ActionName("UpdateBudget")]
+        public async Task<IActionResult> UpdateBudget(decimal amount)
+        {
+
+            var dBBudget = await _budgetDbContext.Budgets.SingleOrDefaultAsync();
+            if (dBBudget == null)
+            {
+                return NotFound();
+            }
+
+            dBBudget.Amount = amount;
             _budgetDbContext.Budgets.Update(dBBudget);
             await _budgetDbContext.SaveChangesAsync();
-            return Json(budget);
+
+            
+            return Json(dBBudget);
         }
     }
 }

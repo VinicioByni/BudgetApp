@@ -7,6 +7,6 @@ namespace BudgetApp.Models
         public int Id { get; set; }
         [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0:C0}")]
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 }

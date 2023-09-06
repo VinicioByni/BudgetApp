@@ -1,215 +1,140 @@
 ﻿@using BudgetApp.Models
-@model FormsViewModel
-
-
+@model ViewModel
 
 @{
     ViewBag.Title = "Index"; 
     DateTime currentDate = DateTime.Now;
     string today = currentDate.ToString("dd-MMMM-yyyy");
+    string day = currentDate.ToString("dd");
+    string month = currentDate.ToString("MMMM");
+    string year = currentDate.ToString("yyyy");
+
     string monthAndYear = currentDate.ToString("yyyy-MM");
+
+    string defaultInitialPeriodDate = currentDate.ToString("MM-01-yyyy");
+    string lastMonth = SubtractMonthsFromDate(currentDate, 1);
+    string pastThreeMonths = SubtractMonthsFromDate(currentDate, 2);
+    string pastSixMonths = SubtractMonthsFromDate(currentDate, 5);
+    string pastTwelveMonths = SubtractMonthsFromDate(currentDate, 11);
+
+    
+}
+@functions{
+    public string SubtractMonthsFromDate(DateTime date, int monthsRemoved)
+    {
+        return date.AddMonths(-monthsRemoved).ToString("MM-01-yyyy");
+    }
 }
 
-<!-- Main Page -->
+
 <div class="container-fluid">
-    <div class="row my-3 justify-content-center">
-        <!--First Level-->
-        <div class="col-11 col-xl-8">
-            <h4 class="text-light ms-4 mb-0">Today: @today</h4>
-            <div class="row justify-content-around px-1">
-                
-                
-                <div class="col-md-4">
-                    <div class="card mt-3 mx-0 mb-2 py-1 text-light text-md-start tilesBudget">
+    <div class="row justify-content-center">
+        <div class="main-col mt-3">
+            <div class="row justify-content-between">
+                <div class="col-md align-self-center">
+                    <h4 class="text-color ms-3 mb-0">Today is: @day of @month @year</h4>
+                </div>
+                <div class="col-md align-self-center">    
+                    <select name="selectTimePeriod" aria-label="Select time period for data" class="float-end time-period-select me-3">
+                        <option value="@defaultInitialPeriodDate">@month @year</option>
+                        <option value="@lastMonth">Last Month</option>
+                        <option value="@pastThreeMonths">Past 3 Months</option>
+                        <option value="@pastSixMonths">Past 6 Months</option>
+                        <option value="@pastTwelveMonths">Past 12 Months </option>
+                    </select>
+                </div>
+            </div>
+            
+            
+            <div class="row justify-content-center pb-3">
+
+                <div class="tile-col">
+                    <div class="card mt-3 mx-0 py-1 text-color text-md-start tile-budget">
                         <div class="card-body">
-                            <div class="row mb-1">
-                                <div class="col-9 align-content-center pe-0">
-                                    <h5 class="mb-2">Monthly Balance </h5>
+                            <div class="budget-amount mb-2"> 
+                                <div id="budgetDisplay" class="justify-content-center">
+                                    <h5 class="card-text text-color mb-0"></h5>
                                 </div>
-                                <div class="col-3 align-content-center ps-0">
-                                    <button id="updateBudgetBtn" form="budgetForm" type="submit" class="btn btn-outline-light float-end btn-sm hiddenElement">Save</button>
-                                </div>
+                                <form id="budgetForm" class="budget-form align-content-start hiddenElement">
+                                    <label for="budgetValue">Budget: </label>
+                                    <input id="budgetValue" name="amount" value="@Model.Budget.Amount" type="number" step="0.01" required>
+                                    <button type="submit" form="budgetForm" aria-label="save budget" class="btn-transparent save-budget-btn p-0 float-end hiddenElement"><i class="bi bi-save" style="font-size: 1.5rem"></i></button>
+                                </form>     
                             </div>
-                            <hr class="bg-ligth mt-0 mb-3">
-                            <div id="budgetDisplay">
-                                <button id="editBudgetBtn" class="buttonEditable">
-                                    <p class="card-text text-light fs-5 mb-0 pEditable">Budget: @Html.DisplayFor(model => model.Budget.Amount)</p>
-                                </button>
-                            </div>
-                            <form id="budgetForm" onsubmit="updateBudget(@Model.Budget.Id)" class="transparentForm hiddenElement">
-                                <div class="tilesBudgetH5Input">
-                                    <input id="budgetValue" value="@Model.Budget.Amount" type="number" step="any" required>
-                                </div>
-                            </form>
-                            <p id="budgetBalance" class="card-text fs-3"></p>
+                            <hr class="bg-ligth mt-0 mb-2">
+                            <div class="text-center">
+                                <h4 class="m-0 p-2 tile-amount">$1000</h4>
+                                <span class="text-center budget-status text-color fs-5 mb-0"> Available</span>
+                            </div>  
                         </div>
                     </div>
                 </div>
 
-
-                <div class="col-md-4">
-                    <div class="card mt-3 mx-0 mb-2 py-1 text-md-start text-light tiles">
+                <div class="tile-col">
+                    <div class="card mt-3 mx-0 py-1 text-color text-md-start tile tile-net">
                         <div class="card-body">
-                            <div class="row mb-1">
-                                <div class="col-8 align-content-center pe-0">
-                                    <h5 class="mb-2">Total Income</h5>
-                                </div>
-                                <div class="col-4 align-content-center ps-0">
-                                    <div id="totalIncomeEditBtns" class="hiddenElement">
-                                        <button id="saveIncomeMonth" type="button" aria-label="save month" class="btn btn-outline-light ms-1 float-end btn-sm">Save</button>
-                                    </div>
-                                </div>
+                            <h5 class="card-text text-color mb-2">Net Balance</h5>
+                            <hr class="bg-ligth mt-0 mb-2">
+                            <div class="text-center">
+                                <h4 class="text-center text-success m-0 p-2 tile-amount net-total-amount">$1000</h4>
+                                <span class="text-center tile-time-period text-color fs-5 mb-0"> @month @year</span>
                             </div>
-                            <hr class="bg-light mt-0 mb-3">
-                            <div id="incomeMonthDisplay">
-                                <button id="editIncomeMonthBtn" class="buttonEditable">
-                                    <p id="incomeMonth" class="card-text text-light fs-5 mb-0 pEditable"> </p>
-                                </button>
+                        </div>
+                    </div>   
+                </div>
+
+                <div class="tile-col">
+                    <div class="card mt-3 mx-0 py-1 text-color text-md-start tile tile-expense">
+                        <div class="card-body">
+                            <h5 class="card-text text-danger mb-2">Expense Balance</h5>
+                            <hr class="bg-ligth mt-0 mb-2">
+                            <div class="text-center">
+                                <h4 class="text-center text-danger m-0 p-2 tile-amount expense-total-amount">$2000</h4>
+                                <span class="text-center tile-time-period text-color fs-5 mb-0"> @month @year</span>
                             </div>
-                            <div id="totalIncomeMonthForm" class="hiddenElement">
-                                <div id="incomeMonthForm" class="transparentForm">
-                                    <div class="tilesH5Input">
-                                        <input id="incomeMonthValue" class="p-0" value="@monthAndYear" type="month">
-                                    </div>
-                                </div>
-                            </div>
-                            <p id="incomes" class="card-text text-success fs-3"> </p>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="col-md-4">
-                    <div class="card mt-3 mx-0 mb-2 py-1 text-md-start text-light tiles">
+                <div class="tile-col">
+                    <div class="card mt-3 mx-0 py-1 text-color text-md-start tile tile-income">
                         <div class="card-body">
-                            <div class="row mb-1">
-                                <div class="col-8 align-content-center pe-0">
-                                    <h5 class="mb-2">Total Expense</h5>
-                                </div>
-                                <div class="col-4 align-content-center ps-0">
-                                    <div id="totalExpenseEditBtns" class="hiddenElement">
-                                        <button id="saveExpenseMonth" type="button" form="expenseMonthForm" aria-label="save month" class="btn btn-outline-light ms-1 float-end btn-sm">Save</button>
-                                    </div>
-                                </div>
+                            <h5 class="card-text text-success mb-2">Income Balance</h5>
+                            <hr class="bg-ligth mt-0 mb-2">
+                            <div class="text-center">
+                                <h4 class="text-center text-success m-0 p-2 tile-amount income-total-amount">$1000</h4>
+                                <span class="text-center tile-time-period text-color fs-5 mb-0"> @month @year</span>
                             </div>
-                            <hr class="bg-light mt-0 mb-3">
-                            <div id="expenseMonthDisplay">
-                                <button id="editExpenseMonthBtn" class="buttonEditable">
-                                    <p id="expenseMonth" class="card-text text-light fs-5 mb-0 pEditable"></p>
-                                </button>
-                            </div>
-                            <div id="totalExpenseMonthForm" class="hiddenElement">
-                                <div id="expenseMonthForm" class="transparentForm">
-                                    <div class="tilesH5Input">
-                                        <input id="expenseMonthValue" value="@monthAndYear" type="month">
-                                    </div>
-                                </div>
-                            </div>
-                            <p id="expenses" class="card-text fs-3 text-danger"></p>
                         </div>
                     </div>
                 </div>
 
+            </div>
 
-            </div>
-            <div class="w-100">
-            </div>
-            <div class="row justify-content-center px-2">
-                <div class="expenseTable text-light my-3">
-                    <h4 class="text-light ms-4">Expenses</h4>
-                    <div class="card basicCard my-3 text-light">
-                        <table id="expenseTable" class="my-2">
-                            <thead>
-                                <tr>
-                                    <th>@Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })</th>
-                                    <th>@Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm })</th>
-                                    <th>Category</th>
-                                    <th>Payment Account</th>
-                                    <th>Description</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (Expense expense in Model.Expenses)
-                                {
-                                    <tr>
-                                        <td data-cell="Amount" id="expenseAmountCol-@expense.Id">
-                                            <span id="expenseAmountSpan-@expense.Id">@Html.DisplayFor(model => expense.Amount)</span>
-                                        </td>
-                                        <td data-cell="Date" id="expenseDateCol-@expense.Id">
-                                            <span id="expenseDateSpan-@expense.Id">@Html.DisplayFor(model => expense.Date)</span>
-                                        </td>
-                                        <td data-cell="Category" id="expenseCategoryCol-@expense.Id">
-                                            <span id="expenseCategorySpan-@expense.Id">@Html.DisplayFor(model => expense.ExpenseCategory.Name)</span>
-                                        </td>
-                                        <td data-cell="Payment Account" id="expensePaymentAccountCol-@expense.Id">
-                                            <span id="expenseAccountSpan-@expense.Id">@Html.DisplayFor(model => expense.Account.Name)</span>
-                                            <span id="expenseCreditCardSpan-@expense.Id">@Html.DisplayFor(model => expense.CreditCard.Name)</span>
-                                            <span id="expenseDebtSpan-@expense.Id">@Html.DisplayFor(model => expense.Debt.Entity)</span>
-                                        </td>
-                                        <td data-cell="Description" id="expenseDescriptionCol-@expense.Id">
-                                            <span id="expenseDescriptionSpan-@expense.Id">@Html.DisplayFor(model => expense.Description)</span>
-                                        </td>
-                                        <td data-cell="Action">
-                                            <form id="expense_form-@expense.Id" onsubmit="updateExpenseForm(@expense.Id)"> </form>
-                                            <button id="showEditExpenseBtn-@expense.Id" aria-label="EditExpense" onclick="createExpenseForm(@expense.Id)" class="btn btn-outline-info mb-1"><i class="bi bi-pencil-square"></i></button>
-                                            <button id="deleteEditExpenseBtn-@expense.Id" aria-label="DeleteExpense" onclick="deleteExpenseForm(@expense.Id)" class="btn btn-outline-danger mb-1"><i class="bi bi-trash"></i></button>
-                                            <button id="updateEditExpenseBtn-@expense.Id" type="submit" form="expense_form-@expense.Id" aria-label="UpdateExpense" class="btn btn-outline-light mb-1 hiddenElement"><i class="bi bi-arrow-repeat"></i></button>
-                                            <button id="cancelEditExpenseBtn-@expense.Id" aria-label="CancelUpdate" onclick="cancelExpenseForm(@expense.Id)" class="btn btn-outline-danger mb-1 hiddenElement"><i class="bi bi-x"></i></button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-11 col-xl-3 ">
+            <div class="w-100"></div>
+
+
             <div class="row justify-content-center">
-                <div id="column_1_second_level" class="col-5 col-xl-12">
-                    <h4 class="text-light ms-4 mb-0"><i class="bi bi-credit-card"></i> Credit Cards</h4>
-                    <div id="creditCardsCard" class="card me-0 ms-0 mt-3 mb-4 pb-1 text-md-start text-light creditCardContainer">
-                        <div id="creditCards" class="card-body creditCardContainerBody ">
-                            <div id="creditCardsPartialView">
-                            </div>
-                        </div>
+
+                <div class="table-col">
+                    <div id="expensePartial" class="py-3">
                     </div>
                 </div>
-                <div id="column_2_second_level" class="col-5 col-xl-12">
-                    <h4 class="text-light ms-4 mb-0"><i class="bi bi-cash"></i> Recurrent Expenses</h4>
-                    <!-- future partial view of recurrent expenses, and debt-->
 
-                    <div class="card netflixCard mt-3 text-light">
-                        <div class="row justify-content-between">
-                            <div class="col-auto">
-                                <h3>NETFLIX</h3>
-                                <small>Jul 17</small>
-                            </div>
-                            <div class="col-auto align-self-center">
-                                <h2> $ 219</h2>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card spotifyCard mt-3 text-light">
-                        <div class="row justify-content-between">
-                            <div class="col-auto">
-                                <h3>SPOTIFY</h3>
-                                <small>Jul 25</small>
-                            </div>
-                            <div class="col-auto align-self-center">
-                                <h2> $ 115</h2>
-                            </div>
-
-                        </div>
+                <div class="table-col">
+                    <div id="incomePartial" class="py-3" >
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
 </div>
+ 
+
+
 
 <script type='text/javascript'>
     window.expensesGlobal = @Html.Raw(Json.Serialize(Model.Expenses));
@@ -226,13 +151,32 @@
     window.accountsGlobal = @Html.Raw(Json.Serialize(Model.Accounts));
     window.debtsGlobal = @Html.Raw(Json.Serialize(Model.Debts));
 
+    window.expensesTableCountGlobal = 0;
+    window.incomesTableCountGlobal = 0;
+
 </script>
 
+<script src="~/js/mainPage/tiles.js"></script>
+<script src="~/js/mainPage/darkmode.js"></script>
 
-<script src="~/js/mainPage/creditCardPartial.js"></script>
-<script src="~/js/mainPage/ExpenseTable.js"></script>
-<script src="~/js/mainPage/PageResponsiveness.js"></script>
-<script src="~/js/mainPage/Tiles.js"></script>
+<script type="module" src="~/wwwroot/js/Table/TableSettingsParameters.js"></script>
+<script type="module" src="~/wwwroot/js/Table/TableSettingsParametersLocalStorage.js"></script>
+<script type="module" src="~/wwwroot/js/DataPeriodSelection.js"></script>
+<script type="module" src="~/wwwroot/js/Table/TablesViewLoader.js"></script>
+<script type="module" src="~/wwwroot/js/Table/CRUD/ReadApi.js"></script>
+<script type="module" src="~/wwwroot/js/Table/CRUD/UpdateLogic.js"></script>
+<script type="module" src="~/wwwroot/js/Table/CRUD/UpdateApi.js"></script>
+<script type="module" src="~/wwwroot/js/Table/Filter/FiltersFunctions.js"></script>
+
+<script type="module" src="~/wwwroot/js/Page Responsiveness/Responsiveness.js"></script>
+<script type="module" src="~/wwwroot/js/Page Responsiveness/InitialScreenSize.js"></script>
+
+<script type="module" src="~/wwwroot/js/Tiles/Tiles.js"></script>
+<script type="module" src="~/wwwroot/js/Tiles/Budget Tile/BudgetTile.js"></script>
+
+<script type="module" src="~/wwwroot/js/FinancialState/FinancialState.js"></script>
+
+<script type="module" src="~/wwwroot/js/Darkmode.js"></script>
 
 
 

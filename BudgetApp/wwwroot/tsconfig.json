@@ -1,0 +1,17 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "es6",
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "wwwroot/js",
+    "lib": [ "ES2019", "DOM" ]
+  },
+  "include": [
+    "scripts/**/*"
+  ]
+
+}

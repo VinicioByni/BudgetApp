@@ -1,0 +1,24 @@
+﻿
+.time-period-select {
+    border-color: var(--grey-background-color);
+    border-radius: .25rem;
+    border-width: 2px;
+    font-weight: 500;
+    padding: 6px 0px 6px 0px;
+    width: 10rem;
+    transition: .3s;
+}
+    .time-period-select option {
+        background-color: var(--main-background-color);   
+    }
+    .time-period-select:focus { 
+        outline: none;
+    }
+    .time-period-select:hover {
+        border-color: var(--grey-background-color-hover);
+    }
+
+
+
+
+

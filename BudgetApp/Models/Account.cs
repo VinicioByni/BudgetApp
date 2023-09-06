@@ -10,7 +10,7 @@ namespace BudgetApp.Models
         [Required]
         [StringLength(25)]
         public string Name { get; set; } = string.Empty;
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
         [JsonIgnore]
         public virtual List<Expense>? Expense { get; set; }
         [JsonIgnore]

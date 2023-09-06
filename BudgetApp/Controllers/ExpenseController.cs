@@ -1,11 +1,15 @@
-﻿using BudgetApp.Data;
+﻿using BudgetApp.Classes;
+using BudgetApp.Data;
 using BudgetApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 
 namespace BudgetApp.Controllers
 {
+
     public class ExpenseController : Controller
     {
         private readonly BudgetDbContext _budgetDbContext;
@@ -15,80 +19,198 @@ namespace BudgetApp.Controllers
             _budgetDbContext = budgetDbContext;
         }
 
+        public ViewModel generalViewModels()
+        {
+            ViewModel viewModel = new ViewModel();
+            viewModel.ExpenseCategories = _budgetDbContext.ExpenseCategories.ToList();
+            viewModel.Accounts = _budgetDbContext.Accounts.ToList();
+            viewModel.CreditCards = _budgetDbContext.CreditCards.ToList();
+            viewModel.Debts = _budgetDbContext.Debts.ToList();
+            return viewModel;
+        }
+
+        public IQueryable<Expense> FilterAndSortExpenses(string sortExpenseOrder, string searchExpenseString, string searchDateString, IQueryable<Expense> expenses)
+        {
+            // Search Bar
+            if (!String.IsNullOrEmpty(searchExpenseString))
+            {
+                expenses = expenses
+                    .Where(e => e.Amount.ToString().Contains(searchExpenseString) ||
+                    e.ExpenseCategory.Name.Contains(searchExpenseString) ||
+                    e.Account.Name.Contains(searchExpenseString) ||
+                    e.CreditCard.Name.Contains(searchExpenseString) ||
+                    e.Debt.Entity.Contains(searchExpenseString) ||
+                    e.Description.Contains(searchExpenseString));
+            }
+
+            // Search Date Bar
+            if (!String.IsNullOrEmpty(searchDateString))
+            {
+                DateTime date = DateTime.Parse(searchDateString);
+                expenses = expenses.Where(e => e.Date == date);
+            }
+
+            // Sort
+            switch (sortExpenseOrder)
+            {
+                case "AmountAscending":
+                    expenses = expenses
+                        .OrderBy(e => e.Amount);
+                    break;
+                case "AmountDescending":
+                    expenses = expenses.OrderByDescending(e => e.Amount);
+                    break;
+                case "DateAscending":
+                    expenses = expenses.OrderBy(e => e.Date);
+                    break;
+                case "DateDescending":
+                    expenses = expenses.OrderByDescending(e => e.Date);
+                    break;
+                case "CategoryAscending":
+                    expenses = expenses.OrderBy(e => e.ExpenseCategory.Name);
+                    break;
+                case "CategoryDescending":
+                    expenses = expenses.OrderByDescending(e => e.ExpenseCategory.Name);
+                    break;
+
+
+                case "PaymentAscending":
+                    expenses = expenses.OrderBy(e => e.Account.Name);
+                    break;
+                case "PaymentDescending":
+                    expenses = expenses.OrderByDescending(e => e.Account.Name);
+                    break;
+
+
+
+                case "DescriptionAscending":
+                    expenses = expenses.OrderBy(e => e.Description);
+                    break;
+                case "DescriptionDescending":
+                    expenses = expenses.OrderByDescending(e => e.Description);
+                    break;
+                default:
+                    expenses = expenses.OrderByDescending(e => e.Date);
+                    break;
+            }
+
+            return expenses;
+        }
+
+        public IQueryable<Expense> RetrieveSelectedPeriodExpenses(string periodInitialDateString)
+        {
+            var expenses = from expense in _budgetDbContext.Expenses select expense;
+
+            if (periodInitialDateString.IsNullOrEmpty())
+            {
+                periodInitialDateString = DateTime.Now.ToString("MM/01/yyyy");
+            }
+            DateTime periodInitialDate = DateTime.Parse(periodInitialDateString);
+
+
+            expenses = expenses
+                    .Include(e => e.CreditCard)
+                    .Include(e => e.Account)
+                    .Include(e => e.ExpenseCategory)
+                    .Include(e => e.Debt)
+                    .Where(e => e.Date >= periodInitialDate);
+
+            return expenses;
+        }
+
+        public string ReturnInMinAttrDateInputFormat(string periodInitialDateString)
+        {
+            if (periodInitialDateString.IsNullOrEmpty())
+            {
+                periodInitialDateString = DateTime.Now.ToString("MM/01/yyyy");
+            }
+            DateTime periodInitialDate = DateTime.Parse(periodInitialDateString);
+
+            return periodInitialDate.ToString("yyyy-MM-dd");
+        }
+
+        [HttpGet]
+        [ActionName("ExpensesTotalAmount")]
+        public async Task<IActionResult> ExpensesTotalAmount(string periodInitialDateString)
+        {
+
+            if (periodInitialDateString.IsNullOrEmpty())
+            {
+                periodInitialDateString = DateTime.Now.ToString("MM/01/yyyy");
+            }
+            DateTime periodInitialDate = DateTime.Parse(periodInitialDateString);
+
+            var expenses = await RetrieveSelectedPeriodExpenses(periodInitialDateString).ToListAsync();
+            var expensesTotalAmount = expenses.Sum(e => e.Amount);
+            return Json(expensesTotalAmount);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            FormsViewModel model = new FormsViewModel();
-            model.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
-            model.Accounts = await _budgetDbContext.Accounts.ToListAsync();
-            model.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
-            model.Debts = await _budgetDbContext.Debts.ToListAsync();
+            ViewModel model = new ViewModel();
+            model = generalViewModels();
             model.Expenses = await _budgetDbContext.Expenses.Include(e => e.CreditCard).Include(e => e.Account).Include(e => e.ExpenseCategory).Include(e => e.Debt).OrderBy(e => e.Date).ToListAsync();
             // Recurrent Expneses
             model.Incomes = await _budgetDbContext.Incomes.Include(e => e.Account).Include(e => e.IncomeCategory).ToListAsync();
             return View(model);
-
-
         }
+
+
 
         [HttpGet]
-        [ActionName("GetExpensesPartial")]
-        public async Task<IActionResult> GetExpensesPartial()
+        [ActionName("_ExpensesPartial")]
+        public async Task<IActionResult> _ExpensesPartial(string sortOrder, string searchString,
+            string searchDateString, int pageSize, int pageNumber,string periodInitialDateString)
         {
-            FormsViewModel viewModel = new FormsViewModel();
-            viewModel.Expenses = await _budgetDbContext.Expenses.Include(e => e.CreditCard).Include(e => e.Account).Include(e => e.ExpenseCategory).Include(e => e.Debt).OrderByDescending(e => e.Date).ToListAsync();
-            viewModel.Accounts = await _budgetDbContext.Accounts.ToListAsync();
-            viewModel.CreditCards = await _budgetDbContext.CreditCards.ToListAsync();
-            viewModel.Debts = await _budgetDbContext.Debts.ToListAsync();
-            viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
-            return PartialView("_ExpensesPartial", viewModel);
+            
+            ViewModel viewModel = new ViewModel();
+
+            viewModel = generalViewModels();
+
+            var expenses = RetrieveSelectedPeriodExpenses(periodInitialDateString);
+
+            var filteredExpenses = FilterAndSortExpenses(sortOrder, searchString, searchDateString, expenses);
+            
+            var pagesSkiped = pageNumber - 1; 
+            var expensesSkiped = (pageSize * pagesSkiped);
+
+            viewModel.MinDateInput = ReturnInMinAttrDateInputFormat(periodInitialDateString);
+            viewModel.TableName = "expense";
+            viewModel.FilteredExpensesCount = filteredExpenses.Count();
+            viewModel.ExpensesPeriodTotalAmount = expenses.Sum(e => e.Amount);
+            viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(pageSize).ToListAsync();
+            
+            return PartialView("~/Views/Shared/Partial Views/_TablesPartial.cshtml", viewModel);
         }
 
+
         [HttpPost]
-        [ActionName("Add")]
-        public async Task<IActionResult> Add(FormsViewModel expenseRequest)
+        [ActionName("AddExpense")]
+        public async Task<IActionResult> AddExpense(Expense expense)
         {
-            if (expenseRequest.Expense.Description == null)
+            if (expense.Description == null)
             {
-                expenseRequest.Expense.Description = string.Empty;
+                expense.Description = string.Empty;
             }
 
-            //PENDING Do if options for every method of payment
-            if (expenseRequest.Expense.Method == "Cash/Debit")
-            {
-
-            }
-            else if (expenseRequest.Expense.Method == "Credit Card")
-            {
-                var dBcreditCard = await _budgetDbContext.CreditCards.FirstOrDefaultAsync(c => c.CreditCardId == expenseRequest.Expense.CreditCardId);
-
-                if (dBcreditCard == null)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-      
-            }
-            // Debt
-            else
-            {
-
-            }
-
-            _budgetDbContext.Expenses.Add(expenseRequest.Expense);
+            _budgetDbContext.Expenses.Add(expense);
             await _budgetDbContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return Ok();
         }
 
         [HttpPost]
         [ActionName("EditExpense")]
         public async Task<IActionResult> EditExpense(Expense expense)
         {
-            
+
             var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
             if (dBExpense == null)
             {
                 return NotFound("not found");
             }
+
             dBExpense.Amount = expense.Amount;
             dBExpense.Date = expense.Date;
             dBExpense.ExpenseCategoryId = expense.ExpenseCategoryId;
@@ -102,48 +224,48 @@ namespace BudgetApp.Controllers
                 dBExpense.Description = expense.Description;
             }
 
-            dBExpense.Method = expense.Method;
 
-            var method = expense.Method;
-            if (method == "Cash/Debit")
+            if (expense.AccountId != null)
             {
                 dBExpense.AccountId = expense.AccountId;
                 dBExpense.CreditCardId = null;
                 dBExpense.DebtId = null;
             }
-
-            else if (method == "Credit Card")
+            else if (expense.CreditCardId != null)
             {
-                dBExpense.CreditCardId = expense.CreditCardId;
                 dBExpense.AccountId = null;
+                dBExpense.CreditCardId = expense.CreditCardId;
                 dBExpense.DebtId = null;
             }
-
-            else
+            else if (expense.DebtId != null)
             {
-                dBExpense.DebtId = expense.DebtId;
                 dBExpense.AccountId = null;
                 dBExpense.CreditCardId = null;
+                dBExpense.DebtId = expense.DebtId;
             }
-
+            
+            
             _budgetDbContext.Expenses.Update(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
-            return Json(dBExpense);
 
-        }
+            return Ok();
+
+        }    
+
 
         [HttpDelete]
         [ActionName("DeleteExpense")]
-        public async Task<IActionResult> DeleteExpense(Expense expense)
+        public async Task<IActionResult> DeleteExpense(int id)
         {
-            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
+            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == id);
             if (dBExpense == null)
             {
                 return NotFound();
             }
             _budgetDbContext.Expenses.Remove(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
-            return View("Index");
+
+            return Ok();
         }
     }
 }
