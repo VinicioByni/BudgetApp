@@ -22,6 +22,7 @@ jobs:
 
       - name: Build
         run: dotnet build ./BudgetApp.sln --configuration Release --no-restore
+        
       - name: Publish
         run: dotnet publish ./BudgetApp.sln --configuration Release --no-build
         
