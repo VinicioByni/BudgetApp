@@ -12,6 +12,7 @@ namespace BudgetApp.Models
         public string Name { get; set; } = string.Empty;
         [JsonIgnore]
         public virtual List<Expense>? Expense { get; set; }
+        [JsonIgnore]
         public virtual List<RecurrentExpense>? RecurrentExpense { get; set; }
 
     }

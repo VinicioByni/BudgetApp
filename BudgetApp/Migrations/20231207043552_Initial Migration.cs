@@ -17,8 +17,8 @@ namespace BudgetApp.Migrations
                 {
                     AccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<float>(type: "real", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,7 @@ namespace BudgetApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<float>(type: "real", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,11 +44,13 @@ namespace BudgetApp.Migrations
                 {
                     CreditCardId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CutOffDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    LastCutOffDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CurrentCutOffDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AmountOwed = table.Column<float>(type: "real", nullable: false),
-                    CreditLimit = table.Column<float>(type: "real", nullable: false)
+                    CreditLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountPaid = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,9 +64,9 @@ namespace BudgetApp.Migrations
                     DebtId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Entity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Entity = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -79,7 +81,7 @@ namespace BudgetApp.Migrations
                 {
                     ExpenseCategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,55 +94,11 @@ namespace BudgetApp.Migrations
                 {
                     IncomeCategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IncomeCategories", x => x.IncomeCategoryId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AutoExpenses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    DateOfTheMonth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    ExpenseCategoryId = table.Column<int>(type: "int", nullable: true),
-                    AccountVisible = table.Column<bool>(type: "bit", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: true),
-                    CreditCardVisible = table.Column<bool>(type: "bit", nullable: false),
-                    CreditCardId = table.Column<int>(type: "int", nullable: true),
-                    DebtVisible = table.Column<bool>(type: "bit", nullable: false),
-                    DebtId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AutoExpenses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AutoExpenses_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId");
-                    table.ForeignKey(
-                        name: "FK_AutoExpenses_CreditCards_CreditCardId",
-                        column: x => x.CreditCardId,
-                        principalTable: "CreditCards",
-                        principalColumn: "CreditCardId");
-                    table.ForeignKey(
-                        name: "FK_AutoExpenses_Debts_DebtId",
-                        column: x => x.DebtId,
-                        principalTable: "Debts",
-                        principalColumn: "DebtId");
-                    table.ForeignKey(
-                        name: "FK_AutoExpenses_ExpenseCategories_ExpenseCategoryId",
-                        column: x => x.ExpenseCategoryId,
-                        principalTable: "ExpenseCategories",
-                        principalColumn: "ExpenseCategoryId");
                 });
 
             migrationBuilder.CreateTable(
@@ -149,16 +107,13 @@ namespace BudgetApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExpenseCategoryId = table.Column<int>(type: "int", nullable: true),
-                    AccountVisible = table.Column<bool>(type: "bit", nullable: false),
                     AccountId = table.Column<int>(type: "int", nullable: true),
-                    CreditCardVisible = table.Column<bool>(type: "bit", nullable: false),
                     CreditCardId = table.Column<int>(type: "int", nullable: true),
-                    DebtVisible = table.Column<bool>(type: "bit", nullable: false),
                     DebtId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -187,14 +142,56 @@ namespace BudgetApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RecurrentExpenses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Period = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DayOfTheMonth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DayOfTheWeek = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    IsAutomatic = table.Column<bool>(type: "bit", nullable: false),
+                    ExpenseCategoryId = table.Column<int>(type: "int", nullable: true),
+                    AccountId = table.Column<int>(type: "int", nullable: true),
+                    CreditCardId = table.Column<int>(type: "int", nullable: true),
+                    DebtId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecurrentExpenses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RecurrentExpenses_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId");
+                    table.ForeignKey(
+                        name: "FK_RecurrentExpenses_CreditCards_CreditCardId",
+                        column: x => x.CreditCardId,
+                        principalTable: "CreditCards",
+                        principalColumn: "CreditCardId");
+                    table.ForeignKey(
+                        name: "FK_RecurrentExpenses_Debts_DebtId",
+                        column: x => x.DebtId,
+                        principalTable: "Debts",
+                        principalColumn: "DebtId");
+                    table.ForeignKey(
+                        name: "FK_RecurrentExpenses_ExpenseCategories_ExpenseCategoryId",
+                        column: x => x.ExpenseCategoryId,
+                        principalTable: "ExpenseCategories",
+                        principalColumn: "ExpenseCategoryId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Incomes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     IncomeCategoryId = table.Column<int>(type: "int", nullable: true),
                     AccountId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -214,82 +211,59 @@ namespace BudgetApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutoExpenses_AccountId",
-                table: "AutoExpenses",
-                column: "AccountId",
-                unique: true,
-                filter: "[AccountId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AutoExpenses_CreditCardId",
-                table: "AutoExpenses",
-                column: "CreditCardId",
-                unique: true,
-                filter: "[CreditCardId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AutoExpenses_DebtId",
-                table: "AutoExpenses",
-                column: "DebtId",
-                unique: true,
-                filter: "[DebtId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AutoExpenses_ExpenseCategoryId",
-                table: "AutoExpenses",
-                column: "ExpenseCategoryId",
-                unique: true,
-                filter: "[ExpenseCategoryId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Expenses_AccountId",
                 table: "Expenses",
-                column: "AccountId",
-                unique: true,
-                filter: "[AccountId] IS NOT NULL");
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Expenses_CreditCardId",
                 table: "Expenses",
-                column: "CreditCardId",
-                unique: true,
-                filter: "[CreditCardId] IS NOT NULL");
+                column: "CreditCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Expenses_DebtId",
                 table: "Expenses",
-                column: "DebtId",
-                unique: true,
-                filter: "[DebtId] IS NOT NULL");
+                column: "DebtId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Expenses_ExpenseCategoryId",
                 table: "Expenses",
-                column: "ExpenseCategoryId",
-                unique: true,
-                filter: "[ExpenseCategoryId] IS NOT NULL");
+                column: "ExpenseCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incomes_AccountId",
                 table: "Incomes",
-                column: "AccountId",
-                unique: true,
-                filter: "[AccountId] IS NOT NULL");
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incomes_IncomeCategoryId",
                 table: "Incomes",
-                column: "IncomeCategoryId",
-                unique: true,
-                filter: "[IncomeCategoryId] IS NOT NULL");
+                column: "IncomeCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecurrentExpenses_AccountId",
+                table: "RecurrentExpenses",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecurrentExpenses_CreditCardId",
+                table: "RecurrentExpenses",
+                column: "CreditCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecurrentExpenses_DebtId",
+                table: "RecurrentExpenses",
+                column: "DebtId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecurrentExpenses_ExpenseCategoryId",
+                table: "RecurrentExpenses",
+                column: "ExpenseCategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AutoExpenses");
-
             migrationBuilder.DropTable(
                 name: "Budgets");
 
@@ -300,6 +274,15 @@ namespace BudgetApp.Migrations
                 name: "Incomes");
 
             migrationBuilder.DropTable(
+                name: "RecurrentExpenses");
+
+            migrationBuilder.DropTable(
+                name: "IncomeCategories");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
+
+            migrationBuilder.DropTable(
                 name: "CreditCards");
 
             migrationBuilder.DropTable(
@@ -307,12 +290,6 @@ namespace BudgetApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "ExpenseCategories");
-
-            migrationBuilder.DropTable(
-                name: "Accounts");
-
-            migrationBuilder.DropTable(
-                name: "IncomeCategories");
         }
     }
 }

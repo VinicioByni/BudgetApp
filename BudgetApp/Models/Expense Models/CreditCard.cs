@@ -23,6 +23,7 @@ namespace BudgetApp.Models
 
         [JsonIgnore]
         public virtual List<Expense>? Expense { get; set; }
+        [JsonIgnore]
         public virtual List<RecurrentExpense>? RecurrentExpense { get; set; }
     }
 }

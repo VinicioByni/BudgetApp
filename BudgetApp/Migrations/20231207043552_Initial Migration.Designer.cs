@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetApp.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    [Migration("20230831230515_Money amount from float to decimal")]
-    partial class Moneyamountfromfloattodecimal
+    [Migration("20231207043552_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
