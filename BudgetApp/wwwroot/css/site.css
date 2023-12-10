@@ -1,34 +1,4 @@
-:root {
-    /* Backgrounds */
-    --main-background-color: white;
-    --main-background-color-hover: hsl(202 36% 95% / 1);
-    --second-background-color: #e3e4ec;
-    --second-background-color-hover: #bbc4c9;
-    --third-background-color: hsl(219 19% 84% / .7);
-    --third-background-color-hover: hsl(219 19% 84% / 1);
-    --transparent-background-color: transparent;
-    /* Table */
-    --table-main-color: #f4f6fa;
-    --table-expense-color: #dc3545;
-    --table-income-color: #198754;
-    /* Cards */
-    --card-background-color: hsl(195 15% 94% / 1);
-    --card-background-color-hover: hsl(0 0% 100% / 1);
-    --card-border-color: #424242;
-    --card-budget-background-color: hsl(152 60% 47% / .7);
-    --card-budget-background-color-hover: hsl(152 60% 47% / 1);
-    --card-tile-net-color: #f4f6fa;
-    --card-tile-expense-color: #e6bab9;
-    --card-tile-income-color: #D1F3D1;
-    /* Text */
-    --main-text-color: black;
-    --secondary-text-color: white;
-    /* Success and Danger */
-    --color-danger: #dc3545;
-    --color-success: #198754;
-    /* Calendar */
-    --invert-calendar: none;
-}
+
 
 .darkMode {
     /* General Colors */
@@ -75,42 +45,6 @@
 }
 
 
-
-html {
-    font-size: 14px;
-    position: relative;
-    min-height: 100%;
-}
-
-html i {
-    color: var(--main-text-color);
-}
-
-header {
-    background: var(--main-background-color);
-}
-
-body {
-    background: var(--main-background-color);
-    margin-bottom: 60px;
-}
-    body hr {
-        background: var(--main-text-color)
-    }
-
-row {
-    background-color: #090e27;
-}
-
-nav {
-    background: var(--nav-color);
-}
-
-@media(min-width: 1050px) {
-    html {
-        font-size: 16px;
-    }
-}
 
 @media(max-width: 992px) {
     .scrollable-table {

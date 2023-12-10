@@ -3,8 +3,19 @@
     max-width: 1200px;
 }
 
-.dark-theme {
-    --background: #11121E;
+:root {
+    --x-small-fs: .875rem;
+    --small-fs: 1rem;
+    --medium-fs: 1.25rem;
+    --large-fs: 1.5rem;
+    --x-large-fs: 2rem;
+
+    --regular-fw: ;
+    --medium-fw: ;
+    --semibold-fw: ;
+
+
+     --background: #11121E;
     --element-background-300: #3E3E53;
     --element-background-400: #1D1D29;
     --element-background-500: #2C2C3D;
@@ -23,20 +34,25 @@
     --primary-color-400: #09E59C;
     --primary-color-500: #00BA7C;
     --primary-color-700: #0F7351;
+
 }
 
-/*Root
 
-:root {
-    --x-small-fs: .875rem;
-    --small-fs: 1rem;
-    --medium-fs: 1.25rem;
-    --large-fs: 1.5rem;
-    --x-large-fs: 2rem;
-
-    --regular-fw: ;
-    --medium-fw: ;
-    --semibold-fw: ;
+html {
+    font-size: 14px;
+    position: relative;
+    width: 100%;
 }
 
-*/
+body {
+    width: 100%;
+}
+
+@media(min-width: 972px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+
+
