@@ -6,10 +6,10 @@
     <title>@ViewData["BudgetApp"]BudgetApp</title>
     <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Font.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/OverviewPage.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Cards.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Tiles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/tables.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/CreditCards.css" asp-append-version="true" />
     
@@ -20,13 +20,21 @@
     <div class="page-container">
         <div class="layout-grid">
             <header class="main-header">
-                <p class="date">Tuesday, December 05, 2023</p>
-                <div class="profile-selector">
-                    <picture class="profile-img-container">
-                        <img class="profile-img" />
-                    </picture>
-                    <p class="profile-name">Vinicio Chavez</p>
-                </div>
+                <h1 class="heading">Overview</h1>
+                <aside class="aside">
+                    <time datetime="2023-12-05" class="date">Tuesday, December 05, 2023</time>
+                    <button type="button" class="profile-selector">
+                        <div class="profile-img-container">
+                            <img class="profile-img" src="~/assets/images/Profile-avatar.jpg" />
+                        </div>
+                        <p class="profile-name">Vinicio Chavez</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg>
+                    </button>
+                </aside>
+                
             </header>
             <aside class="main-nav-container">
                 <nav class="main-nav">

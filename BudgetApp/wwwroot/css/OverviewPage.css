@@ -1,0 +1,92 @@
+﻿.overview-section {
+
+}
+    .overview-section .month-selector {
+
+    }
+    .overview-section .tiles-container {
+        display: flex;
+        gap: var(--spacing-large);
+    }
+        .overview-section .tiles-container .tile {
+            --padding: 16px;
+            min-width: 255px;
+            padding: var(--padding);
+            padding-left: calc(var(--padding) + 8px);
+            box-sizing: border-box;
+            background-color: var(--element-background-500);
+            border-radius: 16px;
+            position: relative;
+        }
+            .overview-section .tiles-container .tile::before {
+                content: '';
+                position: absolute;
+                left: calc(var(--padding) - 4px);
+                width: 4px;
+                height: calc(100% - var(--padding)*2);
+                border-radius: 99px;
+            }
+            .overview-section .tiles-container .tile.budget-tile::before {
+                background-color: var(--primary-color-500);
+            }
+            .overview-section .tiles-container .tile.balance-tile::before {
+                background-color: var(--typography-color-500);
+            }
+            .overview-section .tiles-container .tile.income-tile::before {
+                background-color: var(--success-color-500);
+            }
+            .overview-section .tiles-container .tile.expense-tile::before {
+                background-color: var(--danger-color-500);
+            }
+
+
+
+            .overview-section .tiles-container .tile .header-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 8px;
+            }
+            .overview-section .tiles-container .tile .header-container .header{
+                display: flex;
+                align-items: center;
+            }
+                .overview-section .tiles-container .tile .header-container .header .title{
+                    font-size: var(--medium-fs);
+                    font-weight: var(--medium-fw);
+                    color: var(--typography-color-300);
+                    margin-right: 4px;
+                }
+                .overview-section .tiles-container .tile .header-container .header .edit-btn {
+                    padding-inline: 4px;
+                }
+                    .overview-section .tiles-container .tile .header-container .header .edit-btn .svg {
+                        stroke: var(--primary-color-500);
+                    }
+            .overview-section .tiles-container .tile .header-container .tile-svg {
+                stroke: var(--typography-color-300);
+            }
+        .overview-section .tiles-container .tile .amount-container {
+            display: flex;
+        }
+        .overview-section .tiles-container .tile.budget-tile .amount-container {
+            align-items: baseline;
+        }
+            .overview-section .tiles-container .tile .amount-container .amount {
+                display: inline;
+                font-size: var(--x-large-fs); 
+            }
+            .overview-section .tiles-container .tile.budget-tile .amount-container .amount {
+                margin-right: 4px;
+            }
+            .overview-section .tiles-container .tile.budget-tile .amount-container .amount-status {
+                display: inline;
+                font-size: var(--small-fs);
+                color: var(--typography-color-500);
+            }
+            .overview-section .tiles-container .tile .amount-container .amount-status-svg {
+                stroke: var(--success-color-500);
+                align-self: end;
+                margin-bottom: 4px;
+            }
+                

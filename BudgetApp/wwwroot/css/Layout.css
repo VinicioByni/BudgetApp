@@ -26,8 +26,8 @@
     --danger-color-500: #C42A2A;
     --danger-color-700: #C52525;
     --danger-color-900: #503E3E;
-    --success-color: #2AC42A;
-    --success-color: #7B847B;
+    --success-color-500: #219C21;
+    --success-color-900: #7B847B;
     --warning-color: #C4BE2A;
     --primary-color-400: #09E59C;
     --primary-color-500: #00BA7C;
@@ -35,7 +35,7 @@
     --spacing-small: 16px;
     --spacing-medium: 24px;
     --spacing-large: 32px;
-    --header-height: 50px;
+    --header-height: 85px;
 }
 
 
@@ -47,7 +47,6 @@ html {
 }
 
 body {
-    width: 100%;
     font-family: 'Inter', system-ui;
     font-size: var(--medium-fs);
     font-weight: var(--medium-fw);
@@ -71,18 +70,31 @@ h1,h2,h3,h4,h5, p, ul {
 a {
     text-decoration: none;
 }
+button {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    font-family: 'Inter', system ui;
+}
 button, a {
     cursor: pointer;
 }
 ul,li {
     list-style: none;
 }
+
+
 .btn-general {
     padding-block: 8px;
     padding-inline: 12px;
     border-radius: 10px;
     box-sizing: border-box;
     transition: background-color 25ms, color 25ms;
+}
+.svg-general-size {
+    width: 25px;
+    height: 25px;
 }
 
 
@@ -94,35 +106,71 @@ ul,li {
     justify-content: center;
 }
 .layout-grid {
+    --content-block-padding: calc(var(--spacing-large)*2);
     max-width: 1440px;
     width: 100%;
     display: grid;
+    grid-template-areas: 
+        "aside header"
+        "aside content";
     grid-template-columns: 275px 1fr;
+    grid-template-rows: var(--header-height) 1fr;
     background: var(--background);
 }
-
+main {
+    grid-area: content;
+    padding-inline: 24px;
+    padding-block: var(--content-block-padding);
+}
 
 .main-header {
-    max-height: var(--header-height);
+    grid-area: header;
+    height: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding-inline: 24px;
 }
-    .main-header .date {
-        font-weight: var(--semibold-fw);
+    .main-header .heading {
+        font-size: var(--medium-fs);
     }
-    .main-header .profile-selector {
+    .main-header .aside {
         display: flex;
         align-items: center;
-
+        gap: var(--spacing-large);
+        font-size: var(--small-fs);
+        font-weight: var(--medium-fw);
     }
-        .main-header .profile-selector .profile-img-container .profile-img {
+        .main-header .aside .profile-selector {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-small)/2);
+            color: var(--typography-color-100);
         }
-        .main-header .profile-selector .profile-name {
-            font-size: var(--small-fs);
-        }
+            .main-header .aside .profile-selector .profile-img-container  {
+                width: var(--large-fs);
+                aspect-ratio: 1/1;
+                border-radius: 999px;
+                overflow: hidden;
+            }
+                .main-header .aside .profile-selector .profile-img-container .profile-img {
+                    width: 100%;
+                    object-position: center;
+                    object-fit: cover;
+                }
+            .main-header .aside .profile-selector .profile-name {
+                font-size: var(--small-fs);
+                font-weight: var(--medium-fw);
+            }
+            .main-header .aside .profile-selector .svg {
+                stroke: var(--typography-color-100);
+                width: 25px;
+                height: 25px;
+                margin-left: -6.25px;
+            }
 
 .main-nav-container {
-    grid-area: 1/1;
+    grid-area: aside;
     background-color: var(--element-background-500);
     box-sizing: border-box;
 }
@@ -142,45 +190,45 @@ ul,li {
         }
         .main-nav-container .main-nav .nav-logo .svg {
             stroke: var(--primary-color-500);
-            width: var(--header-height);
-            height: var(--header-height);
+            width: 50px;
+            height: 50px;
             margin-right: 8px;
         }
-    
-.main-nav-container .main-nav .nav-list {
-    
-}
-.main-nav-container .main-nav .nav-list .list-item {
-    display: block;
-    box-sizing: border-box;
-}
-.main-nav-container .main-nav .nav-list .list-item .nav-a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 190px;
-    font-weight: var(--semibold-fw);
-    color: var(--typography-color-300);
-    background-color: var(--element-background-500);
-}
-.main-nav-container .main-nav .nav-list .list-item .nav-a:hover {
-    color: var(--typography-color-100);
-    background-color: var(--element-background-400)
-}
-.main-nav-container .main-nav .nav-list .list-item .nav-a .svg {
-    stroke: var(--typography-color-300);
-    width: 25px;
-    height: 25px;
-    transition: stroke 25ms;
-}
-.main-nav-container .main-nav .nav-list .list-item .nav-a:hover .svg {
-    stroke: var(--primary-color-500);
-}
 
-.main-header, 
-.main-nav-container {
-    padding-top: 16px;
-}
+    .main-nav-container .main-nav .nav-list {
+        padding-top: calc(var(--content-block-padding) - 8px);
+    }
+        .main-nav-container .main-nav .nav-list .list-item {
+            display: block;
+            box-sizing: border-box;
+        }
+        .main-nav-container .main-nav .nav-list .list-item:not(:last-child) {
+            margin-bottom: calc(var(--spacing-small)/2);
+        }
+        .main-nav-container .main-nav .nav-list .list-item .nav-a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 190px;
+            font-weight: var(--semibold-fw);
+            color: var(--typography-color-300);
+            background-color: var(--element-background-500);
+        }
+        .main-nav-container .main-nav .nav-list .list-item .nav-a:hover {
+            color: var(--typography-color-100);
+            background-color: var(--element-background-400)
+        }
+            .main-nav-container .main-nav .nav-list .list-item .nav-a .svg {
+                stroke: var(--typography-color-300);
+                width: 25px;
+                height: 25px;
+                transition: stroke 25ms;
+            }
+            .main-nav-container .main-nav .nav-list .list-item .nav-a:hover .svg {
+                stroke: var(--primary-color-500);
+            }
+
+
 
 
 
