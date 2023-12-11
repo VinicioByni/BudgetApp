@@ -60,6 +60,13 @@ body {
     }
 }
 
+h1,h2,h3,h4,h5 {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
 .main-header .date {
     font-weight: var(--semibold-fw);
 }
@@ -68,6 +75,10 @@ body {
 }
 .main-header .profile-selector .profile-name {
     font-size: var(--small-fs);
+}
+
+.main-nav-container .highlight {
+    color: var(--primary-color-500);
 }
 
 
