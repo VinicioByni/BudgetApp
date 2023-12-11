@@ -9,16 +9,14 @@
     --medium-fs: 1.25rem;
     --large-fs: 1.5rem;
     --x-large-fs: 2rem;
-
-    --regular-fw: ;
-    --medium-fw: ;
-    --semibold-fw: ;
-
-
-     --background: #11121E;
+    --regular-fw: 400;
+    --medium-fw: 500;
+    --semibold-fw: 600;
+    --body-background: #222224;
+    --background: #11121E;
     --element-background-300: #3E3E53;
-    --element-background-400: #1D1D29;
-    --element-background-500: #2C2C3D;
+    --element-background-400: #2C2C3D;
+    --element-background-500: #1D1D29;
     --typography-color-100: #FFFFFF;
     --typography-color-300: #D2D2D2;
     --typography-color-400: #BFBFBF;
@@ -34,7 +32,10 @@
     --primary-color-400: #09E59C;
     --primary-color-500: #00BA7C;
     --primary-color-700: #0F7351;
-
+    --spacing-small: 16px;
+    --spacing-medium: 24px;
+    --spacing-large: 32px;
+    --h1-height: 50px;
 }
 
 
@@ -51,7 +52,10 @@ body {
     font-size: var(--medium-fs);
     font-weight: var(--medium-fw);
     color: var(--typography-color-100);
-    background: var(--background);
+    background: var(--body-background);
+    padding: 1rem;
+    margin: 0;
+    overflow: hidden;
 }
 
 @media(min-width: 972px) {
@@ -60,13 +64,47 @@ body {
     }
 }
 
-h1,h2,h3,h4,h5 {
+h1,h2,h3,h4,h5, p, ul {
     margin: 0;
     padding: 0;
 }
 a {
     text-decoration: none;
 }
+ul,li {
+    list-style: none;
+}
+.btn-general {
+    cursor: pointer;
+    padding-block: 8px;
+    padding-inline: 12px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: background-color 25ms, color 25ms;
+}
+
+
+
+.page-container {
+    width: 100%;
+    background: var(--body-background);
+    display: flex;
+    justify-content: center;
+}
+.layout-grid {
+    max-width: 1440px;
+    width: 100%;
+    display: grid;
+    grid-template-areas: 
+        "nav content";
+    grid-template-columns: 275px 1fr;
+    background: var(--background);
+}
+
+.main-header {
+    grid-area: content;
+}
+
 .main-header .date {
     font-weight: var(--semibold-fw);
 }
@@ -76,9 +114,61 @@ a {
 .main-header .profile-selector .profile-name {
     font-size: var(--small-fs);
 }
-
-.main-nav-container .highlight {
+.main-nav-container {
+    grid-area: nav;
+    background-color: var(--element-background-500);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.main-nav-container .nav-heading {
+    display: flex;
+    align-items: center;
+    font-size: var(--large-fs);
+}
+.main-nav-container .nav-heading .highlight {
     color: var(--primary-color-500);
+        
+}
+.main-nav-container .nav-heading .svg {
+    stroke: var(--primary-color-500);
+    width: var(--h1-height);
+    height: var(--h1-height);
+    margin-right: 8px;
+}
+.main-nav-container .main-nav {
+
+}
+.main-nav-container .main-nav .nav-list {
+    
+}
+.main-nav-container .main-nav .nav-list .list-item {
+    display: block;
+    box-sizing: border-box;
+}
+.main-nav-container .main-nav .nav-list .list-item .nav-a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 190px;
+    font-weight: var(--semibold-fw);
+    color: var(--typography-color-300);
+    background-color: var(--element-background-500);
+}
+.main-nav-container .main-nav .nav-list .list-item .nav-a:hover {
+    color: var(--typography-color-100);
+    background-color: var(--element-background-400)
+}
+.main-nav-container .main-nav .nav-list .list-item .nav-a .svg {
+    stroke: var(--typography-color-300);
+    width: 25px;
+    height: 25px;
+    transition: stroke 25ms;
+}
+.main-nav-container .main-nav .nav-list .list-item .nav-a:hover .svg {
+    stroke: var(--primary-color-500);
 }
 
 

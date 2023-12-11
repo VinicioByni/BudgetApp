@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\assets\svgs\" />
     <Folder Include="wwwroot\Scripts\IncomesApi\" />
   </ItemGroup>
 
