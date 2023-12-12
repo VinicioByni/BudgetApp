@@ -116,6 +116,8 @@ ul,li {
     grid-template-columns: 275px 1fr;
     grid-template-rows: var(--header-height) 1fr;
     background: var(--background);
+    border-radius: 25px;
+    overflow: hidden;
 }
 main {
     grid-area: content;
@@ -132,7 +134,7 @@ main {
     padding-inline: 24px;
 }
     .main-header .heading {
-        font-size: var(--medium-fs);
+        font-size: var(--large-fs);
     }
     .main-header .aside {
         display: flex;

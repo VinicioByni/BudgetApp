@@ -2,8 +2,15 @@
 
 }
     .overview-section .month-selector {
-
+        display: flex;
+        color: var(--typography-color-300);
+        font-size: var(--medium-fs);
+        font-weight: var(--medium-fw);
+        margin-bottom: calc(var(--spacing-large)/2);
     }
+        .overview-section .month-selector .svg{
+            stroke: var(--typography-color-300);  
+        }
     .overview-section .tiles-container {
         display: flex;
         gap: var(--spacing-large);
