@@ -34,7 +34,19 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Type</th>
+                    <th>
+                        Type
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-triangle-filled" width="36" height="36" viewBox="0 0 24 24" stroke-width="1.5" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 1.67a2.914 2.914 0 0 0 -2.492 1.403l-8.11 13.537a2.914 2.914 0 0 0 2.484 4.385h16.225a2.914 2.914 0 0 0 2.503 -4.371l-8.116 -13.546a2.917 2.917 0 0 0 -2.494 -1.408z" stroke-width="0" fill="currentColor" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-triangle-inverted-filled" width="36" height="36" viewBox="0 0 24 24" stroke-width="1.5" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M20.118 3h-16.225a2.914 2.914 0 0 0 -2.503 4.371l8.116 13.549a2.917 2.917 0 0 0 4.987 .005l8.11 -13.539a2.914 2.914 0 0 0 -2.486 -4.386z" stroke-width="0" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </th>
                     <th>Date</th>
                     <th>Payment method</th>
                     <th>Amount</th>
@@ -46,31 +58,82 @@
                     <td>
                     </td>
                     <td>
-                        <span class="table-data">House</span>
+                        <span class="table-data-type">House</span>
                         <label class="sr-only">Expense type</label>
-                        <select class="table-select" placeholder="" required>
+                        <select class="table-select" placeholder="" required tabindex="-1">
                             <option>- Select type -</option>
                             <option>House</option>
                         </select>
                     </td>
                     <td>
-                        <span class="table-data">Dec 05, 2023</span>
+                        <span class="table-data-date">Dec 05, 2023</span>
                         <label class="sr-only">Date</label>
-                        <input class="table-input" type="date" required/>
+                        <input class="table-input" type="date" required tabindex="-1" />
                     </td>
                     <td>
-                        <span class="table-data">BBVA<span class="payment-method-type"></span></span>
+                        <span class="table-data-method">BBVA</span><span class="payment-method-type"> (debit)</span>
                         <label class="sr-only">Payment method</label>
-                        <select class="table-select" required>
+                        <select class="table-select" required tabindex="-1">
                             <option>- Select payment method -</option>
                             <option>BBVA (debit)</option>
                             <option>Stori (credit)</option>
                         </select>
                     </td>
                     <td>
-                        <span class="table-data">$250</span>
+                        <span class="table-data-amount">$250</span>
                         <label class="sr-only">Amount</label>
-                        <input class="table-input" type="number" required />
+                        <input class="table-input" type="number" required tabindex="-1" />
+                    </td>
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                            <path d="M16 5l3 3"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="36" height="36" viewBox="0 0 24 24" stroke-width="1.5" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M13 5h8" />
+                            <path d="M13 9h5" />
+                            <path d="M13 15h8" />
+                            <path d="M13 19h5" />
+                            <path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                            <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                        </svg>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <span class="table-data-type">House</span>
+                        <label class="sr-only">Expense type</label>
+                        <select class="table-select" placeholder="" required tabindex="-1">
+                            <option>- Select type -</option>
+                            <option>House</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="table-data-date">Dec 05, 2023</span>
+                        <label class="sr-only">Date</label>
+                        <input class="table-input" type="date" required tabindex="-1" />
+                    </td>
+                    <td>
+                        <span class="table-data-method">BBVA</span><span class="payment-method-type"> (debit)</span>
+                        <label class="sr-only">Payment method</label>
+                        <select class="table-select" required tabindex="-1">
+                            <option>- Select payment method -</option>
+                            <option>BBVA (debit)</option>
+                            <option>Stori (credit)</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="table-data-amount">$250</span>
+                        <label class="sr-only">Amount</label>
+                        <input class="table-input" type="number" required tabindex="-1"/>
+                    </td>
+                    <td>
+
                     </td>
                 </tr>
             </tbody>
@@ -80,25 +143,25 @@
             <nav class="pagination-nav">
                 <ul class="pagination-btn-list">
                     <li class="list-btn">
-                        <button>Prev</button>
+                        <button class="pagination-btn-svg">Prev</button>
                     </li>
                     <li class="list-btn">
-                        <button>1</button>
+                        <button class="pagination-btn">1</button>
                     </li>
                     <li class="list-btn">
-                        <button>2</button>
+                        <button class="pagination-btn">2</button>
                     </li>
                     <li class="list-btn">
-                        <button>3</button>
+                        <button class="pagination-btn">3</button>
                     </li>
                     <li class="list-btn">
-                        <button>4</button>
+                        <button class="pagination-btn">4</button>
                     </li>
                     <li class="list-btn">
-                        <button>5</button>
+                        <button class="pagination-btn">5</button>
                     </li>
                     <li class="list-btn">
-                        <button>Next</button>
+                        <button class="pagination-btn-svg">Next</button>
                     </li>
                 </ul>
             </nav>

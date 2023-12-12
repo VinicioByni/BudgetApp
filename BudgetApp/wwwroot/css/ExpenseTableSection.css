@@ -15,6 +15,7 @@
         padding-block: 6px;
         padding-inline: 16px;
         border-radius: 12px;
+        margin-bottom: calc(var(--spacing-small) / 2);
     }
         .expense-table-section .search-bar-container .add-btn,
         .expense-table-section .search-bar-container .delete-btn,
@@ -71,13 +72,93 @@
                             display: inline-flex;
                             align-items: center;
                         }
-                        .expense-table-section .search-bar-container .search-form .input-container .search-btn .svg {
-                            stroke: var(--typography-color-300);
-                            width: 20px;
-                            height: 20px;
-                        }
-    .expense-table-section .table-container .expense-table .table-select,
-    .expense-table-section .table-container .expense-table .table-input {
-        display: none;
+                            .expense-table-section .search-bar-container .search-form .input-container .search-btn .svg {
+                                stroke: var(--typography-color-300);
+                                width: 20px;
+                                height: 20px;
+                            }
+
+    .expense-table-section .table-container {
+        border-radius: 12px;
+        background-color: var(--element-background-500);
+        padding-inline: 8px;
     }
- 
+    .expense-table-section .table-container .expense-table {
+        width: 100%;
+        text-align: center;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+        .expense-table-section .table-container .expense-table th,
+        .expense-table-section .table-container .expense-table td {
+            font-size: var(--small-fs);
+            
+            position: relative;
+        }
+        .expense-table-section .table-container .expense-table th {
+            border-bottom: 2px solid var(--danger-color-900);
+            padding: 10px;
+        }
+        .expense-table-section .table-container .expense-table td {
+            height: 40px;
+        }
+            .expense-table-section .table-container .expense-table td .table-data-type {
+                color: var(--typography-color-300);
+            }
+            .expense-table-section .table-container .expense-table td .table-data-date {
+                color: var(--typography-color-500);
+            }
+            .expense-table-section .table-container .expense-table td .table-data-method {
+                background-color: #0094ff;
+                padding-inline: 6px;
+                border-radius: 50px;
+            }
+            .expense-table-section .table-container .expense-table td .payment-method-type {
+                color: var(--typography-color-500);
+                font-weight: var(--regular-fw);
+            }
+                .expense-table-section .table-container .expense-table tbody tr:last-child td {
+                    border-bottom: 2px solid var(--danger-color-900);
+                }
+    .expense-table-section .table-pagination-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 8px;
+        font-size: var(--small-fs);
+        font-weight: var(--regular-fw);
+        color: var(--typography-color-500);
+    }
+        .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn,
+            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg {
+                height: 25px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 0;
+            }
+            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn {
+                width: 25px;
+                background-color: var(--element-background-400);
+                border-radius: 10px;
+                color: inherit;
+            }
+                .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn:hover,
+                .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn:focus {
+                    background-color: var(--element-background-300);
+                    color: var(--typography-color-100);
+                    outline: none;
+                }
+                .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg {
+                    color: var(--typography-color-300);
+                }
+                    .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg:hover,
+                    .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg:focus {
+                        color: var(--typography-color-100);
+                        outline: none;
+                    }

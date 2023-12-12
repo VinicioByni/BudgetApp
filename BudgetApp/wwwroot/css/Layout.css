@@ -98,6 +98,16 @@ img, picture, video, canvas, svg {
 input, button, textarea, select {
     font: inherit;
 }
+input, select {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    text-indent: 6px;
+}
+input:focus, select:focus {
+    outline: 1px solid var(--typography-color-300);
+}
+
 
 p, h1, h2, h3, h4, h5, h6 {
     overflow-wrap: break-word;
@@ -143,6 +153,14 @@ ul, li {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+.table-select,
+.table-input {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+    z-index: -1;
 }
 
 
