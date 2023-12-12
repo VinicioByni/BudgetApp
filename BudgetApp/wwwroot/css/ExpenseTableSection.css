@@ -1,0 +1,78 @@
+﻿.expense-table-section {
+
+}
+    .expense-table-section .title {
+        display: inline;
+        font-size: var(--medium-fs);
+        font-weight: var(--medium-fw);
+    }
+    .expense-table-section .search-bar-container {
+        --height: 32px;
+        background-color: var(--element-background-400);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 6px;
+        padding-inline: 16px;
+        border-radius: 12px;
+    }
+        .expense-table-section .search-bar-container .add-btn,
+        .expense-table-section .search-bar-container .delete-btn,
+        .expense-table-section .search-bar-container .search-form,
+        .expense-table-section .search-bar-container .search-form input {
+            font-size: var(--small-fs);
+            font-weight: var(--medium-fw);
+            height: var(--height);
+        }
+        .expense-table-section .search-bar-container .add-btn,
+        .expense-table-section .search-bar-container .delete-btn {
+            color: var(--typography-color-100);
+            padding-inline: 12px;
+            border-radius: 12px;
+        }
+        .expense-table-section .search-bar-container .add-btn {
+            background-color: var(--primary-color-700);
+        }
+        .expense-table-section .search-bar-container .delete-btn {
+            background-color: var(--danger-color-700);
+        }
+        .expense-table-section .search-bar-container .search-form {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-small);
+            color: var(--typography-color-300);
+        }
+            .expense-table-section .search-bar-container .search-form input,
+            .expense-table-section .search-bar-container .search-form .search-btn {
+                background-color: var(--element-background-300);
+                padding-block: 0;
+            }
+                .expense-table-section .search-bar-container .search-form .input-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                    .expense-table-section .search-bar-container .search-form .input-container input {
+                        height: var(--height);
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                        color: var(--typography-color-100);
+                    }
+                        .expense-table-section .search-bar-container .search-form .input-container input::placeholder {
+                            color: var(--typography-color-500);
+                        }
+                        .expense-table-section .search-bar-container .search-form .input-container .search-btn {
+                            border-left: 1px solid var(--element-background-500);
+                            height: var(--height);
+                            padding-inline: 8px;
+                            margin-left: -8px;
+                            border-top-right-radius: 12px;
+                            border-bottom-right-radius: 12px;
+                            display: inline-flex;
+                            align-items: center;
+                        }
+                        .expense-table-section .search-bar-container .search-form .input-container .search-btn .svg {
+                            stroke: var(--typography-color-300);
+                            width: 20px;
+                            height: 20px;
+                        }
