@@ -29,6 +29,81 @@
         </form>
         <button type="button" class="delete-btn">Delete Expense</button>
     </div>
+    <div class="table-container">
+        <table class="expense-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Payment method</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <span class="table-data">House</span>
+                        <label class="sr-only">Expense type</label>
+                        <select class="table-select" placeholder="" required>
+                            <option>- Select type -</option>
+                            <option>House</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="table-data">Dec 05, 2023</span>
+                        <label class="sr-only">Date</label>
+                        <input class="table-input" type="date" required/>
+                    </td>
+                    <td>
+                        <span class="table-data">BBVA<span class="payment-method-type"></span></span>
+                        <label class="sr-only">Payment method</label>
+                        <select class="table-select" required>
+                            <option>- Select payment method -</option>
+                            <option>BBVA (debit)</option>
+                            <option>Stori (credit)</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="table-data">$250</span>
+                        <label class="sr-only">Amount</label>
+                        <input class="table-input" type="number" required />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-pagination-container">
+            <p class="page-info">Showing 1-3 of 28 expenses</p>
+            <nav class="pagination-nav">
+                <ul class="pagination-btn-list">
+                    <li class="list-btn">
+                        <button>Prev</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>1</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>2</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>3</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>4</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>5</button>
+                    </li>
+                    <li class="list-btn">
+                        <button>Next</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </section>
 
 

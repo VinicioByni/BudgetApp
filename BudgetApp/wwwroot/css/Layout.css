@@ -12,7 +12,7 @@
     --regular-fw: 400;
     --medium-fw: 500;
     --semibold-fw: 600;
-    --body-background: #222224;
+    --body-background: #0e0e16;
     --background: #11121E;
     --element-background-300: #3E3E53;
     --element-background-400: #2C2C3D;
@@ -40,6 +40,17 @@
 }
 
 
+
+
+
+
+::-webkit-calendar-picker-indicator {
+    filter: var(--invert-calendar);
+}
+html,
+body {
+    height: 100%;
+}
 html {
     font-size: 14px;
     position: relative;
@@ -53,9 +64,11 @@ body {
     font-weight: var(--medium-fw);
     color: var(--typography-color-100);
     background: var(--body-background);
-    padding: 1rem;
+    padding: 2rem;
     margin: 0;
     overflow: hidden;
+    line-height: 1.2;
+    -webkit-font-smoothing: antialiased;
 }
 
 @media(min-width: 972px) {
@@ -64,30 +77,51 @@ body {
     }
 }
 
-h1,h2,h3,h4,h5, p, ul, a, button, input {
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
     margin: 0;
     padding: 0;
+}
+
+body {
+    
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
     font-family: 'Inter', system ui;
 }
 a {
     text-decoration: none;
 }
-button {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    background: none;
-    font-family: 'Inter', system ui;
-}
+
 button, a {
     cursor: pointer;
+    background: none;
+    border: none;
 }
-ul,li {
+
+ul, li {
     list-style: none;
 }
-::-webkit-calendar-picker-indicator {
-    filter: var(--invert-calendar);
+
+#root, #__next {
+    isolation: isolate;
 }
+
+
 
 .btn-general {
     padding-block: 8px;
@@ -100,11 +134,22 @@ ul,li {
     width: 25px;
     height: 25px;
 }
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
 
 
 
 .page-container {
     width: 100%;
+    height: 100%;
     background: var(--body-background);
     display: flex;
     justify-content: center;
@@ -114,14 +159,16 @@ ul,li {
     max-width: 1440px;
     width: 100%;
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "aside header"
         "aside content";
     grid-template-columns: 275px 1fr;
     grid-template-rows: var(--header-height) 1fr;
     background: var(--background);
+    border: 2px solid #2a2d4a;
     border-radius: 25px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 main {
     grid-area: content;
