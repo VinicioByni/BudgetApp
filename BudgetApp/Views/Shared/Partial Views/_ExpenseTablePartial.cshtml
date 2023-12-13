@@ -90,11 +90,12 @@
                 {
                     <tr>
                         <td>
+                            <form id="expense-form-@expense.Id"></form>
                         </td>
                         <td>
-                            <span class="table-data-type">@expense.ExpenseCategory.Name</span>
-                            <label class="sr-only">Expense type</label>
-                            <select class="table-select" placeholder="" required tabindex="-1">
+                            <span class="td table-data-type">@expense.ExpenseCategory.Name</span>
+                            <label class="sr-only" aria-hidden="true">Expense type</label>
+                            <select class="table-select" aria-hidden="true" form="expense-form-@expense.Id" placeholder="" required tabindex="-1">
                                 <option>- Select type -</option>
                                 @foreach (ExpenseCategory expenseCategory in Model.ExpenseCategories)
                                 {
@@ -103,28 +104,28 @@
                             </select>
                         </td>
                         <td>
-                            <span class="table-data-date">@expense.Date.ToString("MMM dd, yyyy")</span>
-                            <label class="sr-only">Date</label>
-                            <input class="table-input" type="date" required tabindex="-1" />
+                            <span class="td table-data-date">@expense.Date.ToString("MMM dd, yyyy")</span>
+                            <label class="sr-only" aria-hidden="true">Date</label>
+                            <input class="table-input" aria-hidden="true" form="expense-form-@expense.Id" type="date" required tabindex="-1" />
                         </td>
                         <td>
                             @if (expense.Account != null)
                             {
-                                <span class="table-data-method">@expense.Account.Name</span>
-                                <span class="payment-method-type"> Debit</span>
+                                <span class="td table-data-method">@expense.Account.Name</span>
+                                <span class="td payment-method-type"> Debit</span>
                             }
                             @if (expense.CreditCard != null)
                             {
-                                <span class="table-data-method" style="background-color: #@expense.CreditCard.Color">@expense.CreditCard.Name</span>
-                                <span class="payment-method-type"> Credit</span>
+                                <span class="td table-data-method" style="background-color: #@expense.CreditCard.Color">@expense.CreditCard.Name</span>
+                                <span class="td payment-method-type"> Credit</span>
                             }
                             @if (expense.Debt != null)
                             {
-                                <span class="table-data-method">@expense.Debt.Entity</span>
-                                <span class="payment-method-type"> Debt</span>
+                                <span class="td table-data-method">@expense.Debt.Entity</span>
+                                <span class="td payment-method-type"> Debt</span>
                             }
-                            <label class="sr-only">Payment method</label>
-                            <select class="table-select" required tabindex="-1">
+                            <label class="sr-only" aria-hidden="true">Payment method</label>
+                            <select class="table-select" aria-hidden="true" form="expense-form-@expense.Id" required tabindex="-1">
                                 <option>- Select payment method -</option>
                                 @foreach(Account account in Model.Accounts)
                                 {
@@ -141,12 +142,12 @@
                             </select>
                         </td>
                         <td>
-                            <span class="table-data-amount">$ @expense.Amount</span>
-                            <label class="sr-only">Amount</label>
-                            <input class="table-input" type="number" required tabindex="-1" />
+                            <span class="td table-data-amount">$ @expense.Amount</span>
+                            <label class="sr-only" aria-hidden="true">Amount</label>
+                            <input class="table-input" aria-hidden="true" form="expense-form-@expense.Id" type="number" required tabindex="-1" />
                         </td>
                         <td>
-                            <button class="edit-btn" type="button">
+                            <button class="edit-btn" aria-hidden="false" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -154,7 +155,7 @@
                                     <path d="M16 5l3 3"></path>
                                 </svg>
                             </button>
-                            <button class="details-btn" type="button">
+                            <button class="details-btn" aria-hidden="false" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M13 5h8" />
@@ -165,7 +166,19 @@
                                     <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
                                 </svg>
                             </button>
-
+                            <button class="save-btn" aria-hidden="true" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M5 12l5 5l10 -10" />
+                                </svg>
+                            </button>
+                            <button class="cancel-btn" aria-hidden="true" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M18 6l-12 12" />
+                                    <path d="M6 6l12 12" />
+                                </svg>
+                            </button>
                         </td>
                     </tr>
                 }

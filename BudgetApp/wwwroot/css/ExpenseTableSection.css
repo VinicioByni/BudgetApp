@@ -1,6 +1,7 @@
 ﻿.expense-table-section {
 
 }
+/* Table and search bar */
     .expense-table-section .title {
         font-size: var(--medium-fs);
         font-weight: var(--medium-fw);
@@ -79,6 +80,40 @@
                                 height: 20px;
                             }
 
+
+
+    /* Table headers */
+    .expense-table-section thead .th-content {
+        position: relative;
+    }
+
+        .expense-table-section thead .th-content .sort-btn {
+            position: absolute;
+            left: calc(100% + 10px);
+            bottom: 0%;
+            width: 20px;
+            height: 20px;
+            display: grid;
+            justify-content: center;
+        }
+
+            .expense-table-section thead .th-content .sort-btn .svg-top,
+            .expense-table-section thead .th-content .sort-btn .svg-bottom {
+                width: 10px;
+                height: 10px;
+            }
+
+            .expense-table-section thead .th-content .sort-btn .svg-top {
+                fill: var(--primary-color-500);
+            }
+
+            .expense-table-section thead .th-content .sort-btn .svg-bottom {
+                fill: var(--typography-color-500);
+            }
+
+
+
+    /* Table rows and data */
     .expense-table-section .table-container {
         border-radius: 12px;
         background-color: var(--element-background-500);
@@ -93,7 +128,6 @@
         .expense-table-section .table-container .expense-table th,
         .expense-table-section .table-container .expense-table td {
             font-size: var(--small-fs);
-            
             position: relative;
         }
         .expense-table-section .table-container .expense-table th {
@@ -103,6 +137,18 @@
         .expense-table-section .table-container .expense-table td {
             height: 40px;
         }
+            .expense-table-section .table-container .expense-table td .td {
+                transition: opacity 200ms;
+            }
+            .expense-table-section .table-container .expense-table td .td[aria-hidden="true"] {
+                position: absolute;
+                z-index: -1;
+                opacity: 0;
+            }
+            .expense-table-section .table-container .expense-table td .td[aria-hidden="false"] {
+                position: relative;
+                opacity: 1;
+            }
             .expense-table-section .table-container .expense-table td .table-data-type {
                 color: var(--typography-color-300);
             }
@@ -121,6 +167,62 @@
                 .expense-table-section .table-container .expense-table tbody tr:last-child td {
                     border-bottom: 2px solid var(--danger-color-900);
                 }
+
+
+
+    /* Table edit, details, save, cancel buttons */
+    .expense-table-section tbody tr .edit-btn,
+    .expense-table-section tbody tr .details-btn,
+    .expense-table-section tbody tr .save-btn,
+    .expense-table-section tbody tr .cancel-btn {
+        transition: opacity 200ms;
+    }
+
+    .expense-table-section tbody tr .edit-btn[aria-hidden="true"],
+    .expense-table-section tbody tr .details-btn[aria-hidden="true"],
+    .expense-table-section tbody tr .save-btn[aria-hidden="true"],
+    .expense-table-section tbody tr .cancel-btn[aria-hidden="true"] {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+    .expense-table-section tbody tr .edit-btn[aria-hidden="false"],
+    .expense-table-section tbody tr .details-btn[aria-hidden="false"],
+    .expense-table-section tbody tr .save-btn[aria-hidden="false"],
+    .expense-table-section tbody tr .cancel-btn[aria-hidden="false"] {
+        position: relative;
+        opacity: 1;
+    }
+
+    .expense-table-section tbody tr .edit-btn:hover .svg,
+    .expense-table-section tbody tr .details-btn:hover .svg,
+    .expense-table-section tbody tr .edit-btn:focus .svg,
+    .expense-table-section tbody tr .details-btn:focus .svg {
+        stroke: var(--primary-color-400);
+    }
+
+    .expense-table-section tbody tr .edit-btn .svg,
+    .expense-table-section tbody tr .details-btn .svg {
+        stroke: var(--primary-color-500);
+    }
+    .expense-table-section tbody tr .save-btn:hover .svg,
+    .expense-table-section tbody tr .save-btn:focus .svg {
+        stroke: var(--success-color-300);
+    }
+    .expense-table-section tbody tr .save-btn .svg {
+        stroke: var(--success-color-500);
+    }
+    .expense-table-section tbody tr .cancel-btn:hover .svg,
+    .expense-table-section tbody tr .cancel-btn:focus .svg {
+        stroke: var(--danger-color-300);
+    }
+    .expense-table-section tbody tr .cancel-btn .svg {
+        stroke: var(--danger-color-500);
+    }
+
+
+
+    /* Table pagination */
     .expense-table-section .table-pagination-container {
         display: flex;
         align-items: center;
@@ -163,42 +265,5 @@
                         color: var(--typography-color-100);
                         outline: none;
                     }
-    .expense-table-section thead .th-content {
-        position: relative;
-    }
-        .expense-table-section thead .th-content .sort-btn {
-            position: absolute;
-            left: calc(100% + 10px);
-            bottom: 0%;
-            width: 20px;
-            height: 20px;
-            display: grid;
-            justify-content: center;
-        }
-            .expense-table-section thead .th-content .sort-btn .svg-top,
-            .expense-table-section thead .th-content .sort-btn .svg-bottom {
-                width: 10px;
-                height: 10px;
-            }
-            .expense-table-section thead .th-content .sort-btn .svg-top {
-                fill: var(--primary-color-500);
-            }
-            .expense-table-section thead .th-content .sort-btn .svg-bottom {
-                fill: var(--typography-color-500);
-            }
-    .expense-table-section tbody tr .edit-btn:hover .svg,
-    .expense-table-section tbody tr .details-btn:hover .svg,
-    .expense-table-section tbody tr .edit-btn:focus .svg,
-    .expense-table-section tbody tr .details-btn:focus .svg {
-        stroke: var(--primary-color-400);
-    }
-    .expense-table-section tbody tr .edit-btn .svg,
-    .expense-table-section tbody tr .details-btn .svg {
-        stroke: var(--primary-color-500);
-    }
-    .expense-table-section tbody tr .edit-btn {
-
-    }
-    .expense-table-section tbody tr .details-btn {
-
-    }
+    
+    
