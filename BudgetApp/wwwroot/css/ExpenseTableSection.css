@@ -80,7 +80,23 @@
                                 height: 20px;
                             }
 
-
+    /* Table check boxes */
+    .expense-table-section .expense-table .checkbox-btn {
+        position: absolute;
+        left: 50%;
+        bottom: 50%;
+        width: 20px;
+        height: 20px;
+        transform: translate(0, 50%);
+        display: grid;
+        justify-content: center;
+    }
+        .expense-table-section .expense-table .checkbox-btn .svg-checkbox,
+        .expense-table-section .expense-table .checkbox-btn .svg-check {
+            stroke: var(--typography-color-300);
+            width: 20px;
+            height: 20px;
+        }
 
     /* Table headers */
     .expense-table-section thead .th-content {
