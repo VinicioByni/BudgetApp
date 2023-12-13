@@ -1,12 +1,13 @@
 ﻿.tiles-section {
     display: flex;
-    gap: var(--spacing-large);
+    gap: var(--spacing-small);
     margin-bottom: var(--spacing-large);
 }
 
     .tiles-section .tile {
         --padding: 16px;
         min-width: 255px;
+        width: 100%;
         padding: var(--padding);
         padding-left: calc(var(--padding) + 8px);
         box-sizing: border-box;

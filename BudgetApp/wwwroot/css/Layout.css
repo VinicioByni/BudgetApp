@@ -98,6 +98,9 @@ img, picture, video, canvas, svg {
 input, button, textarea, select {
     font: inherit;
 }
+button:focus {
+    outline: none;
+}
 input, select {
     background: transparent;
     border: none;

@@ -2,10 +2,12 @@
     display: flex;
     color: var(--typography-color-300);
     font-size: var(--medium-fs);
-    font-weight: var(--medium-fw);
-    margin-bottom: calc(var(--spacing-large)/2);
+    line-height: 1;
+    margin-bottom: var(--spacing-small);
 }
-    .overview .month-selector .svg{
-        stroke: var(--typography-color-300);  
+    .overview .month-selector .svg {
+        stroke: var(--typography-color-300);
+        width: var(--medium-fs);
+        height: var(--medium-fs);
     }
     
