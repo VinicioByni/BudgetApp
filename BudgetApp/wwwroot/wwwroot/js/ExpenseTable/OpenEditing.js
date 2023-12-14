@@ -1,5 +1,4 @@
 import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexTrue, setTabIndexFalse } from '../Utils/SetAttributeFunctions.js';
-// This one stays, only the pure inline editing functionality
 export function openEditing(editBtn) {
     if (editBtn == null || !(editBtn instanceof HTMLButtonElement))
         return;

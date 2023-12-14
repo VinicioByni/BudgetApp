@@ -2,3 +2,4 @@
 export const TAB_INDEX = 'tabindex'
 export const TRUE = 'true'
 export const FALSE = 'false'
+export const CHECKBOX_CHECKED = 'on'

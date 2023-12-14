@@ -6,7 +6,7 @@
     <div class="search-bar-container">
         <div class="table-actions-btns-container">
             <button type="button" class="add-btn">+ Add Expense</button>
-            <button type="button" class="delete-btn">Delete Expense</button>
+            <button type="submit" form="expense-delete-form" class="delete-btn">Delete Expense</button>
         </div>
         <form class="search-form">
             <div class="input-container">
@@ -38,8 +38,11 @@
             <thead>
                 <tr>
                     <th>
-                        <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
-                        <input class="visible-rows-checkbox" type="checkbox" />
+                        <form id="expense-delete-form">
+                            <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
+                            <input class="master-checkbox" id="expense-master-checkbox" name="master-checkbox" type="checkbox" />
+                        </form>
+                       
                     </th>
                     <th>
                         <span class="th-content">
@@ -97,7 +100,7 @@
                         <td>
                             <form id="expense-form-@expense.Id"></form>
                             <label class="sr-only">Expense check, to allow deletion of expense</label>
-                            <input class="row-checkbox" type="checkbox" />
+                            <input class="row-checkbox" name="row-checkbox" form="expense-delete-form" value="@expense.Id" type="checkbox" />
                         </td>
                         <td>
                             <span class="td table-data-type">@expense.ExpenseCategory.Name</span>

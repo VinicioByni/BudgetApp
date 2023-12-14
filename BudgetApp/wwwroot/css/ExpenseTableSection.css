@@ -90,7 +90,7 @@
 
     /* Table check boxes */
     .expense-table-section .expense-table .row-checkbox,
-    .expense-table-section .expense-table .visible-rows-checkbox {
+    .expense-table-section .expense-table .master-checkbox {
         font-weight: var(--semibold-fw);
         position: absolute;
         left: 50%;
@@ -101,14 +101,14 @@
     }
         .expense-table-section .expense-table .row-checkbox:checked,
         .expense-table-section .expense-table .row-checkbox:focus,
-        .expense-table-section .expense-table .visible-rows-checkbox:checked,
-        .expense-table-section .expense-table .visible-rows-checkbox:focus {
+        .expense-table-section .expense-table .master-checkbox:checked,
+        .expense-table-section .expense-table .master-checkbox:focus {
             outline: none;
             border: none;
         }
 
         .expense-table-section .expense-table .row-checkbox:before,
-        .expense-table-section .expense-table .visible-rows-checkbox:before {
+        .expense-table-section .expense-table .master-checkbox:before {
             content: '';
             position: absolute;
             z-index: 1;
@@ -120,12 +120,12 @@
             background-color: var(--element-background-500);
         }
         .expense-table-section .expense-table .row-checkbox:checked:before,
-        .expense-table-section .expense-table .visible-rows-checkbox:checked:before {
+        .expense-table-section .expense-table .master-checkbox:checked:before {
             border: 1px solid var(--primary-color-500);
             outline: none;
         }
         .expense-table-section .expense-table .row-checkbox:checked:after,
-        .expense-table-section .expense-table .visible-rows-checkbox:checked:after {
+        .expense-table-section .expense-table .master-checkbox:checked:after {
             content: '\2713';
             position: absolute;
             z-index: 2;
@@ -136,7 +136,7 @@
             color: var(--typography-color-300);
         }
         .expense-table-section .expense-table .row-checkbox:focus:before,
-        .expense-table-section .expense-table .visible-rows-checkbox:focus:before {
+        .expense-table-section .expense-table .master-checkbox:focus:before {
             border: 1px solid var(--primary-color-400);
         }
 
