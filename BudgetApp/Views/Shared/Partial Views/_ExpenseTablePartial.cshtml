@@ -4,7 +4,10 @@
 <section class="expense-table-section">
     <h3 class="title">Expenses</h3>
     <div class="search-bar-container">
-        <button type="button" class="add-btn">+ Add Expense</button>
+        <div class="table-actions-btns-container">
+            <button type="button" class="add-btn">+ Add Expense</button>
+            <button type="button" class="delete-btn">Delete Expense</button>
+        </div>
         <form class="search-form">
             <div class="input-container">
                 <label for="expense-search-input">Search</label>
@@ -29,23 +32,14 @@
                 </button>
             </div>
         </form>
-        <button type="button" class="delete-btn">Delete Expense</button>
     </div>
     <div class="table-container">
         <table class="expense-table">
             <thead>
                 <tr>
                     <th>
-                        <button class="checkbox-btn" type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-checkbox" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-check" viewBox="0 0 24 24" stroke-width="1.5" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M5 12l5 5l10 -10" />
-                            </svg>
-                        </button>
+                        <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
+                        <input class="visible-rows-checkbox" type="checkbox" />
                     </th>
                     <th>
                         <span class="th-content">
@@ -102,16 +96,8 @@
                     <tr>
                         <td>
                             <form id="expense-form-@expense.Id"></form>
-                            <button class="checkbox-btn" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-checkbox" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-check" viewBox="0 0 24 24" stroke-width="1.5" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                            </button>
+                            <label class="sr-only">Expense check, to allow deletion of expense</label>
+                            <input class="row-checkbox" type="checkbox" />
                         </td>
                         <td>
                             <span class="td table-data-type">@expense.ExpenseCategory.Name</span>

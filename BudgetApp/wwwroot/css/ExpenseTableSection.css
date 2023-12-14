@@ -19,6 +19,11 @@
         border-radius: 12px;
         margin-bottom: calc(var(--spacing-small) / 2);
     }
+        .expense-table-section .search-bar-container .table-actions-btns-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-small);
+        }
         .expense-table-section .search-bar-container .add-btn,
         .expense-table-section .search-bar-container .delete-btn,
         .expense-table-section .search-bar-container .search-form,
@@ -37,7 +42,7 @@
             background-color: var(--primary-color-700);
         }
         .expense-table-section .search-bar-container .delete-btn {
-            background-color: var(--danger-color-700);
+            background-color: var(--danger-color-900);
         }
         .expense-table-section .search-bar-container .search-form {
             display: flex;
@@ -80,52 +85,94 @@
                                 height: 20px;
                             }
 
+
+
+
     /* Table check boxes */
-    .expense-table-section .expense-table .checkbox-btn {
+    .expense-table-section .expense-table .row-checkbox,
+    .expense-table-section .expense-table .visible-rows-checkbox {
+        font-weight: var(--semibold-fw);
         position: absolute;
         left: 50%;
         bottom: 50%;
-        width: 20px;
-        height: 20px;
-        transform: translate(0, 50%);
-        display: grid;
-        justify-content: center;
+        width: 15px;
+        height: 15px;
+        transform: translate(-50%, 50%);
     }
-        .expense-table-section .expense-table .checkbox-btn .svg-checkbox,
-        .expense-table-section .expense-table .checkbox-btn .svg-check {
-            stroke: var(--typography-color-300);
-            width: 20px;
-            height: 20px;
+        .expense-table-section .expense-table .row-checkbox:checked,
+        .expense-table-section .expense-table .row-checkbox:focus,
+        .expense-table-section .expense-table .visible-rows-checkbox:checked,
+        .expense-table-section .expense-table .visible-rows-checkbox:focus {
+            outline: none;
+            border: none;
         }
+
+        .expense-table-section .expense-table .row-checkbox:before,
+        .expense-table-section .expense-table .visible-rows-checkbox:before {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            border: 1px solid var(--typography-color-300);
+            border-radius: 2px;
+            background-color: var(--element-background-500);
+        }
+        .expense-table-section .expense-table .row-checkbox:checked:before,
+        .expense-table-section .expense-table .visible-rows-checkbox:checked:before {
+            border: 1px solid var(--primary-color-500);
+            outline: none;
+        }
+        .expense-table-section .expense-table .row-checkbox:checked:after,
+        .expense-table-section .expense-table .visible-rows-checkbox:checked:after {
+            content: '\2713';
+            position: absolute;
+            z-index: 2;
+            left: -4px;
+            bottom: 2px;
+            width: 15px;
+            height: 15px;
+            color: var(--typography-color-300);
+        }
+        .expense-table-section .expense-table .row-checkbox:focus:before,
+        .expense-table-section .expense-table .visible-rows-checkbox:focus:before {
+            border: 1px solid var(--primary-color-400);
+        }
+
+        
+
+
+
 
     /* Table headers */
     .expense-table-section thead .th-content {
         position: relative;
     }
 
-        .expense-table-section thead .th-content .sort-btn {
-            position: absolute;
-            left: calc(100% + 10px);
-            bottom: 0%;
-            width: 20px;
-            height: 20px;
-            display: grid;
-            justify-content: center;
+    .expense-table-section thead .th-content .sort-btn {
+        position: absolute;
+        left: calc(100% + 10px);
+        bottom: 0%;
+        width: 20px;
+        height: 20px;
+        display: grid;
+        justify-content: center;
+    }
+
+        .expense-table-section thead .th-content .sort-btn .svg-top,
+        .expense-table-section thead .th-content .sort-btn .svg-bottom {
+            width: 10px;
+            height: 10px;
         }
 
-            .expense-table-section thead .th-content .sort-btn .svg-top,
-            .expense-table-section thead .th-content .sort-btn .svg-bottom {
-                width: 10px;
-                height: 10px;
-            }
+        .expense-table-section thead .th-content .sort-btn .svg-top {
+            fill: var(--primary-color-500);
+        }
 
-            .expense-table-section thead .th-content .sort-btn .svg-top {
-                fill: var(--primary-color-500);
-            }
-
-            .expense-table-section thead .th-content .sort-btn .svg-bottom {
-                fill: var(--typography-color-500);
-            }
+        .expense-table-section thead .th-content .sort-btn .svg-bottom {
+            fill: var(--typography-color-500);
+        }
 
 
 

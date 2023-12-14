@@ -162,6 +162,7 @@ ul, li {
 .table-select,
 .table-input {
     position: absolute;
+    z-index: -1;
     left: 50%;
     bottom: 50%;
     transform: translate(-50%, 50%);
@@ -180,6 +181,7 @@ ul, li {
     }
     .table-select[aria-hidden="false"],
     .table-input[aria-hidden="false"] {
+        z-index: 1;
         opacity: 1;
     }
 
