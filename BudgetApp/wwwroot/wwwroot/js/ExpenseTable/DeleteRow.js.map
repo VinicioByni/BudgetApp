@@ -1,1 +1,1 @@
-{"version":3,"file":"DeleteRow.js","sourceRoot":"","sources":["../../../Scripts/ExpenseTable/DeleteRow.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,SAAS;AAEzB,CAAC"}
+{"version":3,"file":"DeleteRow.js","sourceRoot":"","sources":["../../../Scripts/ExpenseTable/DeleteRow.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,SAAS,CAAC,IAAqB;IAC3C,IAAM,QAAQ,GAAG,IAAI,QAAQ,CAAC,IAAI,CAAC,CAAA;IAEnC,QAAQ,CAAC,OAAO,CAAC,UAAU,KAAK,EAAE,GAAG;QACjC,OAAO,CAAC,GAAG,CAAC,GAAG,GAAG,IAAI,GAAG,KAAK,CAAC,CAAC;QAChC,oBAAoB;IACxB,CAAC,CAAC,CAAC;AACP,CAAC"}

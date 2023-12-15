@@ -1,4 +1,4 @@
-﻿import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../Utils/SetAttributeFunctions.js'
+﻿import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js'
 
 export function cancelEditing(cancelBtn: HTMLButtonElement) {
     if (cancelBtn == null || !(cancelBtn instanceof HTMLButtonElement)) return

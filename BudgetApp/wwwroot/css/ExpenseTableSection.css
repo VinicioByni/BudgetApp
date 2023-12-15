@@ -37,13 +37,25 @@
             color: var(--typography-color-100);
             padding-inline: 12px;
             border-radius: 12px;
+            transition: background-color 25ms, color 25ms;
         }
         .expense-table-section .search-bar-container .add-btn {
             background-color: var(--primary-color-700);
         }
+            .expense-table-section .search-bar-container .add-btn:hover,
+            .expense-table-section .search-bar-container .add-btn:focus {
+                background-color: var(--primary-color-600);
+            }
         .expense-table-section .search-bar-container .delete-btn {
-            background-color: var(--danger-color-900);
+            background-color: var(--danger-color-700);
         }
+            .expense-table-section .search-bar-container .delete-btn:disabled {
+                background-color: var(--danger-color-900);
+            }
+            .expense-table-section .search-bar-container .delete-btn:hover:not(:disabled),
+            .expense-table-section .search-bar-container .delete-btn:focus:not(:disabled) {
+                background-color: var(--danger-color-600);
+            }
         .expense-table-section .search-bar-container .search-form {
             display: flex;
             align-items: center;

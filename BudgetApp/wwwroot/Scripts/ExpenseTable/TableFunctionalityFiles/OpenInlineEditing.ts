@@ -1,4 +1,4 @@
-﻿import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexTrue, setTabIndexFalse } from '../Utils/SetAttributeFunctions.js'
+﻿import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexTrue, setTabIndexFalse } from '../../Utils/SetAttributeFunctions.js'
 
 export function openEditing(editBtn: HTMLButtonElement) {
     if (editBtn == null || !(editBtn instanceof HTMLButtonElement)) return

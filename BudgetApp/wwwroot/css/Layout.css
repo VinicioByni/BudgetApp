@@ -24,8 +24,9 @@
     --typography-color-700: #6F6F6F;
     --typography-color-900: #353535;
     --danger-color-300: #dd3d3d;
-    --danger-color-500: #C42A2A;
-    --danger-color-700: #C52525;
+    --danger-color-500: #cc3232;
+    --danger-color-600: #ca3131;
+    --danger-color-700: #c41818;
     --danger-color-900: #503E3E;
     --success-color-300: #36bd36;
     --success-color-500: #219C21;
@@ -33,6 +34,7 @@
     --warning-color: #C4BE2A;
     --primary-color-400: #09E59C;
     --primary-color-500: #00BA7C;
+    --primary-color-600: #0c7c57;
     --primary-color-700: #0F7351;
     --spacing-small: 16px;
     --spacing-medium: 24px;
