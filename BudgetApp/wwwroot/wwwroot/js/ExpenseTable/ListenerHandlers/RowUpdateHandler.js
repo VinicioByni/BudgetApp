@@ -17,7 +17,7 @@ export function parseExpenseFormData(form) {
     };
     return expenseData;
 }
-export function updateExpenseFormData(expenseData) {
+export function fetchExpenseFormDataUpdate(expenseData) {
     return expenseData;
 }
 function fillFormDataRecord(formDataRecord, formData) {
@@ -54,4 +54,4 @@ function parseToNullableFloat(value) {
     else
         return parsedValue;
 }
-//# sourceMappingURL=HandleRowUpdate.js.map
+//# sourceMappingURL=RowUpdateHandler.js.map

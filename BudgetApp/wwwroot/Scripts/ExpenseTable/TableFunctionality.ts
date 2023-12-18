@@ -1,18 +1,21 @@
-﻿import { openEditing } from './TableFunctionalityFiles/OpenInlineEditing.js'
-import { openDetails } from '../ExpenseTable/TableFunctionalityFiles/OpenRowDetails.js'
-import { handleRowUpdateRequest } from '../ExpenseTable/TableFunctionalityFiles/HandleRowUpdate.js'
-import { cancelEditing } from '../ExpenseTable/TableFunctionalityFiles/CancelInlineEditing.js'
-import { handleRowDeletionRequest } from '../ExpenseTable/TableFunctionalityFiles/HandleRowDeletion.js'
-import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from '../ExpenseTable/TableFunctionalityFiles/CheckboxHandler.js'
+﻿import { openEditing } from './ListenerHandlers/OpenEditingHandler.js'
+import { openDetails } from './ListenerHandlers/OpenDetailsHandler.js'
+import { parseExpenseFormData, fetchExpenseFormDataUpdate } from './ListenerHandlers/RowUpdateHandler.js'
+import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
+import { handleRowDeletionRequest } from './ListenerHandlers/RowDeletionHandler.js'
+import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
 
-inlineEditingListener()
+expenseTableFunctionality()
 
-
-function inlineEditingListener() {
+function expenseTableFunctionality() {
 
     const table = document.querySelector('.expense-table')
     if (!(table instanceof HTMLTableElement) || table == null) return
 
+    setUpListeners(table)
+}
+
+function setUpListeners(table: HTMLTableElement) {
     setUpOpenEditingListener(table)
 
     setUpOpenDetailsListener(table)
@@ -52,9 +55,15 @@ function setUpSaveEditingListener(table: HTMLTableElement) {
     const saveBtns = table.querySelectorAll('.save-btn')
     saveBtns.forEach(saveBtn => {
         if (saveBtn == null || !(saveBtn instanceof HTMLButtonElement)) return
-
-        saveBtn.addEventListener('click', () => {
-            handleRowUpdateRequest(saveBtn)
+        const row = saveBtn.closest('tr')
+        const editForm = row.querySelector('.edit-form')
+        
+        if (editForm == null || !(editForm instanceof HTMLFormElement)) return
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const form = e.target
+            if (!(form instanceof HTMLFormElement)) return
+            console.log(fetchExpenseFormDataUpdate(parseExpenseFormData(form)))
         })
     })
 }
@@ -95,10 +104,8 @@ function setUpCheckboxListener(table: HTMLTableElement) {
         if (checkbox == null || !(checkbox instanceof HTMLInputElement)) return
 
         checkbox.addEventListener('click', () => {
-            handleRowsCheckbox(masterCheckbox, rowsCheckbox, checkbox)
-            
+            handleRowsCheckbox(masterCheckbox, rowsCheckbox, checkbox)  
         })
-
     })
 }
 

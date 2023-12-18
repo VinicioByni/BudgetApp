@@ -200,7 +200,7 @@ namespace BudgetApp.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [ActionName("EditExpense")]
         public async Task<IActionResult> EditExpense(Expense expense)
         {
