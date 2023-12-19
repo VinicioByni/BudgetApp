@@ -202,7 +202,7 @@ namespace BudgetApp.Controllers
 
         [HttpPut]
         [ActionName("EditExpense")]
-        public async Task<IActionResult> EditExpense(Expense expense)
+        public async Task<IActionResult> EditExpense([FromBody]Expense expense)
         {
 
             var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
@@ -248,8 +248,7 @@ namespace BudgetApp.Controllers
             _budgetDbContext.Expenses.Update(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
 
-            return Ok();
-
+            return Json(dBExpense);
         }    
 
 

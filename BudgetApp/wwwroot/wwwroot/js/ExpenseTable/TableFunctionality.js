@@ -1,6 +1,6 @@
 import { openEditing } from './ListenerHandlers/OpenEditingHandler.js';
 import { openDetails } from './ListenerHandlers/OpenDetailsHandler.js';
-import { parseExpenseFormData, fetchExpenseFormDataUpdate } from './ListenerHandlers/RowUpdateHandler.js';
+import { handleRowUpdate } from './ListenerHandlers/RowUpdateHandler.js';
 import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js';
 import { handleRowDeletionRequest } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
@@ -54,7 +54,7 @@ function setUpSaveEditingListener(table) {
             var form = e.target;
             if (!(form instanceof HTMLFormElement))
                 return;
-            console.log(fetchExpenseFormDataUpdate(parseExpenseFormData(form)));
+            handleRowUpdate(form);
         });
     });
 }
