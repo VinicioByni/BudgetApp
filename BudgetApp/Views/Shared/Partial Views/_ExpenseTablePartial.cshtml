@@ -94,12 +94,75 @@
                 </tr>
             </thead>
             <tbody>
+                <tr class="expense-add-row" aria-hidden="true">
+                    <td>
+                        <form id="expense-add-form" class="add-form"></form>
+                    </td>
+                    <td>
+                        <label class="sr-only" >Expense type</label>
+                        <select class="table-select" name="expenseCategoryId" form="expense-add-form" placeholder="" required tabindex="0">
+                            <option value="">- Select type -</option>
+                            @foreach (ExpenseCategory expenseCategory in Model.ExpenseCategories)
+                            {
+                                <option >@expenseCategory.Name</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <label class="sr-only" >Date</label>
+                        <input class="table-input" name="date" form="expense-add-form" type="date" required tabindex="0" />
+                    </td>
+                    <td>
+                        <label class="sr-only" >Payment method</label>
+                        <select class="table-select" name="payment" form="expense-add-form" required tabindex="0">
+                            <option value="">- Select payment method -</option>
+                            @foreach (Account account in Model.Accounts)
+                            {
+                                <optgroup label="Debit Accounts">
+                                    <option value="accountId-@account.AccountId">@account.Name</option>
+                                </optgroup>
+                            }
+                            @foreach (CreditCard creditCard in Model.CreditCards)
+                            {
+                                <optgroup label="Credit cards">
+                                    <option value="creditCardId-@creditCard.CreditCardId">@creditCard.Name</option>
+                                </optgroup>
+                            }
+                            @foreach (Debt debt in Model.Debts)
+                            {
+                                <optgroup label="Debt options">
+                                    <option value="debtId-@debt.DebtId">@debt.Entity</option>
+                                </optgroup>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <label class="sr-only" >Amount</label>
+                        <input class="table-input" name="amount" form="expense-add-form" type="number" required tabindex="0" placeholder="0"/>
+                    </td>
+                    <td>
+                        <button class="save-btn"  tabindex="0" type="submit" form="expense-add-form">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                        </button>
+                        <button class="cancel-btn"  tabindex="0" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M18 6l-12 12" />
+                                <path d="M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
                 @foreach (Expense expense in Model.Expenses)
                 {
-                    <tr>
+                    <tr class="expense-data-row">
                         <td>
                             <form id="expense-edit-form-@expense.Id" class="edit-form"></form>
-                            <input name="id" hidden aria-hidden="true" value="@expense.Id" form="expense-edit-form-@expense.Id"/>
+                            <input name="id" class="table-input" aria-hidden="true" value="@expense.Id" form="expense-edit-form-@expense.Id"/>
                             <label class="sr-only">Expense check, to allow deletion of expense</label>
                             <input class="row-checkbox" name="row-checkbox" form="expense-delete-form" value="@expense.Id" type="checkbox" />
                         </td>
@@ -107,7 +170,7 @@
                             <span class="td table-data-type">@expense.ExpenseCategory.Name</span>
                             <label class="sr-only" aria-hidden="true">Expense type</label>
                             <select class="table-select" name="expenseCategoryId" aria-hidden="true" form="expense-edit-form-@expense.Id" placeholder="" required tabindex="-1">
-                                <option>- Select type -</option>
+                                <option value="">- Select type -</option>
                                 @foreach (ExpenseCategory expenseCategory in Model.ExpenseCategories)
                                 {
                                     if (expenseCategory.ExpenseCategoryId == expense.ExpenseCategoryId)
@@ -118,7 +181,6 @@
                                     {
                                         <option value="@expenseCategory.ExpenseCategoryId">@expenseCategory.Name</option>
                                     }
-                                   
                                 }
                             </select>
                         </td>
@@ -145,7 +207,7 @@
                             }
                             <label class="sr-only" aria-hidden="true">Payment method</label>
                             <select class="table-select" name="payment" aria-hidden="true" form="expense-edit-form-@expense.Id" required tabindex="-1">
-                                <option>- Select payment method -</option>
+                                <option value="">- Select payment method -</option>
                                 @foreach(Account account in Model.Accounts)
                                 {
                                      <optgroup label="Debit Accounts">
@@ -213,13 +275,13 @@
                                 </svg>
                             </button>
                             <button class="save-btn" aria-hidden="true" tabindex="-1" type="submit" form="expense-edit-form-@expense.Id">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M5 12l5 5l10 -10" />
                                 </svg>
                             </button>
                             <button class="cancel-btn" aria-hidden="true" tabindex="-1" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" stroke="#95b2be" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg svg-general-size" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M18 6l-12 12" />
                                     <path d="M6 6l12 12" />

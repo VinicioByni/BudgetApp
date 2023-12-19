@@ -4,6 +4,9 @@ import { handleExpenseRowUpdate } from './ListenerHandlers/RowUpdateHandler.js'
 import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
+import { handleExpenseAddRow } from './ListenerHandlers/RowAddHandler.js'
+import { ARIA_HIDDEN, FALSE } from '../Utils/MagicStrings.js'
+import { setAriaHiddenFalse, setAriaHiddenTrue } from '../Utils/SetAttributeFunctions.js'
 
 
 loadExpenseTable()
@@ -25,6 +28,7 @@ async function loadExpenseTable() {
         expenseTableFunctionality()
     }
 }
+
 export function expenseTableFunctionality() {
 
     const table = document.querySelector('.expense-table')
@@ -46,6 +50,10 @@ function setUpListeners(table: HTMLTableElement) {
 
     setUpCheckboxListener(table)
 
+    setUpOpenAddFormBtnListener(table)
+    setUpCancelAddFormBtnListener(table)
+    setUpAddRowFormListener(table)
+
     updateDeleteBtnAvailability()
 }
 
@@ -59,23 +67,13 @@ function setUpOpenEditingListener(table: HTMLTableElement) {
         })
     })
 }
-function setUpOpenDetailsListener(table: HTMLTableElement) {
-    const detailsBtns = table.querySelectorAll('.details-btn')
-    detailsBtns.forEach(detailBtn => {
-        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement)) return
-
-        detailBtn.addEventListener('click', () => {
-            openDetails(detailBtn)
-        })
-    })
-}
 function setUpSaveEditingListener(table: HTMLTableElement) {
     const saveBtns = table.querySelectorAll('.save-btn')
     saveBtns.forEach(saveBtn => {
         if (saveBtn == null || !(saveBtn instanceof HTMLButtonElement)) return
         const row = saveBtn.closest('tr')
         const editForm = row.querySelector('.edit-form')
-        
+
         if (editForm == null || !(editForm instanceof HTMLFormElement)) return
         editForm.addEventListener('submit', (e) => {
             e.preventDefault()
@@ -95,6 +93,83 @@ function setUpCancelEditingListener(table: HTMLTableElement) {
         })
     })
 }
+
+
+
+function setUpOpenDetailsListener(table: HTMLTableElement) {
+    const detailsBtns = table.querySelectorAll('.details-btn')
+    detailsBtns.forEach(detailBtn => {
+        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement)) return
+
+        detailBtn.addEventListener('click', () => {
+            openDetails(detailBtn)
+        })
+    })
+}
+/*
+function setUpCloseDetailsListener(table: HTMLTableElement) {
+    const closeDetailsBtns = table.querySelectorAll('.details-btn')
+    closeDetailsBtns.forEach(detailBtn => {
+        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement)) return
+
+        detailBtn.addEventListener('click', () => {
+            closeDetails(detailBtn)
+        })
+    })
+}
+*/
+
+
+
+
+
+function setUpOpenAddFormBtnListener(table: HTMLTableElement) {
+    const expenseTableSection = table.closest("section.expense-table-section")
+    if (expenseTableSection == null) return
+
+    const openAddFormBtn = expenseTableSection.querySelector('.table-actions-btns-container .add-btn')
+    if (openAddFormBtn == null || !(openAddFormBtn instanceof HTMLButtonElement)) return
+    
+    openAddFormBtn.addEventListener('click', () => {
+        openAddForm(table)
+    })
+}
+function setUpCancelAddFormBtnListener(table: HTMLTableElement) {
+    const cancelAddFormBtn = table.querySelector('.expense-add-row .cancel-btn')
+    if (cancelAddFormBtn == null || !(cancelAddFormBtn instanceof HTMLButtonElement)) return
+
+    cancelAddFormBtn.addEventListener('click', () => {
+        cancelAddForm(table)
+    })
+}
+function openAddForm(table: HTMLTableElement) {
+    const addFormRow = table.querySelector('.expense-add-row')
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
+
+    setAriaHiddenFalse(addFormRow)
+}
+function cancelAddForm(table: HTMLTableElement) {
+    const addFormRow = table.querySelector('.expense-add-row')
+    console.log(addFormRow)
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
+
+    setAriaHiddenTrue(addFormRow)
+}
+
+function setUpAddRowFormListener(table: HTMLTableElement) {
+    const addForm = table.querySelector('#expense-add-form')
+    if (addForm == null || !(addForm instanceof HTMLFormElement)) return
+
+    addForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const form = e.target
+        if (!(form instanceof HTMLFormElement)) return
+        handleExpenseAddRow(form)
+    })
+}
+
+
+
 
 function setUpDeleteFormListener(table: HTMLTableElement) {
     const deleteForm = table.querySelector('#expense-delete-form')

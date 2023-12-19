@@ -40,6 +40,8 @@ import { handleExpenseRowUpdate } from './ListenerHandlers/RowUpdateHandler.js';
 import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js';
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
+import { handleExpenseAddRow } from './ListenerHandlers/RowAddHandler.js';
+import { setAriaHiddenFalse, setAriaHiddenTrue } from '../Utils/SetAttributeFunctions.js';
 loadExpenseTable();
 function loadExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
@@ -84,6 +86,9 @@ function setUpListeners(table) {
     setUpCancelEditingListener(table);
     setUpDeleteFormListener(table);
     setUpCheckboxListener(table);
+    setUpOpenAddFormBtnListener(table);
+    setUpCancelAddFormBtnListener(table);
+    setUpAddRowFormListener(table);
     updateDeleteBtnAvailability();
 }
 function setUpOpenEditingListener(table) {
@@ -93,16 +98,6 @@ function setUpOpenEditingListener(table) {
             return;
         editBtn.addEventListener('click', function () {
             openEditing(editBtn);
-        });
-    });
-}
-function setUpOpenDetailsListener(table) {
-    var detailsBtns = table.querySelectorAll('.details-btn');
-    detailsBtns.forEach(function (detailBtn) {
-        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement))
-            return;
-        detailBtn.addEventListener('click', function () {
-            openDetails(detailBtn);
         });
     });
 }
@@ -132,6 +127,72 @@ function setUpCancelEditingListener(table) {
         cancelBtn.addEventListener('click', function () {
             cancelEditing(cancelBtn);
         });
+    });
+}
+function setUpOpenDetailsListener(table) {
+    var detailsBtns = table.querySelectorAll('.details-btn');
+    detailsBtns.forEach(function (detailBtn) {
+        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement))
+            return;
+        detailBtn.addEventListener('click', function () {
+            openDetails(detailBtn);
+        });
+    });
+}
+/*
+function setUpCloseDetailsListener(table: HTMLTableElement) {
+    const closeDetailsBtns = table.querySelectorAll('.details-btn')
+    closeDetailsBtns.forEach(detailBtn => {
+        if (detailBtn == null || !(detailBtn instanceof HTMLButtonElement)) return
+
+        detailBtn.addEventListener('click', () => {
+            closeDetails(detailBtn)
+        })
+    })
+}
+*/
+function setUpOpenAddFormBtnListener(table) {
+    var expenseTableSection = table.closest("section.expense-table-section");
+    if (expenseTableSection == null)
+        return;
+    var openAddFormBtn = expenseTableSection.querySelector('.table-actions-btns-container .add-btn');
+    if (openAddFormBtn == null || !(openAddFormBtn instanceof HTMLButtonElement))
+        return;
+    openAddFormBtn.addEventListener('click', function () {
+        openAddForm(table);
+    });
+}
+function setUpCancelAddFormBtnListener(table) {
+    var cancelAddFormBtn = table.querySelector('.expense-add-row .cancel-btn');
+    if (cancelAddFormBtn == null || !(cancelAddFormBtn instanceof HTMLButtonElement))
+        return;
+    cancelAddFormBtn.addEventListener('click', function () {
+        cancelAddForm(table);
+    });
+}
+function openAddForm(table) {
+    var addFormRow = table.querySelector('.expense-add-row');
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
+        return;
+    setAriaHiddenFalse(addFormRow);
+}
+function cancelAddForm(table) {
+    var addFormRow = table.querySelector('.expense-add-row');
+    console.log(addFormRow);
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
+        return;
+    setAriaHiddenTrue(addFormRow);
+}
+function setUpAddRowFormListener(table) {
+    var addForm = table.querySelector('#expense-add-form');
+    if (addForm == null || !(addForm instanceof HTMLFormElement))
+        return;
+    addForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var form = e.target;
+        if (!(form instanceof HTMLFormElement))
+            return;
+        handleExpenseAddRow(form);
     });
 }
 function setUpDeleteFormListener(table) {

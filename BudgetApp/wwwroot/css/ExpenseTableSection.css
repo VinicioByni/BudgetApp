@@ -245,53 +245,119 @@
 
 
 
+    /* Table labels and inputs */
+    .expense-table-section .expense-data-row .table-select,
+    .expense-table-section .expense-data-row .table-input {
+        position: absolute;
+        z-index: -1;
+        left: 50%;
+        bottom: 50%;
+        transform: translate(-50%, 50%);
+        background: var(--element-background-400);
+        color: var(--typography-color-100);
+        height: 25px;
+        transition: opacity 250ms;
+    }
+
+        .expense-table-section .expense-data-row .table-select:focus,
+        .expense-table-section .expense-data-row .table-input:focus {
+            outline: 1px solid var(--primary-color-500);
+        }
+
+        .expense-table-section .expense-data-row .table-select[aria-hidden="true"],
+        .expense-table-section .expense-data-row .table-input[aria-hidden="true"] {
+            opacity: 0;
+        }
+
+        .expense-table-section .expense-data-row .table-select[aria-hidden="false"],
+        .expense-table-section .expense-data-row .table-input[aria-hidden="false"] {
+            z-index: 1;
+            opacity: 1;
+        }
+
+
+
+    .expense-table-section .expense-add-row[aria-hidden="true"],
+    .expense-table-section .expense-add-row[aria-hidden="true"] {
+        display: none;
+    }
+
+    .expense-table-section .expense-add-row[aria-hidden="false"],
+    .expense-table-section .expense-add-row[aria-hidden="false"] {
+        display: table-row;
+    }
+        .expense-table-section .expense-add-row .table-select,
+        .expense-table-section .expense-add-row .table-input {
+            position: absolute;
+            z-index: 1;
+            left: 50%;
+            bottom: 50%;
+            transform: translate(-50%, 50%);
+            background: var(--element-background-400);
+            color: var(--typography-color-100);
+            height: 25px;
+        }
+            .expense-table-section .expense-add-row .table-select:focus,
+            .expense-table-section .expense-add-row .table-input:focus {
+                outline: 1px solid var(--primary-color-500);
+            }
+
+        
+
+
+
     /* Table edit, details, save, cancel buttons */
-    .expense-table-section tbody tr .edit-btn,
-    .expense-table-section tbody tr .details-btn,
-    .expense-table-section tbody tr .save-btn,
-    .expense-table-section tbody tr .cancel-btn {
+    .expense-table-section .expense-data-row .edit-btn,
+    .expense-table-section .expense-data-row .details-btn,
+    .expense-table-section .expense-data-row .save-btn,
+    .expense-table-section .expense-data-row .cancel-btn {
         transition: opacity 200ms;
     }
 
-    .expense-table-section tbody tr .edit-btn[aria-hidden="true"],
-    .expense-table-section tbody tr .details-btn[aria-hidden="true"],
-    .expense-table-section tbody tr .save-btn[aria-hidden="true"],
-    .expense-table-section tbody tr .cancel-btn[aria-hidden="true"] {
+    .expense-table-section .expense-data-row .edit-btn[aria-hidden="true"],
+    .expense-table-section .expense-data-row .details-btn[aria-hidden="true"],
+    .expense-table-section .expense-data-row .save-btn[aria-hidden="true"],
+    .expense-table-section .expense-data-row .cancel-btn[aria-hidden="true"] {
         position: absolute;
         z-index: -1;
         opacity: 0;
     }
-    .expense-table-section tbody tr .edit-btn[aria-hidden="false"],
-    .expense-table-section tbody tr .details-btn[aria-hidden="false"],
-    .expense-table-section tbody tr .save-btn[aria-hidden="false"],
-    .expense-table-section tbody tr .cancel-btn[aria-hidden="false"] {
+    .expense-table-section .expense-data-row .edit-btn[aria-hidden="false"],
+    .expense-table-section .expense-data-row .details-btn[aria-hidden="false"],
+    .expense-table-section .expense-data-row .save-btn[aria-hidden="false"],
+    .expense-table-section .expense-data-row .cancel-btn[aria-hidden="false"] {
         position: relative;
         opacity: 1;
     }
 
-    .expense-table-section tbody tr .edit-btn:hover .svg,
-    .expense-table-section tbody tr .details-btn:hover .svg,
-    .expense-table-section tbody tr .edit-btn:focus .svg,
-    .expense-table-section tbody tr .details-btn:focus .svg {
-        stroke: var(--primary-color-400);
-    }
-
-    .expense-table-section tbody tr .edit-btn .svg,
-    .expense-table-section tbody tr .details-btn .svg {
+        .expense-table-section .expense-data-row .edit-btn:hover .svg,
+        .expense-table-section .expense-data-row .details-btn:hover .svg,
+        .expense-table-section .expense-data-row .edit-btn:focus .svg,
+        .expense-table-section .expense-data-row .details-btn:focus .svg {
+            stroke: var(--primary-color-400);
+        }
+    .expense-table-section .expense-data-row .edit-btn .svg,
+    .expense-table-section .expense-data-row .details-btn .svg {
         stroke: var(--primary-color-500);
     }
-    .expense-table-section tbody tr .save-btn:hover .svg,
-    .expense-table-section tbody tr .save-btn:focus .svg {
+    .expense-table-section .expense-data-row .save-btn:hover .svg,
+    .expense-table-section .expense-data-row .save-btn:focus .svg,
+    .expense-table-section .expense-add-row .save-btn:hover .svg,
+    .expense-table-section .expense-add-row .save-btn:focus .svg {
         stroke: var(--success-color-300);
     }
-    .expense-table-section tbody tr .save-btn .svg {
+    .expense-table-section .expense-data-row .save-btn .svg,
+    .expense-table-section .expense-add-row .save-btn .svg {
         stroke: var(--success-color-500);
     }
-    .expense-table-section tbody tr .cancel-btn:hover .svg,
-    .expense-table-section tbody tr .cancel-btn:focus .svg {
+    .expense-table-section .expense-data-row .cancel-btn:hover .svg,
+    .expense-table-section .expense-data-row .cancel-btn:focus .svg,
+    .expense-table-section .expense-add-row .cancel-btn:hover .svg,
+    .expense-table-section .expense-add-row .cancel-btn:focus .svg {
         stroke: var(--danger-color-300);
     }
-    .expense-table-section tbody tr .cancel-btn .svg {
+    .expense-table-section .expense-data-row .cancel-btn .svg,
+    .expense-table-section .expense-add-row .cancel-btn .svg {
         stroke: var(--danger-color-500);
     }
 

@@ -161,31 +161,7 @@ ul, li {
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
-.table-select,
-.table-input {
-    position: absolute;
-    z-index: -1;
-    left: 50%;
-    bottom: 50%;
-    transform: translate(-50%, 50%);
-    background: var(--element-background-400);
-    color: var(--typography-color-100);
-    height: 25px;
-    transition: opacity 250ms;
-}
-    .table-select:focus,
-    .table-input:focus {
-        outline: 1px solid var(--primary-color-500);
-    }
-    .table-select[aria-hidden="true"],
-    .table-input[aria-hidden="true"] {
-        opacity: 0;
-    }
-    .table-select[aria-hidden="false"],
-    .table-input[aria-hidden="false"] {
-        z-index: 1;
-        opacity: 1;
-    }
+
 
 
 
