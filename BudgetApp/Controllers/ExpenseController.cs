@@ -1,6 +1,7 @@
 ﻿using BudgetApp.Classes;
 using BudgetApp.Data;
 using BudgetApp.Models;
+using BudgetApp.Models.Expense_Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace BudgetApp.Controllers
         public int pageNumber { get; set; }
         public void setDefaultParameters()
         {
-            pageSize = 2;
+            pageSize = 5;
             pageNumber = 1;
         }
     }
@@ -118,7 +119,6 @@ namespace BudgetApp.Controllers
             }
             DateTime periodInitialDate = DateTime.Parse(periodInitialDateString);
 
-
             expenses = expenses
                     .Include(e => e.CreditCard)
                     .Include(e => e.Account)
@@ -190,7 +190,7 @@ namespace BudgetApp.Controllers
         }
         [HttpGet]
         [ActionName("_ExpenseTablePartial")]
-        public async Task<IActionResult> _ExpenseTablePartial()
+        public async Task<IActionResult> _ExpenseTablePartial(/*Add table parameters option later, need to add it on front end too*/)
         {
             
             ViewModel viewModel = new ViewModel();
@@ -266,14 +266,21 @@ namespace BudgetApp.Controllers
             _budgetDbContext.Expenses.Update(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
 
-            return Json(dBExpense);
+            ViewModel viewModel = new ViewModel();
+            var tableParameters = new TableParameters();
+            tableParameters.setDefaultParameters();
+            var periodInitialDateString = string.Empty;
+            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+
+            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }    
 
 
         [HttpDelete]
         [ActionName("DeleteExpense")]
-        public async Task<IActionResult> DeleteExpense(int id)
+        public async Task<IActionResult> DeleteExpense([FromBody]ExpenseId expense)
         {
+            var id = expense.id;
             var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == id);
             if (dBExpense == null)
             {
@@ -282,7 +289,14 @@ namespace BudgetApp.Controllers
             _budgetDbContext.Expenses.Remove(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
 
-            return Ok();
+
+            ViewModel viewModel = new ViewModel();
+            var tableParameters = new TableParameters();
+            tableParameters.setDefaultParameters();
+            var periodInitialDateString = string.Empty;
+            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+
+            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
     }
 }

@@ -1,17 +1,14 @@
-﻿import { ExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
+﻿import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js'
+import { ExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
+import { expenseTableFunctionality } from '../TableFunctionality.js'
+import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 
-
-export function handleRowUpdate(form: HTMLFormElement) {
+export function handleExpenseRowUpdate(form: HTMLFormElement) {
     const formData = new FormData(form)
 
     const formDataObject = parseExpenseFormData(formData)
     const expenseDataModel = createExpenseModel(formDataObject)
 
-    /* Add fetch and take care of promises etc, if there is an error, 
-    call a function that takes care of errors, later on maybe create 
-    a generic error function that can be used by multiple thinks on the project,
-    but wait until multiple things need the errors, to make sure I understand 
-    what I need before refactoring the code */
     fetchExpenseFormDataUpdate(expenseDataModel)
 }
 
@@ -77,14 +74,13 @@ function getFormattedCurrentDate(): string {
     const currentDate = `${year}-${month}-${day}`
     return currentDate
 }
-function parseToNullableFloat(value: string) {
-    const parsedValue = parseFloat(value)
 
-    if (isNaN(parsedValue)) return null
-    else return parsedValue
-} 
 async function fetchExpenseFormDataUpdate(expenseData: ExpenseModel) {
-    const url = 'Expense/EditExpense'
+
+    const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
+    if (partialViewContainer == null) return Error('Expense partial view container not found')
+
+    const url = 'Expense/EditExpense' // Separate later to endpoint url folder
     const response = await fetch(url, {
         method: "PUT",
         headers: {
@@ -92,6 +88,13 @@ async function fetchExpenseFormDataUpdate(expenseData: ExpenseModel) {
         },
         body: JSON.stringify(expenseData)
     })
-    // work on getting the html and updating it, with the table functionality
-    
+    if (response.ok) {
+        const partialView = await response.text()
+        partialViewContainer.innerHTML = partialView
+        expenseTableFunctionality()
+        successfullChangeMessage('')
+    }
+    else {
+        failedChangeMessage('')
+    }
 }

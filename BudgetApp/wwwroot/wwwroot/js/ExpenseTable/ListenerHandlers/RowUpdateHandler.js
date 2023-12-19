@@ -34,16 +34,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js';
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
-export function handleRowUpdate(form) {
+import { expenseTableFunctionality } from '../TableFunctionality.js';
+import { parseToNullableFloat } from '../../Utils/parseUtils.js';
+export function handleExpenseRowUpdate(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
     var expenseDataModel = createExpenseModel(formDataObject);
-    /* Add fetch and take care of promises etc, if there is an error,
-    call a function that takes care of errors, later on maybe create
-    a generic error function that can be used by multiple thinks on the project,
-    but wait until multiple things need the errors, to make sure I understand
-    what I need before refactoring the code */
     fetchExpenseFormDataUpdate(expenseDataModel);
 }
 function parseExpenseFormData(formData) {
@@ -98,32 +96,38 @@ function getFormattedCurrentDate() {
     var currentDate = "".concat(year, "-").concat(month, "-").concat(day);
     return currentDate;
 }
-function parseToNullableFloat(value) {
-    var parsedValue = parseFloat(value);
-    if (isNaN(parsedValue))
-        return null;
-    else
-        return parsedValue;
-}
 function fetchExpenseFormDataUpdate(expenseData) {
     return __awaiter(this, void 0, void 0, function () {
-        var url, response;
+        var partialViewContainer, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = 'Expense/EditExpense';
+                    partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
+                    if (partialViewContainer == null)
+                        return [2 /*return*/, Error('Expense partial view container not found')];
+                    url = 'Expense/EditExpense' // Separate later to endpoint url folder
+                    ;
                     return [4 /*yield*/, fetch(url, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify(expenseData)
-                        })
-                        // work on getting the html and updating it, with the table functionality
-                    ];
+                        })];
                 case 1:
                     response = _a.sent();
-                    return [2 /*return*/];
+                    if (!response.ok) return [3 /*break*/, 3];
+                    return [4 /*yield*/, response.text()];
+                case 2:
+                    partialView = _a.sent();
+                    partialViewContainer.innerHTML = partialView;
+                    expenseTableFunctionality();
+                    successfullChangeMessage('');
+                    return [3 /*break*/, 4];
+                case 3:
+                    failedChangeMessage('');
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     });

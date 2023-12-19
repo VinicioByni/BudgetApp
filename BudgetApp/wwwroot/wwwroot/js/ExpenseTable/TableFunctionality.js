@@ -36,17 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { openEditing } from './ListenerHandlers/OpenEditingHandler.js';
 import { openDetails } from './ListenerHandlers/OpenDetailsHandler.js';
-import { handleRowUpdate } from './ListenerHandlers/RowUpdateHandler.js';
+import { handleExpenseRowUpdate } from './ListenerHandlers/RowUpdateHandler.js';
 import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js';
-import { handleRowDeletionRequest } from './ListenerHandlers/RowDeletionHandler.js';
+import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
 loadExpenseTable();
 function loadExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
-        var url, response, partialView, container;
+        var partialViewContainer, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
+                    if (partialViewContainer == null)
+                        return [2 /*return*/, Error('Expense partial view container not found')];
                     url = 'Expense/_ExpenseTablePartial';
                     return [4 /*yield*/, fetch(url, {
                             method: "GET",
@@ -56,18 +59,19 @@ function loadExpenseTable() {
                         })];
                 case 1:
                     response = _a.sent();
+                    if (!response.ok) return [3 /*break*/, 3];
                     return [4 /*yield*/, response.text()];
                 case 2:
                     partialView = _a.sent();
-                    container = document.querySelector('#ExpenseTablePartial');
-                    container.innerHTML = partialView;
+                    partialViewContainer.innerHTML = partialView;
                     expenseTableFunctionality();
-                    return [2 /*return*/];
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
             }
         });
     });
 }
-function expenseTableFunctionality() {
+export function expenseTableFunctionality() {
     var table = document.querySelector('.expense-table');
     if (!(table instanceof HTMLTableElement) || table == null)
         return;
@@ -116,7 +120,7 @@ function setUpSaveEditingListener(table) {
             var form = e.target;
             if (!(form instanceof HTMLFormElement))
                 return;
-            handleRowUpdate(form);
+            handleExpenseRowUpdate(form);
         });
     });
 }
@@ -139,7 +143,7 @@ function setUpDeleteFormListener(table) {
         var form = e.target;
         if (!(form instanceof HTMLFormElement))
             return;
-        handleRowDeletionRequest(form);
+        handleExpenseRowDeletion(form);
     });
 }
 function setUpCheckboxListener(table) {

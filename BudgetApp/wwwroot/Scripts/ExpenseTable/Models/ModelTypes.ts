@@ -9,6 +9,10 @@
     debtId?: number
 }
 
+export type ExpenseModelId = {
+    id: number
+}
+
 export const EXPENSE_MODEL_STRINGS = {
     id: 'id',
     amount: 'amount',

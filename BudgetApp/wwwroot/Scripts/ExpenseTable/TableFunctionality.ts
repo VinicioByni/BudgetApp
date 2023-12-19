@@ -1,13 +1,16 @@
 ﻿import { openEditing } from './ListenerHandlers/OpenEditingHandler.js'
 import { openDetails } from './ListenerHandlers/OpenDetailsHandler.js'
-import { handleRowUpdate } from './ListenerHandlers/RowUpdateHandler.js'
+import { handleExpenseRowUpdate } from './ListenerHandlers/RowUpdateHandler.js'
 import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
-import { handleRowDeletionRequest } from './ListenerHandlers/RowDeletionHandler.js'
+import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
 
 
 loadExpenseTable()
 async function loadExpenseTable() {
+    const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
+    if (partialViewContainer == null) return Error('Expense partial view container not found')
+
     const url = 'Expense/_ExpenseTablePartial'
     const response = await fetch(url, {
         method: "GET",
@@ -16,13 +19,13 @@ async function loadExpenseTable() {
         }
         
     })
-    const partialView = await response.text()
-    const container = document.querySelector('#ExpenseTablePartial')
-    
-    container.innerHTML = partialView
-    expenseTableFunctionality()
+    if (response.ok) {
+        const partialView = await response.text()
+        partialViewContainer.innerHTML = partialView
+        expenseTableFunctionality()
+    }
 }
-function expenseTableFunctionality() {
+export function expenseTableFunctionality() {
 
     const table = document.querySelector('.expense-table')
     if (!(table instanceof HTMLTableElement) || table == null) return
@@ -78,7 +81,7 @@ function setUpSaveEditingListener(table: HTMLTableElement) {
             e.preventDefault()
             const form = e.target
             if (!(form instanceof HTMLFormElement)) return
-            handleRowUpdate(form)
+            handleExpenseRowUpdate(form)
         })
     })
 }
@@ -101,7 +104,7 @@ function setUpDeleteFormListener(table: HTMLTableElement) {
         e.preventDefault()
         const form = e.target
         if (!(form instanceof HTMLFormElement)) return
-        handleRowDeletionRequest(form)  
+        handleExpenseRowDeletion(form)  
     })
 }
 
