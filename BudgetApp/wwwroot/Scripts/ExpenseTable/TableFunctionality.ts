@@ -5,8 +5,8 @@ import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
 import { handleExpenseAddRow } from './ListenerHandlers/RowAddHandler.js'
-import { ARIA_HIDDEN, FALSE } from '../Utils/MagicStrings.js'
-import { setAriaHiddenFalse, setAriaHiddenTrue } from '../Utils/SetAttributeFunctions.js'
+import { openAddForm } from './ListenerHandlers/OpenAddFormHandler.js'
+import { closeAddForm } from './ListenerHandlers/CloseAddFormHandler.js'
 
 
 loadExpenseTable()
@@ -39,22 +39,18 @@ export function expenseTableFunctionality() {
 
 function setUpListeners(table: HTMLTableElement) {
     setUpOpenEditingListener(table)
+    setUpSaveEditingListener(table)
+    setUpCancelEditingListener(table)
 
     setUpOpenDetailsListener(table)
 
-    setUpSaveEditingListener(table)
-
-    setUpCancelEditingListener(table)
-
     setUpDeleteFormListener(table)
-
     setUpCheckboxListener(table)
+    updateDeleteBtnAvailability()
 
     setUpOpenAddFormBtnListener(table)
     setUpCancelAddFormBtnListener(table)
     setUpAddRowFormListener(table)
-
-    updateDeleteBtnAvailability()
 }
 
 function setUpOpenEditingListener(table: HTMLTableElement) {
@@ -121,8 +117,6 @@ function setUpCloseDetailsListener(table: HTMLTableElement) {
 
 
 
-
-
 function setUpOpenAddFormBtnListener(table: HTMLTableElement) {
     const expenseTableSection = table.closest("section.expense-table-section")
     if (expenseTableSection == null) return
@@ -134,26 +128,14 @@ function setUpOpenAddFormBtnListener(table: HTMLTableElement) {
         openAddForm(table)
     })
 }
+
 function setUpCancelAddFormBtnListener(table: HTMLTableElement) {
     const cancelAddFormBtn = table.querySelector('.expense-add-row .cancel-btn')
     if (cancelAddFormBtn == null || !(cancelAddFormBtn instanceof HTMLButtonElement)) return
 
     cancelAddFormBtn.addEventListener('click', () => {
-        cancelAddForm(table)
+        closeAddForm(table)
     })
-}
-function openAddForm(table: HTMLTableElement) {
-    const addFormRow = table.querySelector('.expense-add-row')
-    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
-
-    setAriaHiddenFalse(addFormRow)
-}
-function cancelAddForm(table: HTMLTableElement) {
-    const addFormRow = table.querySelector('.expense-add-row')
-    console.log(addFormRow)
-    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
-
-    setAriaHiddenTrue(addFormRow)
 }
 
 function setUpAddRowFormListener(table: HTMLTableElement) {
@@ -170,7 +152,6 @@ function setUpAddRowFormListener(table: HTMLTableElement) {
 
 
 
-
 function setUpDeleteFormListener(table: HTMLTableElement) {
     const deleteForm = table.querySelector('#expense-delete-form')
     if (deleteForm == null || !(deleteForm instanceof HTMLFormElement)) return
@@ -182,6 +163,8 @@ function setUpDeleteFormListener(table: HTMLTableElement) {
         handleExpenseRowDeletion(form)  
     })
 }
+
+
 
 function setUpCheckboxListener(table: HTMLTableElement) {
     const masterCheckbox = table.querySelector('#expense-master-checkbox')

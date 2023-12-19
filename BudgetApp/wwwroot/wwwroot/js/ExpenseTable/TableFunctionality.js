@@ -41,7 +41,8 @@ import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js';
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
 import { handleExpenseAddRow } from './ListenerHandlers/RowAddHandler.js';
-import { setAriaHiddenFalse, setAriaHiddenTrue } from '../Utils/SetAttributeFunctions.js';
+import { openAddForm } from './ListenerHandlers/OpenAddFormHandler.js';
+import { closeAddForm } from './ListenerHandlers/CloseAddFormHandler.js';
 loadExpenseTable();
 function loadExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
@@ -81,15 +82,15 @@ export function expenseTableFunctionality() {
 }
 function setUpListeners(table) {
     setUpOpenEditingListener(table);
-    setUpOpenDetailsListener(table);
     setUpSaveEditingListener(table);
     setUpCancelEditingListener(table);
+    setUpOpenDetailsListener(table);
     setUpDeleteFormListener(table);
     setUpCheckboxListener(table);
+    updateDeleteBtnAvailability();
     setUpOpenAddFormBtnListener(table);
     setUpCancelAddFormBtnListener(table);
     setUpAddRowFormListener(table);
-    updateDeleteBtnAvailability();
 }
 function setUpOpenEditingListener(table) {
     var editBtns = table.querySelectorAll('.edit-btn');
@@ -167,21 +168,8 @@ function setUpCancelAddFormBtnListener(table) {
     if (cancelAddFormBtn == null || !(cancelAddFormBtn instanceof HTMLButtonElement))
         return;
     cancelAddFormBtn.addEventListener('click', function () {
-        cancelAddForm(table);
+        closeAddForm(table);
     });
-}
-function openAddForm(table) {
-    var addFormRow = table.querySelector('.expense-add-row');
-    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
-        return;
-    setAriaHiddenFalse(addFormRow);
-}
-function cancelAddForm(table) {
-    var addFormRow = table.querySelector('.expense-add-row');
-    console.log(addFormRow);
-    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
-        return;
-    setAriaHiddenTrue(addFormRow);
 }
 function setUpAddRowFormListener(table) {
     var addForm = table.querySelector('#expense-add-form');

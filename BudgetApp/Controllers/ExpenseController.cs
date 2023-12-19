@@ -205,7 +205,7 @@ namespace BudgetApp.Controllers
 
         [HttpPost]
         [ActionName("AddExpense")]
-        public async Task<IActionResult> AddExpense(Expense expense)
+        public async Task<IActionResult> AddExpense([FromBody]Expense expense)
         {
             if (expense.Description == null)
             {
@@ -215,7 +215,13 @@ namespace BudgetApp.Controllers
             _budgetDbContext.Expenses.Add(expense);
             await _budgetDbContext.SaveChangesAsync();
 
-            return Ok();
+            ViewModel viewModel = new ViewModel();
+            var tableParameters = new TableParameters();
+            tableParameters.setDefaultParameters();
+            var periodInitialDateString = string.Empty;
+            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+
+            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
 
         [HttpPut]

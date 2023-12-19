@@ -38,11 +38,9 @@
             <thead>
                 <tr>
                     <th>
-                        <form id="expense-delete-form">
-                            <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
-                            <input class="master-checkbox" id="expense-master-checkbox" name="master-checkbox" type="checkbox" />
-                        </form>
-                       
+                        <form id="expense-delete-form"></form>
+                        <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
+                        <input class="master-checkbox" id="expense-master-checkbox" name="master-checkbox" type="checkbox" />
                     </th>
                     <th>
                         <span class="th-content">
@@ -104,7 +102,7 @@
                             <option value="">- Select type -</option>
                             @foreach (ExpenseCategory expenseCategory in Model.ExpenseCategories)
                             {
-                                <option >@expenseCategory.Name</option>
+                                <option value="@expenseCategory.ExpenseCategoryId">@expenseCategory.Name</option>
                             }
                         </select>
                     </td>
@@ -162,7 +160,7 @@
                     <tr class="expense-data-row">
                         <td>
                             <form id="expense-edit-form-@expense.Id" class="edit-form"></form>
-                            <input name="id" class="table-input" aria-hidden="true" value="@expense.Id" form="expense-edit-form-@expense.Id"/>
+                            <input name="id" hidden value="@expense.Id" form="expense-edit-form-@expense.Id"/>
                             <label class="sr-only">Expense check, to allow deletion of expense</label>
                             <input class="row-checkbox" name="row-checkbox" form="expense-delete-form" value="@expense.Id" type="checkbox" />
                         </td>

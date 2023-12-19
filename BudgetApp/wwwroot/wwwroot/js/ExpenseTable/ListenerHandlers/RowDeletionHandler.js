@@ -39,7 +39,7 @@ import { expenseTableFunctionality } from "../TableFunctionality.js";
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 export function handleExpenseRowDeletion(form) {
     var formData = new FormData(form);
-    formData.forEach(function (value, key) {
+    formData.forEach(function (value) {
         var id = parseToNullableFloat(value.toString());
         var dataId = { 'id': id };
         fetchExpenseRowDataDeletion(dataId);

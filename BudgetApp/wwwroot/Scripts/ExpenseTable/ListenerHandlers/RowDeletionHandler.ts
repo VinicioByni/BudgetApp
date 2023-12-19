@@ -6,11 +6,10 @@ import { ExpenseModelId } from "../Models/ModelTypes.js"
 export function handleExpenseRowDeletion(form: HTMLFormElement) {
     const formData = new FormData(form)
 
-    formData.forEach((value, key) => {
-       
-     
+    formData.forEach((value) => {
         const id = parseToNullableFloat(value.toString())
-        const dataId: ExpenseModelId = { 'id': id}
+        const dataId: ExpenseModelId = { 'id': id }
+
         fetchExpenseRowDataDeletion(dataId)
 
     })
