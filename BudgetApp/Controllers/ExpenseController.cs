@@ -9,6 +9,19 @@ using System.Linq;
 
 namespace BudgetApp.Controllers
 {
+    public class TableParameters
+    {
+        public string searchString { get; set; } = string.Empty;
+        public string searchDate { get; set; } = string.Empty;
+        public string sort { get; set; } = string.Empty;
+        public int pageSize { get; set; }
+        public int pageNumber { get; set; }
+        public void setDefaultParameters()
+        {
+            pageSize = 2;
+            pageNumber = 1;
+        }
+    }
 
     public class ExpenseController : Controller
     {
@@ -26,11 +39,15 @@ namespace BudgetApp.Controllers
             viewModel.Accounts = _budgetDbContext.Accounts.ToList();
             viewModel.CreditCards = _budgetDbContext.CreditCards.ToList();
             viewModel.Debts = _budgetDbContext.Debts.ToList();
+
             return viewModel;
         }
 
-        public IQueryable<Expense> FilterAndSortExpenses(string sortExpenseOrder, string searchExpenseString, string searchDateString, IQueryable<Expense> expenses)
+        public IQueryable<Expense> FilterAndSortExpenses(TableParameters tableParameters, IQueryable<Expense> expenses)
         {
+            var searchExpenseString = tableParameters.searchString;
+            var searchDate = tableParameters.searchDate; 
+            var sortExpenseOrder = tableParameters.sort;
             // Search Bar
             if (!String.IsNullOrEmpty(searchExpenseString))
             {
@@ -43,10 +60,9 @@ namespace BudgetApp.Controllers
                     e.Description.Contains(searchExpenseString));
             }
 
-            // Search Date Bar
-            if (!String.IsNullOrEmpty(searchDateString))
+            if (!String.IsNullOrEmpty(searchDate))
             {
-                DateTime date = DateTime.Parse(searchDateString);
+                DateTime date = DateTime.Parse(searchDate);
                 expenses = expenses.Where(e => e.Date == date);
             }
 
@@ -72,17 +88,12 @@ namespace BudgetApp.Controllers
                 case "CategoryDescending":
                     expenses = expenses.OrderByDescending(e => e.ExpenseCategory.Name);
                     break;
-
-
                 case "PaymentAscending":
                     expenses = expenses.OrderBy(e => e.Account.Name);
                     break;
                 case "PaymentDescending":
                     expenses = expenses.OrderByDescending(e => e.Account.Name);
                     break;
-
-
-
                 case "DescriptionAscending":
                     expenses = expenses.OrderBy(e => e.Description);
                     break;
@@ -156,32 +167,39 @@ namespace BudgetApp.Controllers
             return View(model);
         }
 
-
-
-        [HttpGet]
-        [ActionName("_ExpensesPartial")]
-        public async Task<IActionResult> _ExpensesPartial(string sortOrder, string searchString,
-            string searchDateString, int pageSize, int pageNumber,string periodInitialDateString)
+        public async Task<ViewModel> ExpenseTablePartialViewModel(TableParameters tableFilterParameters, string periodInitialDateString)
         {
-            
             ViewModel viewModel = new ViewModel();
 
             viewModel = generalViewModels();
 
             var expenses = RetrieveSelectedPeriodExpenses(periodInitialDateString);
 
-            var filteredExpenses = FilterAndSortExpenses(sortOrder, searchString, searchDateString, expenses);
-            
-            var pagesSkiped = pageNumber - 1; 
-            var expensesSkiped = (pageSize * pagesSkiped);
+            var filteredExpenses = FilterAndSortExpenses(tableFilterParameters, expenses);
+
+            var pagesSkiped = tableFilterParameters.pageNumber - 1;
+            var expensesSkiped = (tableFilterParameters.pageSize * pagesSkiped);
 
             viewModel.MinDateInput = ReturnInMinAttrDateInputFormat(periodInitialDateString);
             viewModel.TableName = "expense";
             viewModel.FilteredExpensesCount = filteredExpenses.Count();
             viewModel.ExpensesPeriodTotalAmount = expenses.Sum(e => e.Amount);
-            viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(pageSize).ToListAsync();
+            viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(tableFilterParameters.pageSize).ToListAsync();
+
+            return viewModel;
+        }
+        [HttpGet]
+        [ActionName("_ExpenseTablePartial")]
+        public async Task<IActionResult> _ExpenseTablePartial()
+        {
             
-            return PartialView("~/Views/Shared/Partial Views/_TablesPartial.cshtml", viewModel);
+            ViewModel viewModel = new ViewModel();
+            var tableParameters = new TableParameters();
+            tableParameters.setDefaultParameters();
+            var periodInitialDateString = string.Empty;
+            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+            
+            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
 
 

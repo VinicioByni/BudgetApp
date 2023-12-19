@@ -5,8 +5,23 @@ import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
 import { handleRowDeletionRequest } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
 
-expenseTableFunctionality()
 
+loadExpenseTable()
+async function loadExpenseTable() {
+    const url = 'Expense/_ExpenseTablePartial'
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+        
+    })
+    const partialView = await response.text()
+    const container = document.querySelector('#ExpenseTablePartial')
+    
+    container.innerHTML = partialView
+    expenseTableFunctionality()
+}
 function expenseTableFunctionality() {
 
     const table = document.querySelector('.expense-table')
