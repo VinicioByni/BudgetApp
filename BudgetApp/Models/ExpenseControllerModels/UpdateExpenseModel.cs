@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BudgetApp.Models.Common_Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BudgetApp.Models.ExpenseControllerModels
 {
@@ -17,5 +18,11 @@ namespace BudgetApp.Models.ExpenseControllerModels
         public virtual CreditCard? CreditCard { get; set; }
         public int? DebtId { get; set; }
         public virtual Debt? Debt { get; set; }
+    }
+
+    public class UpdateExpenseModelAction
+    {
+        public UpdateExpenseModel UpdateExpenseModel { get; set; }
+        public TableParameters? TableParameters { get; set; }
     }
 }

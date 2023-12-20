@@ -2,6 +2,7 @@
 using BudgetApp.Data;
 using BudgetApp.Models;
 using BudgetApp.Models.Expense_Models;
+using BudgetApp.Models.Common_Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -10,28 +11,7 @@ using System.Linq;
 
 namespace BudgetApp.Controllers
 {
-    public class TableParameters
-    {
-        public string periodInitialDate { get; set; } = string.Empty;
-        public string searchString { get; set; } = string.Empty;
-        public string searchDate { get; set; } = string.Empty;
-        public string sort { get; set; } = string.Empty;
-        public int pageSize { get; set; }
-        public int pageNumber { get; set; }
-        public void setDefaultParameters()
-        {
-            pageSize = 5;
-            pageNumber = 1;
-        }
-        public void setDefaultPageSize()
-        {
-            pageSize = 5;
-        }
-        public void setDefaultPageNumber()
-        {
-            pageNumber = 1;
-        }
-    }
+    
 
     public class ExpenseController : Controller
     {
