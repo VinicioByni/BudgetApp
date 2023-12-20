@@ -1,12 +1,8 @@
-﻿import { openEditing } from './ListenerHandlers/OpenEditingHandler.js'
-import { openDetails } from './ListenerHandlers/OpenDetailsHandler.js'
-import { handleExpenseRowUpdate } from './ListenerHandlers/RowUpdateHandler.js'
-import { cancelEditing } from './ListenerHandlers/CancelEditingHandler.js'
+﻿import { openDetails, closeDetails } from './ListenerHandlers/RowDetailsHandler.js'
+import { handleExpenseRowUpdate, openEditing, cancelEditing } from './ListenerHandlers/RowUpdateHandler.js'
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
-import { handleExpenseAddRow } from './ListenerHandlers/RowAddHandler.js'
-import { openAddForm } from './ListenerHandlers/OpenAddFormHandler.js'
-import { closeAddForm } from './ListenerHandlers/CloseAddFormHandler.js'
+import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js'
 
 
 loadExpenseTable()

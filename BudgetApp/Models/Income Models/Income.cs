@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BudgetApp.Models
@@ -7,6 +8,7 @@ namespace BudgetApp.Models
     {
         [Key]
         public int Id { get; set; }
+        [Precision(18, 2)]
         public decimal Amount { get; set; }
         [DisplayFormat(DataFormatString = "{0:ddd d MMM yyyy}")]
         public DateTime Date { get; set; }

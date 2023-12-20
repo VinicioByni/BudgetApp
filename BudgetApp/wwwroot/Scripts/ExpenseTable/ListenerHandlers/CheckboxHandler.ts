@@ -30,7 +30,6 @@ export function handleRowsCheckbox(masterCheckbox: HTMLInputElement, rowsCheckbo
     if (rowsCheckboxCounter === 0) masterCheckbox.checked = false
 }
 
-
 export function updateDeleteBtnAvailability() {
     const deleteBtn = document.querySelector('.expense-table-section .search-bar-container .delete-btn')
     if (deleteBtn == null || !(deleteBtn instanceof HTMLButtonElement)) return

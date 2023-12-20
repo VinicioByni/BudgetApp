@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace BudgetApp.Models
@@ -16,7 +17,9 @@ namespace BudgetApp.Models
         public DateTime CurrentCutOffDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:MMM dd}")]
         public DateTime DueDate { get; set; }
+        [Precision(18, 2)]
         public decimal CreditLimit { get; set; }
+        [Precision(18, 2)]
         public decimal AmountPaid { get; set; }
         [StringLength(6)]
         public string Color { get; set; } = string.Empty;

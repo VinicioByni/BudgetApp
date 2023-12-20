@@ -38,6 +38,7 @@ import { failedChangeMessage, successfullChangeMessage } from '../../Services/me
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
 import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
+import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js";
 export function handleExpenseAddRow(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -51,27 +52,10 @@ function parseExpenseFormData(formData) {
             formDataObject[key] = null;
             continue;
         }
-        if (key === EXPENSE_MODEL_STRINGS.payment) {
-            fillPaymentMethods(formDataObject, formData, key);
-        }
-        else {
-            var value = formData.get(key);
-            formDataObject[key] = value.toString();
-        }
+        var value = formData.get(key);
+        formDataObject[key] = value.toString();
     }
     return formDataObject;
-}
-function fillPaymentMethods(formDataObject, formData, key) {
-    var paymentMethod = formData.get(key).toString().split('-', 1).join();
-    var paymentMethodId = formData.get(key).toString().split('-').slice(1, 2).join();
-    for (var paymentKey in EXPENSE_MODEL_PAYMENT_STRINGS) {
-        if (paymentMethod === paymentKey) {
-            formDataObject[paymentKey] = paymentMethodId;
-        }
-        else {
-            formDataObject[paymentKey] = null;
-        }
-    }
 }
 function createExpenseModel(formDataObject) {
     /* parseToNullableFloat is used to simplify the data sent to the api
@@ -132,5 +116,18 @@ function fetchExpenseAddFormData(expenseData) {
             }
         });
     });
+}
+export function closeAddForm(table) {
+    var addFormRow = table.querySelector('.expense-add-row');
+    console.log(addFormRow);
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
+        return;
+    setAriaHiddenTrue(addFormRow);
+}
+export function openAddForm(table) {
+    var addFormRow = table.querySelector('.expense-add-row');
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement))
+        return;
+    setAriaHiddenFalse(addFormRow);
 }
 //# sourceMappingURL=RowAddHandler.js.map

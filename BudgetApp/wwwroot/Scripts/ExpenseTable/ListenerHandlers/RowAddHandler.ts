@@ -2,6 +2,7 @@
 import { ExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
 import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
+import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js"
 
 export function handleExpenseAddRow(form: HTMLFormElement) {
     const formData = new FormData(form)
@@ -21,31 +22,14 @@ function parseExpenseFormData(formData: FormData): Record<string, string> {
             formDataObject[key] = null
             continue
         }
-        if (key === EXPENSE_MODEL_STRINGS.payment) {
-            fillPaymentMethods(formDataObject, formData, key)
-        }
-        else {
-            const value = formData.get(key)
 
-            formDataObject[key] = value.toString()
-        }
+        const value = formData.get(key)
+
+        formDataObject[key] = value.toString()
+        
     }
 
     return formDataObject
-}
-
-function fillPaymentMethods(formDataObject: Record<string, string>, formData: FormData, key: string) {
-    const paymentMethod = formData.get(key).toString().split('-', 1).join()
-    const paymentMethodId = formData.get(key).toString().split('-').slice(1, 2).join()
-
-    for (const paymentKey in EXPENSE_MODEL_PAYMENT_STRINGS) {
-        if (paymentMethod === paymentKey) {
-            formDataObject[paymentKey] = paymentMethodId
-        }
-        else {
-            formDataObject[paymentKey] = null
-        }
-    }
 }
 
 function createExpenseModel(formDataObject: Record<string, string>): ExpenseModel {
@@ -97,4 +81,19 @@ async function fetchExpenseAddFormData(expenseData: ExpenseModel) {
     else {
         failedChangeMessage('')
     }
+}
+
+export function closeAddForm(table: HTMLTableElement) {
+    const addFormRow = table.querySelector('.expense-add-row')
+    console.log(addFormRow)
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
+
+    setAriaHiddenTrue(addFormRow)
+}
+
+export function openAddForm(table: HTMLTableElement) {
+    const addFormRow = table.querySelector('.expense-add-row')
+    if (addFormRow == null || !(addFormRow instanceof HTMLTableRowElement)) return
+
+    setAriaHiddenFalse(addFormRow)
 }

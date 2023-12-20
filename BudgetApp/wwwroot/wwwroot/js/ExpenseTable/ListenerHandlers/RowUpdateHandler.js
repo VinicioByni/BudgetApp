@@ -38,6 +38,7 @@ import { failedChangeMessage, successfullChangeMessage } from '../../Services/me
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
 import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
+import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js';
 export function handleExpenseRowUpdate(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -131,5 +132,69 @@ function fetchExpenseFormDataUpdate(expenseData) {
             }
         });
     });
+}
+export function openEditing(editBtn) {
+    if (editBtn == null || !(editBtn instanceof HTMLButtonElement))
+        return;
+    var row = editBtn.closest('table tr');
+    if (!(row instanceof HTMLTableRowElement) || row == null)
+        return;
+    var tableData = row.querySelectorAll('.td');
+    tableData.forEach(function (td) { return setAriaHiddenTrue(td); });
+    var labels = row.querySelectorAll('label');
+    var inputs = row.querySelectorAll('input');
+    var selects = row.querySelectorAll('select');
+    labels.forEach(function (label) { return setAriaHiddenFalse(label); });
+    inputs.forEach(function (input) { setAriaHiddenFalse(input); setTabIndexTrue(input); });
+    selects.forEach(function (select) { setAriaHiddenFalse(select); setTabIndexTrue(select); });
+    setAriaHiddenTrue(editBtn);
+    setTabIndexFalse(editBtn);
+    var detailsBtn = row.querySelector('.details-btn');
+    if ((detailsBtn instanceof HTMLButtonElement) && detailsBtn != null) {
+        setAriaHiddenTrue(detailsBtn);
+        setTabIndexFalse(detailsBtn);
+    }
+    var saveBtn = row.querySelector('.save-btn');
+    if ((saveBtn instanceof HTMLButtonElement) && saveBtn != null) {
+        setAriaHiddenFalse(saveBtn);
+        setTabIndexTrue(saveBtn);
+    }
+    var cancelBtn = row.querySelector('.cancel-btn');
+    if ((cancelBtn instanceof HTMLButtonElement) && cancelBtn != null) {
+        setAriaHiddenFalse(cancelBtn);
+        setTabIndexTrue(cancelBtn);
+    }
+}
+export function cancelEditing(cancelBtn) {
+    if (cancelBtn == null || !(cancelBtn instanceof HTMLButtonElement))
+        return;
+    var row = cancelBtn.closest('table tr');
+    if (!(row instanceof HTMLTableRowElement) || row == null)
+        return;
+    var labels = row.querySelectorAll('label');
+    var inputs = row.querySelectorAll('input');
+    var selects = row.querySelectorAll('select');
+    labels.forEach(function (label) { return setAriaHiddenTrue(label); });
+    inputs.forEach(function (input) { setAriaHiddenTrue(input); setTabIndexFalse(input); });
+    selects.forEach(function (select) { setAriaHiddenTrue(select); setTabIndexFalse(select); });
+    var tableData = row.querySelectorAll('.td');
+    tableData.forEach(function (td) { return setAriaHiddenFalse(td); });
+    var saveBtn = row.querySelector('.save-btn');
+    if ((saveBtn instanceof HTMLButtonElement) && saveBtn != null) {
+        setAriaHiddenTrue(saveBtn);
+        setTabIndexFalse(saveBtn);
+    }
+    setAriaHiddenTrue(cancelBtn);
+    setTabIndexFalse(cancelBtn);
+    var editBtn = row.querySelector('.edit-btn');
+    if ((editBtn instanceof HTMLButtonElement) && editBtn != null) {
+        setAriaHiddenFalse(editBtn);
+        setTabIndexTrue(editBtn);
+    }
+    var detailsBtn = row.querySelector('.details-btn');
+    if ((detailsBtn instanceof HTMLButtonElement) && detailsBtn != null) {
+        setAriaHiddenFalse(detailsBtn);
+        setTabIndexTrue(detailsBtn);
+    }
 }
 //# sourceMappingURL=RowUpdateHandler.js.map

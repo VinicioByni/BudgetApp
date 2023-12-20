@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace BudgetApp.Models
@@ -15,6 +16,7 @@ namespace BudgetApp.Models
         [Required]
         [StringLength(40)]
         public string? Description { get; set; } = string.Empty;
+        [Precision(18, 2)]
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
         public DateTime DueDate { get; set; }

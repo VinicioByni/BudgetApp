@@ -12,6 +12,7 @@ namespace BudgetApp.Controllers
 {
     public class TableParameters
     {
+        public string periodInitialDate { get; set; } = string.Empty;
         public string searchString { get; set; } = string.Empty;
         public string searchDate { get; set; } = string.Empty;
         public string sort { get; set; } = string.Empty;
@@ -20,6 +21,14 @@ namespace BudgetApp.Controllers
         public void setDefaultParameters()
         {
             pageSize = 5;
+            pageNumber = 1;
+        }
+        public void setDefaultPageSize()
+        {
+            pageSize = 5;
+        }
+        public void setDefaultPageNumber()
+        {
             pageNumber = 1;
         }
     }
@@ -167,37 +176,42 @@ namespace BudgetApp.Controllers
             return View(model);
         }
 
-        public async Task<ViewModel> ExpenseTablePartialViewModel(TableParameters tableFilterParameters, string periodInitialDateString)
+        public async Task<ViewModel> ExpenseTablePartialViewModel(TableParameters tableParameters)
         {
             ViewModel viewModel = new ViewModel();
 
             viewModel = generalViewModels();
 
-            var expenses = RetrieveSelectedPeriodExpenses(periodInitialDateString);
+            var expenses = RetrieveSelectedPeriodExpenses(tableParameters.periodInitialDate);
 
-            var filteredExpenses = FilterAndSortExpenses(tableFilterParameters, expenses);
+            var filteredExpenses = FilterAndSortExpenses(tableParameters, expenses);
 
-            var pagesSkiped = tableFilterParameters.pageNumber - 1;
-            var expensesSkiped = (tableFilterParameters.pageSize * pagesSkiped);
+            var pagesSkiped = tableParameters.pageNumber - 1;
+            var expensesSkiped = (tableParameters.pageSize * pagesSkiped);
 
-            viewModel.MinDateInput = ReturnInMinAttrDateInputFormat(periodInitialDateString);
+            viewModel.MinDateInput = ReturnInMinAttrDateInputFormat(tableParameters.periodInitialDate);
             viewModel.TableName = "expense";
             viewModel.FilteredExpensesCount = filteredExpenses.Count();
             viewModel.ExpensesPeriodTotalAmount = expenses.Sum(e => e.Amount);
-            viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(tableFilterParameters.pageSize).ToListAsync();
+            viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(tableParameters.pageSize).ToListAsync();
 
             return viewModel;
         }
+
+
         [HttpGet]
         [ActionName("_ExpenseTablePartial")]
-        public async Task<IActionResult> _ExpenseTablePartial(/*Add table parameters option later, need to add it on front end too*/)
+        public async Task<IActionResult> _ExpenseTablePartial(TableParameters? tableParameters)
         {
-            
+            if (tableParameters == null)
+            {
+                tableParameters = new TableParameters();
+                tableParameters.setDefaultParameters();
+            }
+
             ViewModel viewModel = new ViewModel();
-            var tableParameters = new TableParameters();
-            tableParameters.setDefaultParameters();
-            var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+
+            viewModel = await ExpenseTablePartialViewModel(tableParameters);
             
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
@@ -219,7 +233,7 @@ namespace BudgetApp.Controllers
             var tableParameters = new TableParameters();
             tableParameters.setDefaultParameters();
             var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+            viewModel = await ExpenseTablePartialViewModel(tableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
@@ -276,7 +290,7 @@ namespace BudgetApp.Controllers
             var tableParameters = new TableParameters();
             tableParameters.setDefaultParameters();
             var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+            viewModel = await ExpenseTablePartialViewModel(tableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }    
@@ -300,7 +314,7 @@ namespace BudgetApp.Controllers
             var tableParameters = new TableParameters();
             tableParameters.setDefaultParameters();
             var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters, periodInitialDateString);
+            viewModel = await ExpenseTablePartialViewModel(tableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
