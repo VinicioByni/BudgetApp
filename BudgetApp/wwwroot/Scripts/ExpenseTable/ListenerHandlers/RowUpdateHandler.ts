@@ -1,4 +1,4 @@
-﻿import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js'
+﻿import { failMessage, successMessage } from "../../Services/messageHanlder.js"
 import { UpdateExpenseModelAction, UpdateExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
 import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
@@ -98,10 +98,10 @@ async function fetchExpenseFormDataUpdate(expenseData: UpdateExpenseModel) {
         const partialView = await response.text()
         partialViewContainer.innerHTML = partialView
         expenseTableFunctionality()
-        successfullChangeMessage('')
+        successMessage('Expense updated')
     }
     else {
-        failedChangeMessage('')
+        failMessage('Expense was not updated')
     }
 }
 

@@ -1,4 +1,4 @@
-﻿import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js'
+﻿import { failMessage, successMessage } from "../../Services/messageHanlder.js"
 import { CreateExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS, CreateExpenseModelAction } from '../Models/ModelTypes.js'
 import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
@@ -99,10 +99,10 @@ async function fetchExpenseAddFormData(expenseData: CreateExpenseModel) {
         const partialView = await response.text()
         partialViewContainer.innerHTML = partialView
         expenseTableFunctionality()
-        successfullChangeMessage('')
+        successMessage('Expense added')
     }
     else {
-        failedChangeMessage('')
+        failMessage('Expense was not added')
     }
 }
 

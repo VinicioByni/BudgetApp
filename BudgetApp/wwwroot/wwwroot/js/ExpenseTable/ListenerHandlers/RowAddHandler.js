@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js';
+import { failMessage, successMessage } from "../../Services/messageHanlder.js";
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
 import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
@@ -128,10 +128,10 @@ function fetchExpenseAddFormData(expenseData) {
                     partialView = _a.sent();
                     partialViewContainer.innerHTML = partialView;
                     expenseTableFunctionality();
-                    successfullChangeMessage('');
+                    successMessage('Expense added');
                     return [3 /*break*/, 4];
                 case 3:
-                    failedChangeMessage('');
+                    failMessage('Expense was not added');
                     _a.label = 4;
                 case 4: return [2 /*return*/];
             }

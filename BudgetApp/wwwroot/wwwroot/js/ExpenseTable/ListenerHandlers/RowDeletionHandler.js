@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { failedDeletionMessage, successfullDeletionMessage } from "../../Services/messageHanlder.js";
+import { failMessage, successMessage } from "../../Services/messageHanlder.js";
 import { expenseTableFunctionality } from "../TableFunctionality.js";
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 import { getTableParameters } from "../TableParameters/TableParameters.js";
@@ -76,10 +76,10 @@ function fetchExpenseRowDataDeletion(dataId) {
                     partialView = _a.sent();
                     partialViewContainer.innerHTML = partialView;
                     expenseTableFunctionality();
-                    successfullDeletionMessage('');
+                    successMessage('Expense deleted');
                     return [3 /*break*/, 4];
                 case 3:
-                    failedDeletionMessage('');
+                    failMessage('Expense was not deleted');
                     _a.label = 4;
                 case 4: return [2 /*return*/];
             }

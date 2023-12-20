@@ -1,17 +1,9 @@
-export function successfullChangeMessage(message) {
-    message = 'The change was successfull';
-    console.log(message);
+export function successMessage(message) {
+    var fullMessage = 'Success: ' + message;
+    console.log(fullMessage);
 }
-export function successfullDeletionMessage(message) {
-    message = 'The deletion was successfull';
-    console.log(message);
-}
-export function failedChangeMessage(message) {
-    message = 'The change failed';
-    console.log(message);
-}
-export function failedDeletionMessage(message) {
-    message = 'The deletion failed';
-    console.log(message);
+export function failMessage(message) {
+    var fullMessage = 'Unsuccessful: ' + message;
+    console.log(fullMessage);
 }
 //# sourceMappingURL=messageHanlder.js.map

@@ -1,4 +1,4 @@
-﻿import { failedDeletionMessage, successfullDeletionMessage } from "../../Services/messageHanlder.js"
+﻿import { failMessage, successMessage } from "../../Services/messageHanlder.js"
 import { expenseTableFunctionality } from "../TableFunctionality.js"
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 import { DeleteExpenseModel, DeleteExpenseModelAction } from "../Models/ModelTypes.js"
@@ -40,11 +40,11 @@ async function fetchExpenseRowDataDeletion(dataId: DeleteExpenseModel) {
         const partialView = await response.text()
         partialViewContainer.innerHTML = partialView
         expenseTableFunctionality()
-        successfullDeletionMessage('')
+        successMessage('Expense deleted')
        
     }
     else {
-        failedDeletionMessage('')
+        failMessage('Expense was not deleted')
     }
     
 }
