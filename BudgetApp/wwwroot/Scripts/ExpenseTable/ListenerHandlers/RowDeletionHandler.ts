@@ -1,14 +1,15 @@
 ﻿import { failedDeletionMessage, successfullDeletionMessage } from "../../Services/messageHanlder.js"
 import { expenseTableFunctionality } from "../TableFunctionality.js"
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
-import { ExpenseModelId } from "../Models/ModelTypes.js"
+import { DeleteExpenseModel, DeleteExpenseModelAction } from "../Models/ModelTypes.js"
+import { getTableParameters } from "../TableParameters/TableParameters.js"
 
 export function handleExpenseRowDeletion(form: HTMLFormElement) {
     const formData = new FormData(form)
 
     formData.forEach((value) => {
         const id = parseToNullableFloat(value.toString())
-        const dataId: ExpenseModelId = { 'id': id }
+        const dataId: DeleteExpenseModel = { 'id': id }
 
         fetchExpenseRowDataDeletion(dataId)
 
@@ -17,7 +18,13 @@ export function handleExpenseRowDeletion(form: HTMLFormElement) {
 
 
 
-async function fetchExpenseRowDataDeletion(dataId: ExpenseModelId) {
+async function fetchExpenseRowDataDeletion(dataId: DeleteExpenseModel) {
+
+    const deleteExpenseModelAction: DeleteExpenseModelAction = {
+        DeleteExpenseModel: dataId,
+        TableParameters: getTableParameters()
+    }
+
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
 
@@ -27,7 +34,7 @@ async function fetchExpenseRowDataDeletion(dataId: ExpenseModelId) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(dataId)
+        body: JSON.stringify(deleteExpenseModelAction)
     })
     if (response.ok) {
         const partialView = await response.text()

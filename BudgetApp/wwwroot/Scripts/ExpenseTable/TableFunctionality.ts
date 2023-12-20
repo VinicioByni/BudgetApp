@@ -3,9 +3,11 @@ import { handleExpenseRowUpdate, openEditing, cancelEditing } from './ListenerHa
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js'
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js'
 import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js'
+import { initializeTableParameters } from './TableParameters/TableParameters.js'
 
 
 loadExpenseTable()
+initializeTableParameters()
 async function loadExpenseTable() {
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
@@ -16,7 +18,6 @@ async function loadExpenseTable() {
         headers: {
             "Content-Type": "application/json"
         }
-        
     })
     if (response.ok) {
         const partialView = await response.text()

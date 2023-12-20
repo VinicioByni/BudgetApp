@@ -1,23 +1,35 @@
-import { loadTable } from '../CRUD/ReadLogic.js';
-import { defaultSearchString, defaultSearchDateString } from '../TableSettingsParameters/TableSettingsParameters.js';
-import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js';
-export var clearTableFilterSettings = function (tableVariant) {
-    var clearFiltersBtn = document.querySelector("#".concat(tableVariant, "ClearBtn"));
-    var searchInput = document.querySelector("#".concat(tableVariant, "SearchInput"));
-    var searchDateInput = document.querySelector("#".concat(tableVariant, "SearchDateInput"));
-    var clearedTableFilterParameters = getTableSettingsParameters(tableVariant);
-    clearedTableFilterParameters.filteringParameters.searchString = defaultSearchString;
-    clearedTableFilterParameters.filteringParameters.searchDateString = defaultSearchDateString;
+/*import { loadTable } from '../CRUD/ReadLogic.js'
+import { defaultSearchString, defaultSearchDateString } from '../TableSettingsParameters/TableSettingsParameters.js'
+import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
+
+
+export const clearTableFilterSettings = function (tableVariant) {
+
+    const clearFiltersBtn = document.querySelector(`#${tableVariant}ClearBtn`)
+  
+    const searchInput = document.querySelector(`#${tableVariant}SearchInput`)
+    const searchDateInput = document.querySelector(`#${tableVariant}SearchDateInput`)
+
+    const clearedTableFilterParameters = getTableSettingsParameters(tableVariant)
+    clearedTableFilterParameters.filteringParameters.searchString = defaultSearchString
+    clearedTableFilterParameters.filteringParameters.searchDateString = defaultSearchDateString
+
     clearFiltersBtn.addEventListener('click', function () {
-        setTableSettingsParameters(tableVariant, clearedTableFilterParameters);
-        var tableSettingsParameters = getTableSettingsParameters(tableVariant);
+        setTableSettingsParameters(tableVariant, clearedTableFilterParameters)
+
+        const tableSettingsParameters = getTableSettingsParameters(tableVariant)
+
         if (searchInput instanceof HTMLInputElement) {
-            searchInput.value = tableSettingsParameters.filteringParameters.searchString;
+            searchInput.value = tableSettingsParameters.filteringParameters.searchString
         }
         if (searchDateInput instanceof HTMLInputElement) {
-            searchDateInput.value = tableSettingsParameters.filteringParameters.searchDateString;
+            searchDateInput.value = tableSettingsParameters.filteringParameters.searchDateString
         }
-        loadTable(tableVariant);
-    });
-};
+
+        loadTable(tableVariant)
+    })
+
+    
+}
+*/ 
 //# sourceMappingURL=ClearTableFilterSettings.js.map

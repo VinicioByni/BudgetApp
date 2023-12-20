@@ -1,40 +1,56 @@
-import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js';
-import { safeToString } from '../../Utilities/StringUtilities.js';
-import { loadTable } from '../CRUD/ReadLogic.js';
-import { defaultSearchString } from '../TableSettingsParameters/TableSettingsParameters.js';
-var activeInputBorderColor = "#1c7fce";
-export var filterTable = function (tableVariant) {
-    var tableSettingsParameters = getTableSettingsParameters(tableVariant);
-    var searchInput = document.querySelector("#".concat(tableVariant, "SearchInput"));
+/*import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
+import { safeToString } from '../../Utilities/StringUtilities.js'
+import { loadTable } from '../CRUD/ReadLogic.js'
+import { defaultSearchString } from '../TableSettingsParameters/TableSettingsParameters.js'
+
+const activeInputBorderColor = "#1c7fce"
+
+export const filterTable = function(tableVariant: string) {
+
+    const tableSettingsParameters = getTableSettingsParameters(tableVariant)
+
+    const searchInput = document.querySelector(`#${tableVariant}SearchInput`)
     if (searchInput instanceof HTMLInputElement) {
-        searchInput.value = tableSettingsParameters.filteringParameters.searchString;
+        searchInput.value = tableSettingsParameters.filteringParameters.searchString
+
         if (searchInput.value !== defaultSearchString) {
-            searchInput.style.borderColor = activeInputBorderColor;
+            searchInput.style.borderColor = activeInputBorderColor
         }
     }
-    var searchDateInput = document.querySelector("#".concat(tableVariant, "SearchDateInput"));
+
+    const searchDateInput = document.querySelector(`#${tableVariant}SearchDateInput`)
     if (searchDateInput instanceof HTMLInputElement) {
-        searchDateInput.value = tableSettingsParameters.filteringParameters.searchDateString;
+        searchDateInput.value = tableSettingsParameters.filteringParameters.searchDateString
+
         if (searchDateInput.value !== defaultSearchString) {
-            searchDateInput.style.borderColor = activeInputBorderColor;
+            searchDateInput.style.borderColor = activeInputBorderColor
         }
     }
+
     // Search
-    var searchForm = document.querySelector("#".concat(tableVariant, "SearchForm"));
+    const searchForm = document.querySelector(`#${tableVariant}SearchForm`)
+    
     searchForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+        event.preventDefault()
+
         if (event.target instanceof HTMLFormElement) {
-            var formData = new FormData(event.target);
-            var searchValue = safeToString(formData.get('search'), "");
-            var searchDateValue = safeToString(formData.get('searchDate'), "");
-            tableSettingsParameters.filteringParameters.searchString = searchValue;
-            tableSettingsParameters.filteringParameters.searchDateString = searchDateValue;
-            setTableSettingsParameters(tableVariant, tableSettingsParameters);
-            loadTable(tableVariant);
+            const formData = new FormData(event.target)
+            const searchValue = safeToString(formData.get('search'), "")
+            const searchDateValue = safeToString(formData.get('searchDate'), "")
+
+            tableSettingsParameters.filteringParameters.searchString = searchValue
+            tableSettingsParameters.filteringParameters.searchDateString = searchDateValue
+            setTableSettingsParameters(tableVariant, tableSettingsParameters)
+            loadTable(tableVariant)
         }
         else {
-            Error('Filter table input error');
+            Error('Filter table input error')
         }
-    });
-};
+    })
+
+
+  
+}
+
+*/
 //# sourceMappingURL=FiltersFunctions.js.map

@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { failedDeletionMessage, successfullDeletionMessage } from "../../Services/messageHanlder.js";
 import { expenseTableFunctionality } from "../TableFunctionality.js";
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
+import { getTableParameters } from "../TableParameters/TableParameters.js";
 export function handleExpenseRowDeletion(form) {
     var formData = new FormData(form);
     formData.forEach(function (value) {
@@ -47,10 +48,14 @@ export function handleExpenseRowDeletion(form) {
 }
 function fetchExpenseRowDataDeletion(dataId) {
     return __awaiter(this, void 0, void 0, function () {
-        var partialViewContainer, url, response, partialView;
+        var deleteExpenseModelAction, partialViewContainer, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    deleteExpenseModelAction = {
+                        DeleteExpenseModel: dataId,
+                        TableParameters: getTableParameters()
+                    };
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
@@ -61,7 +66,7 @@ function fetchExpenseRowDataDeletion(dataId) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify(dataId)
+                            body: JSON.stringify(deleteExpenseModelAction)
                         })];
                 case 1:
                     response = _a.sent();

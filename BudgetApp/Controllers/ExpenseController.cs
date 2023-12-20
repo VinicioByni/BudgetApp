@@ -1,8 +1,9 @@
-﻿using BudgetApp.Classes;
+﻿
 using BudgetApp.Data;
 using BudgetApp.Models;
 using BudgetApp.Models.Expense_Models;
 using BudgetApp.Models.Common_Models;
+using BudgetApp.Models.ExpenseControllerModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -156,8 +157,24 @@ namespace BudgetApp.Controllers
             return View(model);
         }
 
-        public async Task<ViewModel> ExpenseTablePartialViewModel(TableParameters tableParameters)
+        public async Task<ViewModel> ExpenseTablePartialViewModel(TableParameters? tableParameters)
         {
+            if (tableParameters == null)
+            {
+                tableParameters  = new TableParameters();
+                
+            }
+            tableParameters.setDefaultParameters();
+            /* 
+                Pending!
+                    --Add logic for the empty or wrong parameters for protection
+                    --If necessary make it into a function
+                        --Take into account the pageSize, always reset it
+                        --Page number cannot be less than 1, or bigger than the number 
+                        possible pages
+                        --period initial date always check its the first of some month
+             */
+
             ViewModel viewModel = new ViewModel();
 
             viewModel = generalViewModels();
@@ -181,7 +198,7 @@ namespace BudgetApp.Controllers
 
         [HttpGet]
         [ActionName("_ExpenseTablePartial")]
-        public async Task<IActionResult> _ExpenseTablePartial(TableParameters? tableParameters)
+        public async Task<IActionResult> _ExpenseTablePartial([FromBody]TableParameters tableParameters)
         {
             if (tableParameters == null)
             {
@@ -190,7 +207,6 @@ namespace BudgetApp.Controllers
             }
 
             ViewModel viewModel = new ViewModel();
-
             viewModel = await ExpenseTablePartialViewModel(tableParameters);
             
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
@@ -199,8 +215,9 @@ namespace BudgetApp.Controllers
 
         [HttpPost]
         [ActionName("AddExpense")]
-        public async Task<IActionResult> AddExpense([FromBody]Expense expense)
+        public async Task<IActionResult> AddExpense([FromBody]CreateExpenseModelAction createExpenseModelAction)
         {
+            var expense = createExpenseModelAction.CreateExpenseModel;
             if (expense.Description == null)
             {
                 expense.Description = string.Empty;
@@ -210,18 +227,17 @@ namespace BudgetApp.Controllers
             await _budgetDbContext.SaveChangesAsync();
 
             ViewModel viewModel = new ViewModel();
-            var tableParameters = new TableParameters();
-            tableParameters.setDefaultParameters();
-            var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters);
+            
+            viewModel = await ExpenseTablePartialViewModel(createExpenseModelAction.TableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
 
         [HttpPut]
         [ActionName("EditExpense")]
-        public async Task<IActionResult> EditExpense([FromBody]Expense expense)
+        public async Task<IActionResult> EditExpense([FromBody]UpdateExpenseModelAction updateExpenseModelAction)
         {
+            var expense = updateExpenseModelAction.UpdateExpenseModel;
 
             var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
             if (dBExpense == null)
@@ -265,12 +281,12 @@ namespace BudgetApp.Controllers
             
             _budgetDbContext.Expenses.Update(dBExpense);
             await _budgetDbContext.SaveChangesAsync();
-
+           
             ViewModel viewModel = new ViewModel();
-            var tableParameters = new TableParameters();
-            tableParameters.setDefaultParameters();
-            var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters);
+
+            
+
+            viewModel = await ExpenseTablePartialViewModel(updateExpenseModelAction.TableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }    
@@ -278,10 +294,11 @@ namespace BudgetApp.Controllers
 
         [HttpDelete]
         [ActionName("DeleteExpense")]
-        public async Task<IActionResult> DeleteExpense([FromBody]ExpenseId expense)
+        public async Task<IActionResult> DeleteExpense([FromBody] DeleteExpenseModelAction deleteExpenseModelAction)
         {
-            var id = expense.id;
-            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == id);
+            var expense = deleteExpenseModelAction.DeleteExpenseModel;
+           
+            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
             if (dBExpense == null)
             {
                 return NotFound();
@@ -291,10 +308,8 @@ namespace BudgetApp.Controllers
 
 
             ViewModel viewModel = new ViewModel();
-            var tableParameters = new TableParameters();
-            tableParameters.setDefaultParameters();
-            var periodInitialDateString = string.Empty;
-            viewModel = await ExpenseTablePartialViewModel(tableParameters);
+
+            viewModel = await ExpenseTablePartialViewModel(deleteExpenseModelAction.TableParameters);
 
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }

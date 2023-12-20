@@ -1,4 +1,4 @@
-﻿import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
+﻿/*import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
 import { defaultTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParameters.js'
 import { safeParseInt } from '../../Utilities/ParseUtilities.js'
 import { loadTable } from '../CRUD/ReadLogic.js'
@@ -243,7 +243,7 @@ export const pagingTable = function (tableVariant: string) {
 
 }
 
-
+*/
     
 
 

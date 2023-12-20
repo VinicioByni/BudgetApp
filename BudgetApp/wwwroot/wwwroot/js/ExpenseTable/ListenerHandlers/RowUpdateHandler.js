@@ -39,6 +39,7 @@ import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/
 import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js';
+import { getTableParameters } from '../TableParameters/TableParameters.js';
 export function handleExpenseRowUpdate(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -99,10 +100,15 @@ function getFormattedCurrentDate() {
 }
 function fetchExpenseFormDataUpdate(expenseData) {
     return __awaiter(this, void 0, void 0, function () {
-        var partialViewContainer, url, response, partialView;
+        var updateExpenseModelAction, TableParameters, partialViewContainer, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    updateExpenseModelAction = {
+                        UpdateExpenseModel: expenseData,
+                        TableParameters: getTableParameters()
+                    };
+                    TableParameters = getTableParameters();
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
@@ -113,7 +119,7 @@ function fetchExpenseFormDataUpdate(expenseData) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify(expenseData)
+                            body: JSON.stringify(updateExpenseModelAction)
                         })];
                 case 1:
                     response = _a.sent();

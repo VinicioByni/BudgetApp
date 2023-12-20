@@ -1,4 +1,4 @@
-﻿import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
+﻿/*import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
 import { loadTable } from '../CRUD/ReadLogic.js'
 
 
@@ -38,4 +38,4 @@ export const sortTable = function (tableVariant: string) {
         })
 
     })
-}
+}*/

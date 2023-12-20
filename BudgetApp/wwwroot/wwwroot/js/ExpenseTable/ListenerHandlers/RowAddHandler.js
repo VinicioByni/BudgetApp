@@ -39,6 +39,7 @@ import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/
 import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js";
+import { getTableParameters } from '../TableParameters/TableParameters.js';
 export function handleExpenseAddRow(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -52,10 +53,27 @@ function parseExpenseFormData(formData) {
             formDataObject[key] = null;
             continue;
         }
-        var value = formData.get(key);
-        formDataObject[key] = value.toString();
+        if (key === EXPENSE_MODEL_STRINGS.payment) {
+            fillPaymentMethods(formDataObject, formData, key);
+        }
+        else {
+            var value = formData.get(key);
+            formDataObject[key] = value.toString();
+        }
     }
     return formDataObject;
+}
+function fillPaymentMethods(formDataObject, formData, key) {
+    var paymentMethod = formData.get(key).toString().split('-', 1).join();
+    var paymentMethodId = formData.get(key).toString().split('-').slice(1, 2).join();
+    for (var paymentKey in EXPENSE_MODEL_PAYMENT_STRINGS) {
+        if (paymentMethod === paymentKey) {
+            formDataObject[paymentKey] = paymentMethodId;
+        }
+        else {
+            formDataObject[paymentKey] = null;
+        }
+    }
 }
 function createExpenseModel(formDataObject) {
     /* parseToNullableFloat is used to simplify the data sent to the api
@@ -82,14 +100,17 @@ function getFormattedCurrentDate() {
 }
 function fetchExpenseAddFormData(expenseData) {
     return __awaiter(this, void 0, void 0, function () {
-        var partialViewContainer, url, response, partialView;
+        var createExpenseModelAction, partialViewContainer, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    createExpenseModelAction = {
+                        CreateExpenseModel: expenseData,
+                        TableParameters: getTableParameters()
+                    };
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
-                    console.log(expenseData);
                     url = 'Expense/AddExpense' // Separate later to endpoint url folder
                     ;
                     return [4 /*yield*/, fetch(url, {
@@ -97,7 +118,7 @@ function fetchExpenseAddFormData(expenseData) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify(expenseData)
+                            body: JSON.stringify(createExpenseModelAction)
                         })];
                 case 1:
                     response = _a.sent();

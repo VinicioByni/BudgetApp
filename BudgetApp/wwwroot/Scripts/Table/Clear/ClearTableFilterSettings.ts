@@ -1,4 +1,4 @@
-﻿import { loadTable } from '../CRUD/ReadLogic.js'
+﻿/*import { loadTable } from '../CRUD/ReadLogic.js'
 import { defaultSearchString, defaultSearchDateString } from '../TableSettingsParameters/TableSettingsParameters.js'
 import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
 
@@ -31,3 +31,4 @@ export const clearTableFilterSettings = function (tableVariant) {
 
     
 }
+*/

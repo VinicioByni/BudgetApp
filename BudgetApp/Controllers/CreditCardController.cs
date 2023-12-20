@@ -1,6 +1,5 @@
 ﻿using BudgetApp.Data;
 using BudgetApp.Models;
-using BudgetApp.Classes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -93,7 +92,7 @@ namespace BudgetApp.Controllers
         [ActionName("GetCreditCardColor")]
         public async Task<IActionResult> GetCreditCardColor()
         {
-            var colors = await _budgetDbContext.CreditCards.Select(c => new Color() { id = c.CreditCardId, color = c.Color}).ToListAsync();
+            var colors = await _budgetDbContext.CreditCards.ToListAsync(); /*.Select(c => new Color() { id = c.CreditCardId, color = c.Color}).ToListAsync();*/
             return Json(colors);
         }
 

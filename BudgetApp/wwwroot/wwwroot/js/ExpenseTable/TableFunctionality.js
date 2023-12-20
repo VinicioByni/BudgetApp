@@ -39,7 +39,9 @@ import { handleExpenseRowUpdate, openEditing, cancelEditing } from './ListenerHa
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
 import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js';
+import { initializeTableParameters } from './TableParameters/TableParameters.js';
 loadExpenseTable();
+initializeTableParameters();
 function loadExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
         var partialViewContainer, url, response, partialView;

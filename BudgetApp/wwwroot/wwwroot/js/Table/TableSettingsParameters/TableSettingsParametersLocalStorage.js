@@ -1,55 +1,79 @@
-import { isLocalStorageAvailable } from '../../Utilities/LocalStorageUtilities.js';
-var fallBackStorage = {};
-export var areTableSettingsParametersSet = function (tableVariant) {
-    var tableSettingsParametersString;
+// import { tableVariant } from './'
+/*import { TableSettingsParameters } from './TableSettingsParameters.js'
+import { isLocalStorageAvailable } from '../../Utilities/LocalStorageUtilities.js'
+
+let fallBackStorage: Record<string, string> = {}
+
+export const areTableSettingsParametersSet = function (tableVariant: string) {
+    let tableSettingsParametersString:string
     if (isLocalStorageAvailable) {
-        tableSettingsParametersString = localStorage.getItem("".concat(tableVariant, "TableSettingsParameters"));
+        tableSettingsParametersString = localStorage.getItem(`${tableVariant}TableSettingsParameters`)
     }
     else {
-        tableSettingsParametersString = fallBackStorage["".concat(tableVariant, "TableSettingsParameters")];
+        tableSettingsParametersString = fallBackStorage[`${tableVariant}TableSettingsParameters`]
     }
+    
     if (tableSettingsParametersString === null || tableSettingsParametersString === undefined) {
-        return false;
+        return false
     }
-    var tableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}');
-    var pageNumber = tableSettingsParameters.pagingParameters.pageNumber;
+
+    const tableSettingsParameters: TableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}')
+
+    const pageNumber = tableSettingsParameters.pagingParameters.pageNumber
     if (isValidPageNumber(pageNumber)) {
-        return true;
+        return true
     }
     else if (isLocalStorageAvailable) {
-        localStorage.setItem("".concat(tableVariant, "TableSettingsParameters"), null);
-        return false;
+        localStorage.setItem(`${tableVariant}TableSettingsParameters`, null)
+
+        return false
     }
     else {
-        fallBackStorage["".concat(tableVariant, "TableSettingsParameters")] = null;
-        return false;
+        fallBackStorage[`${tableVariant}TableSettingsParameters`] = null
+
+        return false
     }
-};
+    
+}
+
 function isValidPageNumber(number) {
     if (number < 1) {
-        return false;
+        return false
     }
-    return true;
+    return true
 }
-export var setTableSettingsParameters = function (tableVariant, tableSettingsParameters) {
-    var tableSettingsParametersString = JSON.stringify(tableSettingsParameters);
+
+
+export const setTableSettingsParameters = function (tableVariant: string, tableSettingsParameters: TableSettingsParameters) {
+    const tableSettingsParametersString = JSON.stringify(tableSettingsParameters)
+
     if (isLocalStorageAvailable()) {
-        localStorage.setItem("".concat(tableVariant, "TableSettingsParameters"), tableSettingsParametersString);
+        localStorage.setItem(`${tableVariant}TableSettingsParameters`, tableSettingsParametersString)
     }
     else {
-        fallBackStorage["".concat(tableVariant, "TableSettingsParameters")] = tableSettingsParametersString;
+        fallBackStorage[`${tableVariant}TableSettingsParameters`] = tableSettingsParametersString
     }
-};
-export var getTableSettingsParameters = function (tableVariant) {
+
+}
+
+
+export const getTableSettingsParameters = function (tableVariant:string):TableSettingsParameters {
+
     if (isLocalStorageAvailable()) {
-        var tableSettingsParametersString = localStorage.getItem("".concat(tableVariant, "TableSettingsParameters"));
-        var tableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}');
-        return tableSettingsParameters;
+        const tableSettingsParametersString = localStorage.getItem(`${tableVariant}TableSettingsParameters`)
+        const tableSettingsParameters: TableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}')
+
+        return tableSettingsParameters
     }
     else {
-        var tableSettingsParametersString = fallBackStorage["".concat(tableVariant, "TableSettingsParameters")];
-        var tableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}');
-        return tableSettingsParameters;
+        const tableSettingsParametersString = fallBackStorage[`${tableVariant}TableSettingsParameters`]
+        const tableSettingsParameters: TableSettingsParameters = JSON.parse(tableSettingsParametersString || '{}')
+
+        return tableSettingsParameters
     }
-};
+    
+}
+
+
+*/ 
 //# sourceMappingURL=TableSettingsParametersLocalStorage.js.map

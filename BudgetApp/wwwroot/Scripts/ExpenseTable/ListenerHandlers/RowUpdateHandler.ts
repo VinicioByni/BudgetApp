@@ -1,9 +1,9 @@
 ﻿import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js'
-import { ExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
+import { UpdateExpenseModelAction, UpdateExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
 import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js'
-
+import { getTableParameters, initializeTableParameters } from '../TableParameters/TableParameters.js'
 export function handleExpenseRowUpdate(form: HTMLFormElement) {
     const formData = new FormData(form)
 
@@ -38,7 +38,6 @@ function parseExpenseFormData(formData: FormData): Record<string, string> {
 function fillPaymentMethods(formDataObject: Record<string, string>, formData: FormData, key: string) {
     const paymentMethod = formData.get(key).toString().split('-', 1).join()
     const paymentMethodId = formData.get(key).toString().split('-').slice(1, 2).join()
-
     for (const paymentKey in EXPENSE_MODEL_PAYMENT_STRINGS) {
         if (paymentMethod === paymentKey) {
             formDataObject[paymentKey] = paymentMethodId
@@ -49,10 +48,10 @@ function fillPaymentMethods(formDataObject: Record<string, string>, formData: Fo
     }
 }
 
-function createExpenseModel(formDataObject: Record<string, string>): ExpenseModel {
+function createExpenseModel(formDataObject: Record<string, string>): UpdateExpenseModel {
     /* parseToNullableFloat is used to simplify the data sent to the api
         by either sending a string | number | null */
-    const expenseDataModel: ExpenseModel = {
+    const expenseDataModel: UpdateExpenseModel = {
         id: parseToNullableFloat(formDataObject[EXPENSE_MODEL_STRINGS.id]),
         amount: parseFloat(formDataObject[EXPENSE_MODEL_STRINGS.amount]) || 0,
         date: formDataObject[EXPENSE_MODEL_STRINGS.date] || getFormattedCurrentDate(),
@@ -76,18 +75,24 @@ function getFormattedCurrentDate(): string {
     return currentDate
 }
 
-async function fetchExpenseFormDataUpdate(expenseData: ExpenseModel) {
+async function fetchExpenseFormDataUpdate(expenseData: UpdateExpenseModel) {
 
+    const updateExpenseModelAction: UpdateExpenseModelAction = {
+        UpdateExpenseModel: expenseData,
+        TableParameters: getTableParameters()
+    }
+
+    const TableParameters = getTableParameters()
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
-
+    
     const url = 'Expense/EditExpense' // Separate later to endpoint url folder
     const response = await fetch(url, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(expenseData)
+        body: JSON.stringify(updateExpenseModelAction)
     })
     if (response.ok) {
         const partialView = await response.text()

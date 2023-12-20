@@ -10,7 +10,7 @@ namespace BudgetApp.Models.ExpenseControllerModels
         public DateTime Date { get; set; }
         [StringLength(40)]
         public string Description { get; set; } = string.Empty;
-        public int? ExpenseCategoryId { get; set; }
+        public int ExpenseCategoryId { get; set; }
         public virtual ExpenseCategory? ExpenseCategory { get; set; }
         public int? AccountId { get; set; }
         public virtual Account? Account { get; set; }

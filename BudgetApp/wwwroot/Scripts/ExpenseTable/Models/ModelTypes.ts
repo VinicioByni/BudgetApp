@@ -1,17 +1,40 @@
-﻿export type ExpenseModel = {
+﻿import { type TableParameters} from '../Models/TableParametersType.js'
+
+export type CreateExpenseModel = {
     id: number
     amount: number
     date: string
-    description?: string
     expenseCategoryId: number
+    description?: string
     accountId?: number
     creditCardId?: number
     debtId?: number
 }
 
-export type ExpenseModelId = {
+export type UpdateExpenseModel = CreateExpenseModel
+
+export type DeleteExpenseModel = {
     id: number
 }
+
+export type CreateExpenseModelAction = {
+    CreateExpenseModel: CreateExpenseModel,
+    TableParameters?: TableParameters
+}
+
+export type UpdateExpenseModelAction = {
+    UpdateExpenseModel: UpdateExpenseModel,
+    TableParameters ?: TableParameters
+}
+
+export type DeleteExpenseModelAction = {
+    DeleteExpenseModel: DeleteExpenseModel,
+    TableParameters?: TableParameters
+}
+
+
+
+
 
 export const EXPENSE_MODEL_STRINGS = {
     id: 'id',

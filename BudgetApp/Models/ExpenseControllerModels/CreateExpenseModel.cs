@@ -1,14 +1,11 @@
 ﻿using BudgetApp.Models.Common_Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BudgetApp.Models.ExpenseControllerModels
 {
-    public class CreateExpenseModel
-    {
-        public int Id { get; set; }
-    }
     public class CreateExpenseModelAction
     {
-        public CreateExpenseModel CreateExpenseModel { get; set; }
+        public Expense CreateExpenseModel { get; set; }
         public TableParameters? TableParameters { get; set; }
     }
 }

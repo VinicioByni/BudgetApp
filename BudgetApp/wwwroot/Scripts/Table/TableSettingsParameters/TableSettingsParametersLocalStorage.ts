@@ -1,5 +1,5 @@
 ﻿// import { tableVariant } from './'
-import { TableSettingsParameters } from './TableSettingsParameters.js'
+/*import { TableSettingsParameters } from './TableSettingsParameters.js'
 import { isLocalStorageAvailable } from '../../Utilities/LocalStorageUtilities.js'
 
 let fallBackStorage: Record<string, string> = {}
@@ -75,3 +75,4 @@ export const getTableSettingsParameters = function (tableVariant:string):TableSe
 }
 
 
+*/

@@ -1,8 +1,9 @@
 ﻿import { failedChangeMessage, successfullChangeMessage } from '../../Services/messageHanlder.js'
-import { ExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js'
+import { CreateExpenseModel, EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS, CreateExpenseModelAction } from '../Models/ModelTypes.js'
 import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js"
+import { getTableParameters } from '../TableParameters/TableParameters.js'
 
 export function handleExpenseAddRow(form: HTMLFormElement) {
     const formData = new FormData(form)
@@ -22,20 +23,37 @@ function parseExpenseFormData(formData: FormData): Record<string, string> {
             formDataObject[key] = null
             continue
         }
+        if (key === EXPENSE_MODEL_STRINGS.payment) {
+            fillPaymentMethods(formDataObject, formData, key)
+        }
+        else {
+            const value = formData.get(key)
 
-        const value = formData.get(key)
-
-        formDataObject[key] = value.toString()
-        
+            formDataObject[key] = value.toString()
+        }
     }
 
     return formDataObject
 }
 
-function createExpenseModel(formDataObject: Record<string, string>): ExpenseModel {
+function fillPaymentMethods(formDataObject: Record<string, string>, formData: FormData, key: string) {
+    const paymentMethod = formData.get(key).toString().split('-', 1).join()
+    const paymentMethodId = formData.get(key).toString().split('-').slice(1, 2).join()
+
+    for (const paymentKey in EXPENSE_MODEL_PAYMENT_STRINGS) {
+        if (paymentMethod === paymentKey) {
+            formDataObject[paymentKey] = paymentMethodId
+        }
+        else {
+            formDataObject[paymentKey] = null
+        }
+    }
+}
+
+function createExpenseModel(formDataObject: Record<string, string>): CreateExpenseModel {
     /* parseToNullableFloat is used to simplify the data sent to the api
         by either sending a string | number | null */
-    const expenseDataModel: ExpenseModel = {
+    const expenseDataModel: CreateExpenseModel = {
         id: parseFloat(formDataObject[EXPENSE_MODEL_STRINGS.id]) || 0,
         amount: parseFloat(formDataObject[EXPENSE_MODEL_STRINGS.amount]) || 0,
         date: formDataObject[EXPENSE_MODEL_STRINGS.date] || getFormattedCurrentDate(),
@@ -59,18 +77,23 @@ function getFormattedCurrentDate(): string {
     return currentDate
 }
 
-async function fetchExpenseAddFormData(expenseData: ExpenseModel) {
+async function fetchExpenseAddFormData(expenseData: CreateExpenseModel) {
+
+    const createExpenseModelAction: CreateExpenseModelAction = {
+        CreateExpenseModel: expenseData,
+        TableParameters: getTableParameters()
+    }
 
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
-    console.log(expenseData)
+    
     const url = 'Expense/AddExpense' // Separate later to endpoint url folder
     const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(expenseData)
+        body: JSON.stringify(createExpenseModelAction)
     })
     if (response.ok) {
         const partialView = await response.text()

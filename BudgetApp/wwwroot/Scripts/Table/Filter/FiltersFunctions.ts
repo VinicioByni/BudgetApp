@@ -1,4 +1,4 @@
-﻿import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
+﻿/*import { getTableSettingsParameters, setTableSettingsParameters } from '../TableSettingsParameters/TableSettingsParametersLocalStorage.js'
 import { safeToString } from '../../Utilities/StringUtilities.js'
 import { loadTable } from '../CRUD/ReadLogic.js'
 import { defaultSearchString } from '../TableSettingsParameters/TableSettingsParameters.js'
@@ -52,6 +52,6 @@ export const filterTable = function(tableVariant: string) {
   
 }
 
-
+*/
 
 
