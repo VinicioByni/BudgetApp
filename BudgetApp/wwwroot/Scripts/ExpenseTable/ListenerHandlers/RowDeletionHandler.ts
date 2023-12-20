@@ -12,7 +12,6 @@ export function handleExpenseRowDeletion(form: HTMLFormElement) {
         const dataId: DeleteExpenseModel = { 'id': id }
 
         fetchExpenseRowDataDeletion(dataId)
-
     })
 }
 

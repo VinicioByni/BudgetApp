@@ -22,10 +22,12 @@ export function handleMasterCheckbox(masterCheckbox, rowsCheckbox) {
 }
 export function handleRowsCheckbox(masterCheckbox, rowsCheckbox, checkbox) {
     var isChecked = checkbox.checked;
-    if (isChecked)
+    if (isChecked) {
         addCheckboxCount(rowsCheckbox.length);
-    else
+    }
+    else {
         substractCheckboxCount();
+    }
     if (rowsCheckboxCounter === 0)
         masterCheckbox.checked = false;
 }
@@ -37,6 +39,10 @@ export function updateDeleteBtnAvailability() {
         deleteBtn.disabled = false;
     else
         deleteBtn.disabled = true;
+}
+export function resetCheckboxCounter() {
+    rowsCheckboxCounter = 0;
+    updateDeleteBtnAvailability();
 }
 function addCheckboxCount(totalCheckboxes) {
     if (rowsCheckboxCounter != totalCheckboxes) {

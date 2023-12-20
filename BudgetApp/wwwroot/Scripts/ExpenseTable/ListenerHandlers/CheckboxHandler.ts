@@ -24,8 +24,12 @@ export function handleMasterCheckbox(masterCheckbox: HTMLInputElement, rowsCheck
 export function handleRowsCheckbox(masterCheckbox: HTMLInputElement, rowsCheckbox: NodeListOf<Element>, checkbox: HTMLInputElement) {
     let isChecked = checkbox.checked
 
-    if (isChecked) addCheckboxCount(rowsCheckbox.length)
-    else substractCheckboxCount()
+    if (isChecked) {
+        addCheckboxCount(rowsCheckbox.length)
+    }
+    else {
+        substractCheckboxCount()
+    }
 
     if (rowsCheckboxCounter === 0) masterCheckbox.checked = false
 }
@@ -38,6 +42,10 @@ export function updateDeleteBtnAvailability() {
     else deleteBtn.disabled = true
 }
 
+export function resetCheckboxCounter() {
+    rowsCheckboxCounter = 0
+    updateDeleteBtnAvailability()
+}
 function addCheckboxCount(totalCheckboxes: number) {
     if (rowsCheckboxCounter != totalCheckboxes) {
         rowsCheckboxCounter++

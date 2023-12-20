@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { openDetails } from './ListenerHandlers/RowDetailsHandler.js';
 import { handleExpenseRowUpdate, openEditing, cancelEditing } from './ListenerHandlers/RowUpdateHandler.js';
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
-import { handleMasterCheckbox, handleRowsCheckbox, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
+import { handleMasterCheckbox, handleRowsCheckbox, resetCheckboxCounter, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
 import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js';
 import { initializeTableParameters } from './TableParameters/TableParameters.js';
 loadExpenseTable();
@@ -191,6 +191,7 @@ function setUpDeleteFormListener(table) {
         if (!(form instanceof HTMLFormElement))
             return;
         handleExpenseRowDeletion(form);
+        resetCheckboxCounter();
     });
 }
 function setUpCheckboxListener(table) {
