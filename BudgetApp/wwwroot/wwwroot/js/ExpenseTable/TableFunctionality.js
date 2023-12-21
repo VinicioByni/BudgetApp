@@ -3,7 +3,7 @@ import { handleExpenseRowUpdate, openEditing, cancelEditing } from './ListenerHa
 import { handleExpenseRowDeletion } from './ListenerHandlers/RowDeletionHandler.js';
 import { handleMasterCheckbox, handleRowsCheckbox, resetCheckboxCounter, updateDeleteBtnAvailability } from './ListenerHandlers/CheckboxHandler.js';
 import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js';
-import { getTableParameters, initializeTableParameters } from './TableParameters/TableParameters.js';
+import { getTableParameters, initializeTableParameters, updateTableParametersState } from './TableParameters/TableParameters.js';
 import { getExpenseTable } from './ListenerHandlers/GetTableHandler.js';
 initializeTableParameters();
 getExpenseTable();
@@ -12,6 +12,7 @@ export function expenseTableFunctionality() {
     if (!(table instanceof HTMLTableElement) || table == null)
         return;
     setUpListeners(table);
+    updateTableParametersState();
 }
 function setUpListeners(table) {
     setUpOpenEditingListener(table);

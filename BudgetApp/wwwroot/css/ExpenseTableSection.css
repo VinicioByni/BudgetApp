@@ -76,13 +76,20 @@
                         height: var(--height);
                         border-top-right-radius: 0;
                         border-bottom-right-radius: 0;
+                        border-right: 1px solid var(--element-background-500);
                         color: var(--typography-color-100);
                     }
+                        .expense-table-section .search-bar-container .search-form-input-container .input-container input[data-active="true"] {
+                            outline: 1px solid var(--primary-color-500);
+                        }
                         .expense-table-section .search-bar-container .search-form-input-container .input-container input::placeholder {
                             color: var(--typography-color-500);
                         }
+                            .expense-table-section .search-bar-container .search-form-input-container .input-container input[data-active="true"] + button {
+                                outline: 1px solid var(--primary-color-500);
+                            }
+
                         .expense-table-section .search-bar-container .search-form-input-container .input-container .search-btn {
-                            border-left: 1px solid var(--element-background-500);
                             height: var(--height);
                             padding-inline: 8px;
                             margin-left: -8px;
@@ -91,11 +98,11 @@
                             display: inline-flex;
                             align-items: center;
                         }
-                            .expense-table-section .search-bar-container .search-form-input-container .input-container .search-btn .svg {
-                                stroke: var(--typography-color-300);
-                                width: 20px;
-                                height: 20px;
-                            }
+                        .expense-table-section .search-bar-container .search-form-input-container .input-container .search-btn .svg {
+                            stroke: var(--typography-color-300);
+                            width: 20px;
+                            height: 20px;
+                        }
 
 
 
