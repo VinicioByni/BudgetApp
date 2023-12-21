@@ -26,6 +26,7 @@
         }
         .expense-table-section .search-bar-container .add-btn,
         .expense-table-section .search-bar-container .delete-btn,
+        .expense-table-section .search-bar-container .clear-table-parameters-btn,
         .expense-table-section .search-bar-container .search-form-input-container,
         .expense-table-section .search-bar-container .search-form-input-container input {
             font-size: var(--small-fs);
@@ -33,7 +34,8 @@
             height: var(--height);
         }
         .expense-table-section .search-bar-container .add-btn,
-        .expense-table-section .search-bar-container .delete-btn {
+        .expense-table-section .search-bar-container .delete-btn,
+        .expense-table-section .search-bar-container .clear-table-parameters-btn {
             color: var(--typography-color-100);
             padding-inline: 12px;
             border-radius: 12px;
@@ -55,6 +57,24 @@
             .expense-table-section .search-bar-container .delete-btn:hover:not(:disabled),
             .expense-table-section .search-bar-container .delete-btn:focus:not(:disabled) {
                 background-color: var(--danger-color-600);
+            }
+        .expense-table-section .search-bar-container .clear-table-parameters-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: var(--neutral-color-700);
+        }
+            .expense-table-section .search-bar-container .clear-table-parameters-btn .svg {
+                width: 20px;
+                height: 20px;
+                stroke: var(--typography-color-100);
+            }
+            .expense-table-section .search-bar-container .clear-table-parameters-btn:disabled {
+                background-color: var(--neutral-color-900);
+            }
+            .expense-table-section .search-bar-container .clear-table-parameters-btn:hover:not(:disabled),
+            .expense-table-section .search-bar-container .clear-table-parameters-btn:focus:not(:disabled) {
+                background-color: var(--neutral-color-600);
             }
         .expense-table-section .search-bar-container .search-form-input-container {
             display: flex;

@@ -3,10 +3,19 @@
 
 <section class="expense-table-section">
     <h3 class="title">Expenses</h3>
-    <div class="search-bar-container">
+    <div class="search-bar-container" aria-label="Table utility bar for adding, deleting & filtering expenses">
         <div class="table-actions-btns-container">
             <button type="button" class="add-btn">+ Add Expense</button>
             <button type="submit" form="expense-delete-form" class="delete-btn" disabled autocomplete="off">Delete Expense</button>
+            <button type="button" class="clear-table-parameters-btn" disabled autocomplete="off">
+                <span>Clear</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 20l-3 1v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v1.5" />
+                    <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                    <path d="M17 21l4 -4" />
+                </svg>
+            </button>
         </div>
         <div class="search-form-input-container">
             <div class="input-container">
@@ -40,7 +49,7 @@
                     <th>
                         <form id="expense-delete-form"></form>
                         <form id="expense-search-form" class="search-form"></form>
-                        <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
+                        <label class="sr-only">Expense check for all visible rows, to make delete expense button available for the deletion of checked rows in table utility bar</label>
                         <input class="master-checkbox" id="expense-master-checkbox" name="master-checkbox" type="checkbox" />
                     </th>
                     <th>
