@@ -8,11 +8,11 @@
             <button type="button" class="add-btn">+ Add Expense</button>
             <button type="submit" form="expense-delete-form" class="delete-btn" disabled autocomplete="off">Delete Expense</button>
         </div>
-        <form class="search-form">
+        <div class="search-form-input-container">
             <div class="input-container">
                 <label for="expense-search-input">Search</label>
-                <input id="expense-search-input" type="text" placeholder="House..." />
-                <button class="search-btn">
+                <input id="expense-search-input" name="searchString" type="text" placeholder="House..." form="expense-search-form" />
+                <button type="submit" class="search-btn" form="expense-search-form">
                     <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -22,8 +22,8 @@
             </div>
             <div class="input-container">
                 <label for="expense-date-search-input">Search date</label>
-                <input id="expense-date-search-input" type="date" />
-                <button class="search-btn">
+                <input id="expense-date-search-input" name="searchDate" type="date" form="expense-search-form" />
+                <button class="search-btn" type="submit" form="expense-search-form">
                     <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -31,7 +31,7 @@
                     </svg>
                 </button>
             </div>
-        </form>
+        </div>
     </div>
     <div class="table-container">
         <table class="expense-table">
@@ -39,6 +39,7 @@
                 <tr>
                     <th>
                         <form id="expense-delete-form"></form>
+                        <form id="expense-search-form" class="search-form"></form>
                         <label class="sr-only">Expense check for all visible rows, to allow deletion of expenses</label>
                         <input class="master-checkbox" id="expense-master-checkbox" name="master-checkbox" type="checkbox" />
                     </th>

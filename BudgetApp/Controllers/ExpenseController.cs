@@ -198,7 +198,7 @@ namespace BudgetApp.Controllers
 
         [HttpGet]
         [ActionName("_ExpenseTablePartial")]
-        public async Task<IActionResult> _ExpenseTablePartial([FromBody]TableParameters tableParameters)
+        public async Task<IActionResult> _ExpenseTablePartial([FromQuery]TableParameters tableParameters)
         {
             if (tableParameters == null)
             {
