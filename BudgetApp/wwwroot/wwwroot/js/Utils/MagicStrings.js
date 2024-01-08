@@ -1,3 +1,4 @@
+export var DISABLED = 'disabled';
 export var ARIA_HIDDEN = 'aria-hidden';
 export var DATA_ACTIVE = 'data-active';
 export var TAB_INDEX = 'tabindex';

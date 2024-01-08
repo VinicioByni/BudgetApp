@@ -17,4 +17,7 @@ export function setDataActiveTrue(element) {
 export function setDataActiveFalse(element) {
     element.setAttribute(DATA_ACTIVE, FALSE);
 }
+export function setDisabledFalse(element) {
+    element.disabled = false;
+}
 //# sourceMappingURL=SetAttributeFunctions.js.map

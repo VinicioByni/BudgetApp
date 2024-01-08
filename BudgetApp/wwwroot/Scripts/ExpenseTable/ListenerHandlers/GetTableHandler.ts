@@ -5,7 +5,6 @@ export async function getExpenseTable(urlTableParameters?: string) {
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
 
-
     const url = 'Expense/_ExpenseTablePartial?=' + urlTableParameters
     const response = await fetch(url, {
         method: "GET",

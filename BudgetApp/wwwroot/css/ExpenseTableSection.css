@@ -212,6 +212,52 @@
         .expense-table-section thead .th-content .sort-btn .svg-bottom {
             fill: var(--typography-color-500);
         }
+    .expense-table-section .table-container .expense-table thead .th-button-container {
+        padding-block: 6px;
+    }
+    .expense-table-section thead .btn-container {
+        width: 100%;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .expense-table-section thead .clear-table-parameters-btn {
+        font-size: var(--small-fs);
+        font-weight: var(--semibold-fw);
+        height: 100%;
+    }
+
+    .expense-table-section thead .clear-table-parameters-btn {
+        color: var(--typography-color-100);
+        padding-inline: 12px;
+        border-radius: 8px;
+        transition: background-color 25ms, color 25ms;
+    }
+
+    .expense-table-section thead .clear-table-parameters-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background-color: var(--neutral-color-700);
+    }
+        .expense-table-section thead .clear-table-parameters-btn .text {
+            line-height: 1;
+        }
+        .expense-table-section thead .clear-table-parameters-btn .svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--typography-color-100);
+        }
+
+        .expense-table-section thead .clear-table-parameters-btn:disabled {
+            background-color: var(--neutral-color-900);
+        }
+
+        .expense-table-section thead .clear-table-parameters-btn:hover:not(:disabled),
+        .expense-table-section thead .clear-table-parameters-btn:focus:not(:disabled) {
+            background-color: var(--neutral-color-600);
+        }
 
 
 

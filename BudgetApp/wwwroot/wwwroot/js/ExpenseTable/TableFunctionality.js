@@ -26,6 +26,7 @@ function setUpListeners(table) {
     setUpCancelAddFormBtnListener(table);
     setUpAddRowFormListener(table);
     setUpSearchFormListener(table);
+    setUpClearTableParametersListener(table);
 }
 function setUpOpenEditingListener(table) {
     var editBtns = table.querySelectorAll('.edit-btn');
@@ -182,6 +183,15 @@ function setUpSearchFormListener(table) {
             urlTableParameters.append(key, tableParameters[key]);
         }
         getExpenseTable(urlTableParameters.toString());
+    });
+}
+function setUpClearTableParametersListener(table) {
+    var clearBtn = table.querySelector('.clear-table-parameters-btn');
+    if (clearBtn == null || !(clearBtn instanceof HTMLButtonElement))
+        return;
+    clearBtn.addEventListener('click', function () {
+        initializeTableParameters();
+        getExpenseTable();
     });
 }
 //# sourceMappingURL=TableFunctionality.js.map

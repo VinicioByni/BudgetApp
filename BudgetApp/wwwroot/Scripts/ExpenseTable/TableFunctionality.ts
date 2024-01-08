@@ -35,6 +35,7 @@ function setUpListeners(table: HTMLTableElement) {
     setUpAddRowFormListener(table)
 
     setUpSearchFormListener(table)
+    setUpClearTableParametersListener(table)
 }
 
 function setUpOpenEditingListener(table: HTMLTableElement) {
@@ -215,3 +216,13 @@ function setUpSearchFormListener(table: HTMLTableElement) {
 }
 
 
+function setUpClearTableParametersListener(table: HTMLTableElement) {
+    const clearBtn = table.querySelector('.clear-table-parameters-btn')
+    if (clearBtn == null || !(clearBtn instanceof HTMLButtonElement)) return
+
+    clearBtn.addEventListener('click', () => {
+        initializeTableParameters()
+        getExpenseTable()
+    })
+    
+}

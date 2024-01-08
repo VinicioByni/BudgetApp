@@ -7,15 +7,6 @@
         <div class="table-actions-btns-container">
             <button type="button" class="add-btn">+ Add Expense</button>
             <button type="submit" form="expense-delete-form" class="delete-btn" disabled autocomplete="off">Delete Expense</button>
-            <button type="button" class="clear-table-parameters-btn" disabled autocomplete="off">
-                <span>Clear</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 20l-3 1v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v1.5" />
-                    <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    <path d="M17 21l4 -4" />
-                </svg>
-            </button>
         </div>
         <div class="search-form-input-container">
             <div class="input-container">
@@ -98,7 +89,18 @@
                             </button>
                         </span>
                     </th>
-                    <th></th>
+                    <th class="th-button-container">
+                        <div class="btn-container">
+                            <button type="button" aria-label="Clear table filters button" class="clear-table-parameters-btn" disabled autocomplete="off">
+                                <span class="text">Clear</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg" width="28" height="28" viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M8 4h12v2.172a2 2 0 0 1 -.586 1.414l-3.914 3.914m-.5 3.5v4l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
+                                    <path d="M3 3l18 18" />
+                                </svg>
+                            </button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>

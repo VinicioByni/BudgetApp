@@ -1,4 +1,4 @@
-﻿import { ARIA_HIDDEN, TRUE, FALSE, TAB_INDEX, DATA_ACTIVE } from '../Utils/MagicStrings.js'
+﻿import { ARIA_HIDDEN, TRUE, FALSE, TAB_INDEX, DATA_ACTIVE, DISABLED } from '../Utils/MagicStrings.js'
 
 export function setAriaHiddenTrue(element: Element) {
     element.setAttribute(ARIA_HIDDEN, TRUE)
@@ -21,5 +21,10 @@ export function setDataActiveTrue(element: Element) {
 }
 export function setDataActiveFalse(element: Element) {
     element.setAttribute(DATA_ACTIVE, FALSE)
+}
+
+type DisabledSupport = HTMLButtonElement | HTMLFieldSetElement | HTMLOptGroupElement | HTMLOptionElement | HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement
+export function setDisabledFalse(element: DisabledSupport) {
+    element.disabled = false
 }
 

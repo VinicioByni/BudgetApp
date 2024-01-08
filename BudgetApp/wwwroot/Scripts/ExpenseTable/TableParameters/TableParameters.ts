@@ -1,4 +1,5 @@
 ﻿import { setDataActiveTrue } from "../../Utils/SetAttributeFunctions.js";
+import { enableClearBtnState } from "../ListenerHandlers/ClearTableParametersHandler.js";
 import { type TableParameters } from "../Models/TableParametersType.js";
 
 export let tableParameters: TableParameters = {}
@@ -21,10 +22,12 @@ export function updateTableParametersState() {
     
     if (tableParameters.searchString !== '') {
         updateSearchStringState()
+        enableClearBtnState()
     }
 
     if (tableParameters.searchDate !== '') {
         updateSearchDateState()
+        enableClearBtnState()
     }
 }
 
