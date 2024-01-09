@@ -9,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using BudgetApp.DTOs;
 
 namespace BudgetApp.Controllers
 {
@@ -198,7 +199,7 @@ namespace BudgetApp.Controllers
 
         [HttpGet]
         [ActionName("_ExpenseTablePartial")]
-        public async Task<IActionResult> _ExpenseTablePartial([FromQuery]TableParameters tableParameters)
+        public async Task<IActionResult> Get([FromQuery]TableParameters tableParameters)
         {
             if (tableParameters == null)
             {
@@ -211,107 +212,155 @@ namespace BudgetApp.Controllers
             
             return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }
+        [HttpGet]
+        [ActionName("ExpenseGetById")]
+        public async Task<ActionResult<ExpenseDto>> GetById(int id)
+        {
+            var expense = await _budgetDbContext.Expenses.FindAsync(id);
 
+            if (expense == null)
+            {
+                return NotFound();
+            }
+
+            var expenseDto = new ExpenseDto {
+                Amount = expense.Amount,
+                Date = expense.Date,
+                Description = expense.Description,
+                ExpenseCategoryId = expense.ExpenseCategoryId,
+                AccountId = expense.AccountId,
+                CreditCardId = expense.CreditCardId,
+                DebtId = expense.DebtId
+            };
+            return Ok(expenseDto);
+        }
 
         [HttpPost]
         [ActionName("AddExpense")]
-        public async Task<IActionResult> AddExpense([FromBody]CreateExpenseModelAction createExpenseModelAction)
+        public async Task<ActionResult<ExpenseDto>> Add([FromBody]ExpenseAddDto expenseAddDto)
         {
-            var expense = createExpenseModelAction.CreateExpenseModel;
-            if (expense.Description == null)
+            if (expenseAddDto == null)
             {
-                expense.Description = string.Empty;
+                return BadRequest("No expense data sent");
             }
 
-            _budgetDbContext.Expenses.Add(expense);
+            if (expenseAddDto.Description == null)
+            {
+                expenseAddDto.Description = string.Empty;
+            }
+
+            int descriptionMaxLength = 40;
+            if (expenseAddDto.Description.Length > descriptionMaxLength)
+            {
+                expenseAddDto.Description = expenseAddDto.Description.Substring(0, descriptionMaxLength);
+            }
+
+            var expense = new Expense
+            {
+                Amount = expenseAddDto.Amount,
+                Date = expenseAddDto.Date,
+                Description = expenseAddDto.Description,
+                ExpenseCategoryId = expenseAddDto.ExpenseCategoryId,
+                AccountId = expenseAddDto.AccountId,
+                CreditCardId = expenseAddDto.CreditCardId,
+                DebtId = expenseAddDto.DebtId
+            };
+
+            await _budgetDbContext.Expenses.AddAsync(expense);
             await _budgetDbContext.SaveChangesAsync();
 
-            ViewModel viewModel = new ViewModel();
-            
-            viewModel = await ExpenseTablePartialViewModel(createExpenseModelAction.TableParameters);
+            var expenseDto = new ExpenseDto
+            {
+                Id = expense.Id,
+                Amount = expense.Amount,
+                Date = expense.Date,
+                Description = expense.Description,
+                ExpenseCategoryId= expense.ExpenseCategoryId,
+                AccountId = expense.AccountId,
+                CreditCardId= expense.CreditCardId,
+                DebtId = expense.DebtId
+            };
 
-            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
+            return Ok(expenseDto);
         }
 
         [HttpPut]
-        [ActionName("EditExpense")]
-        public async Task<IActionResult> EditExpense([FromBody]UpdateExpenseModelAction updateExpenseModelAction)
+        [ActionName("UpdateExpense")]
+        public async Task<ActionResult<ExpenseDto>> Update([FromBody]ExpenseUpdateDto expenseUpdateDto)
         {
-            var expense = updateExpenseModelAction.UpdateExpenseModel;
+            if (expenseUpdateDto == null)
+            {
+                return BadRequest("No expense data send for update");
+            }
 
-            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
-            if (dBExpense == null)
+            var expense = await _budgetDbContext.Expenses.FindAsync(expenseUpdateDto.Id);
+
+            if (expense == null)
             {
                 return NotFound("not found");
             }
 
-            dBExpense.Amount = expense.Amount;
-            dBExpense.Date = expense.Date;
-            dBExpense.ExpenseCategoryId = expense.ExpenseCategoryId;
-
-            if (expense.Description.IsNullOrEmpty())
+            int descriptionMaxLength = 40;
+            if (expenseUpdateDto.Description.Length > descriptionMaxLength)
             {
-                dBExpense.Description = string.Empty;
-            }
-            else
-            {
-                dBExpense.Description = expense.Description;
+                expenseUpdateDto.Description = expenseUpdateDto.Description.Substring(0, descriptionMaxLength);
             }
 
-
-            if (expense.AccountId != null)
-            {
-                dBExpense.AccountId = expense.AccountId;
-                dBExpense.CreditCardId = null;
-                dBExpense.DebtId = null;
-            }
-            else if (expense.CreditCardId != null)
-            {
-                dBExpense.AccountId = null;
-                dBExpense.CreditCardId = expense.CreditCardId;
-                dBExpense.DebtId = null;
-            }
-            else if (expense.DebtId != null)
-            {
-                dBExpense.AccountId = null;
-                dBExpense.CreditCardId = null;
-                dBExpense.DebtId = expense.DebtId;
-            }
+            expense.Amount = expenseUpdateDto.Amount;
+            expense.Date = expenseUpdateDto.Date;
+            expense.Description = expenseUpdateDto.Description;
+            expense.ExpenseCategoryId = expenseUpdateDto.ExpenseCategoryId;
+            expense.AccountId = expenseUpdateDto.AccountId;
+            expense.CreditCardId = expenseUpdateDto.CreditCardId;
+            expense.DebtId = expenseUpdateDto.DebtId;
             
-            
-            _budgetDbContext.Expenses.Update(dBExpense);
+            _budgetDbContext.Expenses.Update(expense);
             await _budgetDbContext.SaveChangesAsync();
-           
-            ViewModel viewModel = new ViewModel();
 
-            
+            var expenseDto = new ExpenseDto
+            {
+                Id = expense.Id,
+                Amount = expense.Amount,
+                Date = expense.Date,
+                Description = expense.Description,
+                ExpenseCategoryId = expense.ExpenseCategoryId,
+                AccountId = expense.AccountId,
+                CreditCardId = expense.CreditCardId,
+                DebtId = expense.DebtId
+            };
 
-            viewModel = await ExpenseTablePartialViewModel(updateExpenseModelAction.TableParameters);
+            return Ok(expenseDto);
 
-            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
         }    
 
 
         [HttpDelete]
         [ActionName("DeleteExpense")]
-        public async Task<IActionResult> DeleteExpense([FromBody] DeleteExpenseModelAction deleteExpenseModelAction)
+        public async Task<ActionResult<ExpenseDto>> Delete(int id)
         {
-            var expense = deleteExpenseModelAction.DeleteExpenseModel;
-           
-            var dBExpense = await _budgetDbContext.Expenses.FirstOrDefaultAsync(c => c.Id == expense.Id);
-            if (dBExpense == null)
+            var expense = await _budgetDbContext.Expenses.FindAsync(id);
+
+            if (expense == null)
             {
                 return NotFound();
             }
-            _budgetDbContext.Expenses.Remove(dBExpense);
+
+            _budgetDbContext.Expenses.Remove(expense);
             await _budgetDbContext.SaveChangesAsync();
 
+            var expenseDto = new ExpenseDto
+            {
+                Id = expense.Id,
+                Amount = expense.Amount,
+                Date = expense.Date,
+                Description = expense.Description,
+                ExpenseCategoryId = expense.ExpenseCategoryId,
+                AccountId = expense.AccountId,
+                CreditCardId = expense.CreditCardId,
+                DebtId = expense.DebtId
+            };
 
-            ViewModel viewModel = new ViewModel();
-
-            viewModel = await ExpenseTablePartialViewModel(deleteExpenseModelAction.TableParameters);
-
-            return PartialView("~/Views/Shared/Partial Views/_ExpenseTablePartial.cshtml", viewModel);
+            return Ok(expenseDto);
         }
     }
 }
