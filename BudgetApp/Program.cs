@@ -1,4 +1,5 @@
 using BudgetApp.Data;
+using BudgetApp.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
 
@@ -9,6 +10,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BudgetDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("BudgetDbConnectionString")));
+
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 
 var app = builder.Build();
 

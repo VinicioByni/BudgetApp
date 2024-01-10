@@ -5,7 +5,7 @@ namespace BudgetApp.Models
 {
     public class ViewModel
     {
-        public string MinDateInput { get; set; } = string.Empty;
+        public string MinSearchDateInputValue { get; set; } = string.Empty;
 
         public Income? Income { get; set; }
         public List<Income>? Incomes { get; set; }
@@ -19,8 +19,6 @@ namespace BudgetApp.Models
         public decimal? ExpensesPeriodTotalAmount { get; set; }
         public int? FilteredExpensesCount { get; set; }
         public List<ExpenseCategory>? ExpenseCategories { get; set; }
-
-        public string? TableName { get; set; } = string.Empty;
 
         public RecurrentExpense? RecurrentExpense { get; set; }
         public List<RecurrentExpense>? RecurrentExpenses { get; set; }

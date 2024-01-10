@@ -22,7 +22,7 @@
             </div>
             <div class="input-container">
                 <label for="expense-search-date-input">Search date</label>
-                <input id="expense-search-date-input" data-active="false" name="searchDate" type="date" form="expense-search-form" />
+                <input id="expense-search-date-input" data-active="false" name="searchDate" type="date" min="@Model.MinSearchDateInputValue" form="expense-search-form" />
                 <button class="search-btn" aria-label="search date button" type="submit" form="expense-search-form">
                     <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
