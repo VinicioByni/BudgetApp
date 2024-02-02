@@ -35,15 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { expenseTableFunctionality } from "../TableFunctionality.js";
-export function getExpenseTable(urlTableParameters) {
+import { getTableParameters } from "../TableParameters/TableParameters.js";
+export function getExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
-        var partialViewContainer, url, response, partialView;
+        var partialViewContainer, urlTableParameters, url, response, partialView;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
+                    urlTableParameters = getTableParameters();
                     url = 'Expense/_ExpenseTablePartial?=' + urlTableParameters;
                     return [4 /*yield*/, fetch(url, {
                             method: "GET",

@@ -1,7 +1,6 @@
 ﻿using BudgetApp.Data;
-using BudgetApp.DTOs;
 using BudgetApp.Models;
-using BudgetApp.Models.Common_Models;
+using BudgetApp.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +15,11 @@ namespace BudgetApp.Services
             _budgetDbContext = budgetDbContext;
         }
  
-        public async Task<ViewModel> Get(TableParameters tableParameters)
+        public async Task<ExpenseTableViewModel> Get(TableParameters tableParameters)
         {
-            var viewModel = await GetViewModel(tableParameters);
+            var tableViewModel = await GetViewModel(tableParameters);
 
-            return viewModel;
+            return tableViewModel;
         }
 
         public async Task<ExpenseDto> GetById(int id)
@@ -128,9 +127,9 @@ namespace BudgetApp.Services
             return expenseDto;
         }
 
-        private async Task<ViewModel> GetViewModel(TableParameters tableParameters)
+        private async Task<ExpenseTableViewModel> GetViewModel(TableParameters tableParameters)
         {
-            ViewModel viewModel = new ViewModel();
+            ExpenseTableViewModel viewModel = new ExpenseTableViewModel();
             viewModel.ExpenseCategories = _budgetDbContext.ExpenseCategories.ToList();
             viewModel.Accounts = _budgetDbContext.Accounts.ToList();
             viewModel.CreditCards = _budgetDbContext.CreditCards.ToList();

@@ -1,4 +1,4 @@
-﻿namespace BudgetApp.Models.Common_Models
+﻿namespace BudgetApp.Models
 {
     public class TableParameters
     {

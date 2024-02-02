@@ -1,10 +1,11 @@
-﻿import { TableParameters } from "../Models/TableParametersType.js"
-import { expenseTableFunctionality } from "../TableFunctionality.js"
+﻿import { expenseTableFunctionality } from "../TableFunctionality.js"
+import { getTableParameters } from "../TableParameters/TableParameters.js"
 
-export async function getExpenseTable(urlTableParameters?: string) {
+export async function getExpenseTable() {
     const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
     if (partialViewContainer == null) return Error('Expense partial view container not found')
 
+    const urlTableParameters = getTableParameters()
     const url = 'Expense/_ExpenseTablePartial?=' + urlTableParameters
     const response = await fetch(url, {
         method: "GET",

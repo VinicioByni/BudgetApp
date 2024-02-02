@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace BudgetApp.DTOs
+namespace BudgetApp.Models.DTOs
 {
     public class ExpenseDto
     {

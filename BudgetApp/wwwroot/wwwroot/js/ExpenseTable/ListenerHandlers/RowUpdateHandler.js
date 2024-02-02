@@ -36,10 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { failMessage, successMessage } from "../../Services/messageHanlder.js";
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
-import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js';
-import { getTableParameters } from '../TableParameters/TableParameters.js';
+import { getExpenseTable } from "./GetTableHandler.js";
 export function handleExpenseRowUpdate(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -100,41 +99,29 @@ function getFormattedCurrentDate() {
 }
 function fetchExpenseFormDataUpdate(expenseData) {
     return __awaiter(this, void 0, void 0, function () {
-        var updateExpenseModelAction, TableParameters, partialViewContainer, url, response, partialView;
+        var url, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    updateExpenseModelAction = {
-                        UpdateExpenseModel: expenseData,
-                        TableParameters: getTableParameters()
-                    };
-                    TableParameters = getTableParameters();
-                    partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
-                    if (partialViewContainer == null)
-                        return [2 /*return*/, Error('Expense partial view container not found')];
-                    url = 'Expense/EditExpense' // Separate later to endpoint url folder
+                    url = 'Expense/UpdateExpense' // Separate later to endpoint url folder
                     ;
                     return [4 /*yield*/, fetch(url, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify(updateExpenseModelAction)
+                            body: JSON.stringify(expenseData)
                         })];
                 case 1:
                     response = _a.sent();
-                    if (!response.ok) return [3 /*break*/, 3];
-                    return [4 /*yield*/, response.text()];
-                case 2:
-                    partialView = _a.sent();
-                    partialViewContainer.innerHTML = partialView;
-                    expenseTableFunctionality();
-                    successMessage('Expense updated');
-                    return [3 /*break*/, 4];
-                case 3:
-                    failMessage('Expense was not updated');
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    if (response.ok) {
+                        getExpenseTable();
+                        successMessage('Expense updated');
+                    }
+                    else {
+                        failMessage('Expense was not updated');
+                    }
+                    return [2 /*return*/];
             }
         });
     });

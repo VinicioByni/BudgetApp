@@ -182,7 +182,7 @@ function setUpSearchFormListener(table) {
             }
             urlTableParameters.append(key, tableParameters[key]);
         }
-        getExpenseTable(urlTableParameters.toString());
+        getExpenseTable();
     });
 }
 function setUpClearTableParametersListener(table) {

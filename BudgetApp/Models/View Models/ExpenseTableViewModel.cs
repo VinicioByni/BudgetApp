@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BudgetApp.Models
 {
-    public class ViewModel
+    public class ExpenseTableViewModel
     {
         public string MinSearchDateInputValue { get; set; } = string.Empty;
 

@@ -1,19 +1,17 @@
 ﻿
 using BudgetApp.Data;
 using BudgetApp.Models;
-using BudgetApp.Models.Expense_Models;
-using BudgetApp.Models.Common_Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
-using BudgetApp.DTOs;
 using BudgetApp.Services;
+using BudgetApp.Models.DTOs;
 
 namespace BudgetApp.Controllers
 {
-    
+
 
     public class ExpenseController : Controller
     {
@@ -96,7 +94,7 @@ namespace BudgetApp.Controllers
                 return NotFound();
             }
 
-            return Ok(expenseDto);
+            return NoContent();
         }    
 
 

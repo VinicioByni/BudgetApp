@@ -19,7 +19,7 @@ namespace BudgetApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewModel viewModel = new ViewModel();
+            ExpenseTableViewModel viewModel = new ExpenseTableViewModel();
             viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
             viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
 
@@ -45,7 +45,7 @@ namespace BudgetApp.Controllers
 
         public async Task<IActionResult> AccountsAndDebts()
         {
-            ViewModel viewModel = new ViewModel();
+            ExpenseTableViewModel viewModel = new ExpenseTableViewModel();
             viewModel.Expenses = await _budgetDbContext.Expenses.ToListAsync();
             viewModel.ExpenseCategories = await _budgetDbContext.ExpenseCategories.ToListAsync();
 

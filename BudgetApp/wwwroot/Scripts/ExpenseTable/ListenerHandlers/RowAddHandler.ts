@@ -4,6 +4,7 @@ import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js"
 import { getTableParameters } from '../TableParameters/TableParameters.js'
+import { getExpenseTable } from "./GetTableHandler.js"
 
 export function handleExpenseAddRow(form: HTMLFormElement) {
     const formData = new FormData(form)
@@ -79,26 +80,16 @@ function getFormattedCurrentDate(): string {
 
 async function fetchExpenseAddFormData(expenseData: CreateExpenseModel) {
 
-    const createExpenseModelAction: CreateExpenseModelAction = {
-        CreateExpenseModel: expenseData,
-        TableParameters: getTableParameters()
-    }
-
-    const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
-    if (partialViewContainer == null) return Error('Expense partial view container not found')
-    
     const url = 'Expense/AddExpense' // Separate later to endpoint url folder
     const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(createExpenseModelAction)
+        body: JSON.stringify(expenseData)
     })
     if (response.ok) {
-        const partialView = await response.text()
-        partialViewContainer.innerHTML = partialView
-        expenseTableFunctionality()
+        getExpenseTable()
         successMessage('Expense added')
     }
     else {

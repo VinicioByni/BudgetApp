@@ -210,7 +210,7 @@ function setUpSearchFormListener(table: HTMLTableElement) {
             urlTableParameters.append(key, tableParameters[key])
         }
  
-        getExpenseTable(urlTableParameters.toString())
+        getExpenseTable()
     })
 
 }

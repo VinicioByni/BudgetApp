@@ -4,6 +4,8 @@ import { expenseTableFunctionality } from '../TableFunctionality.js'
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
 import { setAriaHiddenTrue, setAriaHiddenFalse, setTabIndexFalse, setTabIndexTrue } from '../../Utils/SetAttributeFunctions.js'
 import { getTableParameters, initializeTableParameters } from '../TableParameters/TableParameters.js'
+import { getExpenseTable } from "./GetTableHandler.js"
+
 export function handleExpenseRowUpdate(form: HTMLFormElement) {
     const formData = new FormData(form)
 
@@ -77,27 +79,17 @@ function getFormattedCurrentDate(): string {
 
 async function fetchExpenseFormDataUpdate(expenseData: UpdateExpenseModel) {
 
-    const updateExpenseModelAction: UpdateExpenseModelAction = {
-        UpdateExpenseModel: expenseData,
-        TableParameters: getTableParameters()
-    }
 
-    const TableParameters = getTableParameters()
-    const partialViewContainer = document.querySelector('#ExpensePartialViewContainer')
-    if (partialViewContainer == null) return Error('Expense partial view container not found')
-    
-    const url = 'Expense/EditExpense' // Separate later to endpoint url folder
+    const url = 'Expense/UpdateExpense' // Separate later to endpoint url folder
     const response = await fetch(url, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(updateExpenseModelAction)
+        body: JSON.stringify(expenseData)
     })
     if (response.ok) {
-        const partialView = await response.text()
-        partialViewContainer.innerHTML = partialView
-        expenseTableFunctionality()
+        getExpenseTable()
         successMessage('Expense updated')
     }
     else {

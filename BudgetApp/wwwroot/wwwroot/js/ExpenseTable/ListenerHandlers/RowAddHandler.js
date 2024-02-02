@@ -36,10 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { failMessage, successMessage } from "../../Services/messageHanlder.js";
 import { EXPENSE_MODEL_STRINGS, EXPENSE_MODEL_PAYMENT_STRINGS } from '../Models/ModelTypes.js';
-import { expenseTableFunctionality } from '../TableFunctionality.js';
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
 import { setAriaHiddenTrue, setAriaHiddenFalse } from "../../Utils/SetAttributeFunctions.js";
-import { getTableParameters } from '../TableParameters/TableParameters.js';
+import { getExpenseTable } from "./GetTableHandler.js";
 export function handleExpenseAddRow(form) {
     var formData = new FormData(form);
     var formDataObject = parseExpenseFormData(formData);
@@ -100,17 +99,10 @@ function getFormattedCurrentDate() {
 }
 function fetchExpenseAddFormData(expenseData) {
     return __awaiter(this, void 0, void 0, function () {
-        var createExpenseModelAction, partialViewContainer, url, response, partialView;
+        var url, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    createExpenseModelAction = {
-                        CreateExpenseModel: expenseData,
-                        TableParameters: getTableParameters()
-                    };
-                    partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
-                    if (partialViewContainer == null)
-                        return [2 /*return*/, Error('Expense partial view container not found')];
                     url = 'Expense/AddExpense' // Separate later to endpoint url folder
                     ;
                     return [4 /*yield*/, fetch(url, {
@@ -118,22 +110,18 @@ function fetchExpenseAddFormData(expenseData) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify(createExpenseModelAction)
+                            body: JSON.stringify(expenseData)
                         })];
                 case 1:
                     response = _a.sent();
-                    if (!response.ok) return [3 /*break*/, 3];
-                    return [4 /*yield*/, response.text()];
-                case 2:
-                    partialView = _a.sent();
-                    partialViewContainer.innerHTML = partialView;
-                    expenseTableFunctionality();
-                    successMessage('Expense added');
-                    return [3 /*break*/, 4];
-                case 3:
-                    failMessage('Expense was not added');
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    if (response.ok) {
+                        getExpenseTable();
+                        successMessage('Expense added');
+                    }
+                    else {
+                        failMessage('Expense was not added');
+                    }
+                    return [2 /*return*/];
             }
         });
     });

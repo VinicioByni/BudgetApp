@@ -35,53 +35,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { failMessage, successMessage } from "../../Services/messageHanlder.js";
-import { expenseTableFunctionality } from "../TableFunctionality.js";
 import { parseToNullableFloat } from '../../Utils/parseUtils.js';
-import { getTableParameters } from "../TableParameters/TableParameters.js";
+import { getExpenseTable } from "./GetTableHandler.js";
 export function handleExpenseRowDeletion(form) {
     var formData = new FormData(form);
     formData.forEach(function (value) {
         var id = parseToNullableFloat(value.toString());
-        var dataId = { 'id': id };
-        fetchExpenseRowDataDeletion(dataId);
+        fetchExpenseRowDataDeletion(id);
     });
 }
-function fetchExpenseRowDataDeletion(dataId) {
+function fetchExpenseRowDataDeletion(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var deleteExpenseModelAction, partialViewContainer, url, response, partialView;
+        var partialViewContainer, url, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    deleteExpenseModelAction = {
-                        DeleteExpenseModel: dataId,
-                        TableParameters: getTableParameters()
-                    };
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
-                    url = 'Expense/DeleteExpense' // Separate later to endpoint url folder
+                    url = 'Expense/DeleteExpense?id=' + id // Separate later to endpoint url folder
                     ;
                     return [4 /*yield*/, fetch(url, {
                             method: "DELETE",
                             headers: {
                                 "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(deleteExpenseModelAction)
+                            }
                         })];
                 case 1:
                     response = _a.sent();
-                    if (!response.ok) return [3 /*break*/, 3];
-                    return [4 /*yield*/, response.text()];
-                case 2:
-                    partialView = _a.sent();
-                    partialViewContainer.innerHTML = partialView;
-                    expenseTableFunctionality();
-                    successMessage('Expense deleted');
-                    return [3 /*break*/, 4];
-                case 3:
-                    failMessage('Expense was not deleted');
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    if (response.ok) {
+                        getExpenseTable();
+                        successMessage('Expense deleted');
+                    }
+                    else {
+                        failMessage('Expense was not deleted');
+                    }
+                    return [2 /*return*/];
             }
         });
     });
