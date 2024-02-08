@@ -1,5 +1,6 @@
 ﻿using BudgetApp.Data;
 using BudgetApp.Models;
+using BudgetApp.Models.Database;
 using BudgetApp.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

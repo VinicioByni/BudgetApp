@@ -1,23 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using BudgetApp.Models.Database;
 
 namespace BudgetApp.Models
 {
-    public class Account
+    public class ExpenseCategory
     {
         [Key]
-        public int AccountId { get; set; }
+        public int ExpenseCategoryId { get; set; }
         [Required]
         [StringLength(25)]
         public string Name { get; set; } = string.Empty;
-        [Precision(18, 2)]
-        public decimal Amount { get; set; }
         [JsonIgnore]
         public virtual List<Expense>? Expense { get; set; }
         [JsonIgnore]
-        public virtual List<Income>? Income { get; set; }
-        [JsonIgnore]
         public virtual List<RecurrentExpense>? RecurrentExpense { get; set; }
+
     }
 }

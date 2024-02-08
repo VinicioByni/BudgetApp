@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace BudgetApp.Models
+namespace BudgetApp.Models.Database
 {
     public class CreditCard
     {

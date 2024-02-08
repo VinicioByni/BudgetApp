@@ -1,20 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using BudgetApp.Models.Database;
 
 namespace BudgetApp.Models
 {
-    public class Expense
+    public class RecurrentExpense
     {
         [Key]
         public int Id { get; set; }
         [Precision(18, 2)]
         public decimal Amount { get; set; }
-        [DisplayFormat(DataFormatString = "{0:ddd d MMM yyyy}")]
-        public DateTime Date { get; set; }
+        // Period has 3 options, Monthly, Weekly, Daily
+        public string Period { get; set; } = string.Empty;
+        public DateTime? DayOfTheMonth { get; set; }
+        public int? DayOfTheWeek { get; set; }
+        [Required]
         [StringLength(40)]
-        public string Description { get; set; } = string.Empty;
-        [ForeignKey("ExpenseCategory")]
+        public string Name { get; set; } = string.Empty;
+        public bool IsAutomatic { get; set; }
+
+        [ForeignKey("ExpensesCategory")]
         public int? ExpenseCategoryId { get; set; }
         public virtual ExpenseCategory? ExpenseCategory { get; set; }
         [ForeignKey("Account")]

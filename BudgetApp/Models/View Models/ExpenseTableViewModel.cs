@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using BudgetApp.Models.Database;
 
 namespace BudgetApp.Models
 {
