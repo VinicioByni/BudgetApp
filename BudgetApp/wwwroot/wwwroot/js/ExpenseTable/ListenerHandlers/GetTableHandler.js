@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { expenseTableFunctionality } from "../TableFunctionality.js";
-import { getTableParameters } from "../TableParameters/TableParameters.js";
+import { getUrlTableParameters } from "../TableParameters/TableParameters.js";
 export function getExpenseTable() {
     return __awaiter(this, void 0, void 0, function () {
         var partialViewContainer, urlTableParameters, url, response, partialView;
@@ -45,8 +45,8 @@ export function getExpenseTable() {
                     partialViewContainer = document.querySelector('#ExpensePartialViewContainer');
                     if (partialViewContainer == null)
                         return [2 /*return*/, Error('Expense partial view container not found')];
-                    urlTableParameters = getTableParameters();
-                    url = 'Expense/_ExpenseTablePartial?=' + urlTableParameters;
+                    urlTableParameters = getUrlTableParameters();
+                    url = 'Expense/_ExpenseTablePartial?' + urlTableParameters;
                     return [4 /*yield*/, fetch(url, {
                             method: "GET",
                             headers: {

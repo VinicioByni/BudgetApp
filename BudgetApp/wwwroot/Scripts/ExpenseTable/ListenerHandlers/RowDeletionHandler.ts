@@ -1,8 +1,5 @@
 ﻿import { failMessage, successMessage } from "../../Services/messageHanlder.js"
-import { expenseTableFunctionality } from "../TableFunctionality.js"
 import { parseToNullableFloat } from '../../Utils/parseUtils.js'
-import { DeleteExpenseModel, DeleteExpenseModelAction } from "../Models/ModelTypes.js"
-import { getTableParameters } from "../TableParameters/TableParameters.js"
 import { getExpenseTable } from "./GetTableHandler.js"
 
 export function handleExpenseRowDeletion(form: HTMLFormElement) {

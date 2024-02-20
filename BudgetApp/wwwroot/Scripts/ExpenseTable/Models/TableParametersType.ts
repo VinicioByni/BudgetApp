@@ -4,8 +4,6 @@ export type periodInitialDate = {
     periodInitialDate?: string
 }
 
-
-
 export type TableParameters = periodInitialDate & {
     searchString?: string
     searchDate?: string

@@ -5,6 +5,7 @@ import { handleMasterCheckbox, handleRowsCheckbox, resetCheckboxCounter, updateD
 import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandlers/RowAddHandler.js';
 import { getTableParameters, initializeTableParameters, updateTableParametersState } from './TableParameters/TableParameters.js';
 import { getExpenseTable } from './ListenerHandlers/GetTableHandler.js';
+import { handlePaging } from './ListenerHandlers/PagingHandler.js';
 initializeTableParameters();
 getExpenseTable();
 export function expenseTableFunctionality() {
@@ -27,6 +28,7 @@ function setUpListeners(table) {
     setUpAddRowFormListener(table);
     setUpSearchFormListener(table);
     setUpClearTableParametersListener(table);
+    setUpPagination(table);
 }
 function setUpOpenEditingListener(table) {
     var editBtns = table.querySelectorAll('.edit-btn');
@@ -192,6 +194,17 @@ function setUpClearTableParametersListener(table) {
     clearBtn.addEventListener('click', function () {
         initializeTableParameters();
         getExpenseTable();
+    });
+}
+function setUpPagination(table) {
+    var tableContainer = table.closest('.table-container ');
+    var paginationBtns = tableContainer.querySelectorAll('ul.pagination-btn-list button.pagination-btn');
+    paginationBtns.forEach(function (btn) {
+        if (!(btn instanceof HTMLButtonElement))
+            return;
+        btn.addEventListener('click', function () {
+            handlePaging(btn);
+        });
     });
 }
 //# sourceMappingURL=TableFunctionality.js.map

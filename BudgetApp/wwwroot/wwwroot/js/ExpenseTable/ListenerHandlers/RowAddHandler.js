@@ -78,7 +78,6 @@ function createExpenseModel(formDataObject) {
     /* parseToNullableFloat is used to simplify the data sent to the api
         by either sending a string | number | null */
     var expenseDataModel = {
-        id: parseFloat(formDataObject[EXPENSE_MODEL_STRINGS.id]) || 0,
         amount: parseFloat(formDataObject[EXPENSE_MODEL_STRINGS.amount]) || 0,
         date: formDataObject[EXPENSE_MODEL_STRINGS.date] || getFormattedCurrentDate(),
         expenseCategoryId: parseToNullableFloat(formDataObject[EXPENSE_MODEL_STRINGS.expenseCategoryId]),

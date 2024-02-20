@@ -1,7 +1,6 @@
 ﻿import { type TableParameters} from '../Models/TableParametersType.js'
 
 export type CreateExpenseModel = {
-    id: number
     amount: number
     date: string
     expenseCategoryId: number
@@ -11,7 +10,16 @@ export type CreateExpenseModel = {
     debtId?: number
 }
 
-export type UpdateExpenseModel = CreateExpenseModel
+export type UpdateExpenseModel = {
+    id: number
+    amount: number
+    date: string
+    expenseCategoryId: number
+    description?: string
+    accountId?: number
+    creditCardId?: number
+    debtId?: number
+}
 
 export type DeleteExpenseModel = {
     id: number

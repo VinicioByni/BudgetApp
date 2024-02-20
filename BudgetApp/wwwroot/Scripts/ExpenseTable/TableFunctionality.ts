@@ -6,6 +6,7 @@ import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandle
 import { getTableParameters, initializeTableParameters, updateTableParametersState } from './TableParameters/TableParameters.js'
 import { getExpenseTable } from './ListenerHandlers/GetTableHandler.js'
 import { TableParameters } from './Models/TableParametersType.js'
+import { handlePaging } from './ListenerHandlers/PagingHandler.js'
 
 initializeTableParameters()
 getExpenseTable()
@@ -36,6 +37,7 @@ function setUpListeners(table: HTMLTableElement) {
 
     setUpSearchFormListener(table)
     setUpClearTableParametersListener(table)
+    setUpPagination(table)
 }
 
 function setUpOpenEditingListener(table: HTMLTableElement) {
@@ -225,4 +227,17 @@ function setUpClearTableParametersListener(table: HTMLTableElement) {
         getExpenseTable()
     })
     
+}
+
+
+function setUpPagination(table: HTMLTableElement) {
+    const tableContainer = table.closest('.table-container ')
+    const paginationBtns = tableContainer.querySelectorAll('ul.pagination-btn-list button.pagination-btn')
+
+    paginationBtns.forEach(btn => {
+        if (!(btn instanceof HTMLButtonElement)) return
+        btn.addEventListener('click', () => {
+            handlePaging(btn)
+        })
+    })
 }

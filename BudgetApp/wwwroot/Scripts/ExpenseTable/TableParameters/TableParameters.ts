@@ -10,12 +10,23 @@ export function initializeTableParameters() {
         searchDate: '',
         sort: '',
         pageNumber: 1,
-        pageSize: 0
+        pageSize: 5
     }
 }
 
 export function getTableParameters(): TableParameters {
     return tableParameters
+}
+
+export function getUrlTableParameters(): string {
+    var urlTableParameters = `pageNumber=${tableParameters.pageNumber}`
+    urlTableParameters += `&pageSize=${tableParameters.pageSize}`
+    urlTableParameters += `&periodInitialDate=${tableParameters.periodInitialDate}`
+    urlTableParameters += `&searchDate=${tableParameters.searchDate}`
+    urlTableParameters += `&searchString=${tableParameters.searchString}`
+    urlTableParameters += `&sort=${tableParameters.sort}`
+
+    return urlTableParameters
 }
 
 export function updateTableParametersState() {
@@ -45,6 +56,10 @@ function updateSearchDateState() {
 
     expenseSearchDateInput.value = tableParameters.searchDate
     setDataActiveTrue(expenseSearchDateInput)
+}
+
+export function setPageNumber(pageNumber: number) {
+    tableParameters.pageNumber = pageNumber
 }
 
 

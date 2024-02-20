@@ -8,11 +8,20 @@ export function initializeTableParameters() {
         searchDate: '',
         sort: '',
         pageNumber: 1,
-        pageSize: 0
+        pageSize: 5
     };
 }
 export function getTableParameters() {
     return tableParameters;
+}
+export function getUrlTableParameters() {
+    var urlTableParameters = "pageNumber=".concat(tableParameters.pageNumber);
+    urlTableParameters += "&pageSize=".concat(tableParameters.pageSize);
+    urlTableParameters += "&periodInitialDate=".concat(tableParameters.periodInitialDate);
+    urlTableParameters += "&searchDate=".concat(tableParameters.searchDate);
+    urlTableParameters += "&searchString=".concat(tableParameters.searchString);
+    urlTableParameters += "&sort=".concat(tableParameters.sort);
+    return urlTableParameters;
 }
 export function updateTableParametersState() {
     if (tableParameters.searchString !== '') {
@@ -37,5 +46,8 @@ function updateSearchDateState() {
         return;
     expenseSearchDateInput.value = tableParameters.searchDate;
     setDataActiveTrue(expenseSearchDateInput);
+}
+export function setPageNumber(pageNumber) {
+    tableParameters.pageNumber = pageNumber;
 }
 //# sourceMappingURL=TableParameters.js.map
