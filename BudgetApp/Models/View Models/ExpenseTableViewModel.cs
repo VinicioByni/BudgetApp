@@ -7,6 +7,7 @@ namespace BudgetApp.Models
     public class ExpenseTableViewModel
     {
         public string MinSearchDateInputValue { get; set; } = string.Empty;
+        public int[]? PagingButtonArray{ get; set; }
 
         public Income? Income { get; set; }
         public List<Income>? Incomes { get; set; }

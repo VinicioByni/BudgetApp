@@ -16,7 +16,7 @@ namespace BudgetApp.Services
             _budgetDbContext = budgetDbContext;
         }
  
-        public async Task<ExpenseTableViewModel> Get(TableParameters tableParameters)
+        public async Task<ExpenseTableViewModel> Get([FromQuery]TableParameters tableParameters)
         {
             var tableViewModel = await GetViewModel(tableParameters);
 
@@ -130,6 +130,9 @@ namespace BudgetApp.Services
 
         private async Task<ExpenseTableViewModel> GetViewModel(TableParameters tableParameters)
         {
+            /* PENDING Table parameters Validation
+                -Page size & page number with total items compatability
+             */
             ExpenseTableViewModel viewModel = new ExpenseTableViewModel();
             viewModel.ExpenseCategories = _budgetDbContext.ExpenseCategories.ToList();
             viewModel.Accounts = _budgetDbContext.Accounts.ToList();
@@ -155,16 +158,26 @@ namespace BudgetApp.Services
 
             var filteredExpenses = GetFilteredExpenses(expenses, tableParameters);
 
-            var pagesSkiped = tableParameters.pageNumber - 1;
-            if (pagesSkiped < 0) { pagesSkiped = 0; }
-            var expensesSkiped = (tableParameters.pageSize * pagesSkiped);
-
+            var pageNumber = tableParameters.pageNumber;
             var pageSize = tableParameters.pageSize;
+
+            var pagesSkiped = pageNumber - 1;
+            if (pagesSkiped < 0) { pagesSkiped = 0; }
+            var expensesSkiped = (pageSize * pagesSkiped);
+
             if (pageSize <= 0) { pageSize = 5; }
 
             viewModel.FilteredExpensesCount = filteredExpenses.Count();
             viewModel.ExpensesPeriodTotalAmount = expenses.Sum(e => e.Amount);
             viewModel.Expenses = await filteredExpenses.Skip(expensesSkiped).Take(pageSize).ToListAsync();
+
+            var totalItems = 0;
+            if (viewModel.FilteredExpensesCount != null)
+            {
+                totalItems = (int)viewModel.FilteredExpensesCount;
+            }
+            
+            viewModel.PagingButtonArray = GetPagingButtonArray(pageNumber, pageSize, totalItems);
             return viewModel;
         }
 
@@ -233,5 +246,53 @@ namespace BudgetApp.Services
             return expenses;
         } 
        
+        private int[] GetPagingButtonArray(int pageNumber, int pageSize, int totalItems)
+        {
+            int maxNumberOfButtons = 5;
+            int minNumberOfButtons = 1;
+            int numberOfButtons = 0;
+
+            double numberOfPagesDiv = totalItems / pageSize;
+            int numberOfPages = 0;
+            if (totalItems % pageSize == 0)
+            {
+                numberOfPages = (int)numberOfPagesDiv;
+            }
+            else
+            {
+                numberOfPages = (int)numberOfPagesDiv + 1;
+            }
+            
+            if (numberOfPages >= maxNumberOfButtons)
+            {
+                numberOfButtons = maxNumberOfButtons;
+            }
+            else if (numberOfPages <= minNumberOfButtons)
+            {
+                numberOfButtons = minNumberOfButtons;
+            }
+            else
+            {
+                numberOfButtons = numberOfPages;
+            }
+
+            int[] pagingButtonArray = new int[numberOfButtons];
+            if (numberOfButtons < maxNumberOfButtons)
+            {
+                for (int i = 0; i < numberOfButtons; i++)
+                {
+                    pagingButtonArray[i] = i + 1;
+                }
+
+                return pagingButtonArray;
+            }
+
+            for (int i = 0; i < numberOfButtons; i++)
+            {
+                pagingButtonArray[i] = i + (pageNumber - 2);
+            }
+
+            return pagingButtonArray;
+        }
     }
 }

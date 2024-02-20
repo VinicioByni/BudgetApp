@@ -303,30 +303,15 @@
             </tbody>
         </table>
         <div class="table-pagination-container">
-            <p class="page-info">Showing 1-3 of 28 expenses</p>
+            <p class="page-info">Showing 1-3 of @Model.FilteredExpensesCount expenses</p>
             <nav class="pagination-nav">
                 <ul class="pagination-btn-list">
-                    <li class="list-btn">
-                        <button class="pagination-btn-svg">Prev</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn">1</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn">2</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn">3</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn">4</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn">5</button>
-                    </li>
-                    <li class="list-btn">
-                        <button class="pagination-btn-svg">Next</button>
-                    </li>
+                    @foreach (int buttonNumber in Model.PagingButtonArray)
+                    {
+                        <li>
+                            <button data-number="@buttonNumber" class="pagination-btn">@buttonNumber</button>
+                        </li>
+                    }
                 </ul>
             </nav>
         </div>

@@ -451,8 +451,7 @@
             align-items: center;
             gap: 6px;
         }
-            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn,
-            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg {
+            .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn {
                 height: 30px;
                 display: inline-flex;
                 align-items: center;
@@ -471,13 +470,5 @@
                     color: var(--typography-color-100);
                     outline: none;
                 }
-                .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg {
-                    color: var(--typography-color-300);
-                }
-                    .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg:hover,
-                    .expense-table-section .table-pagination-container .pagination-nav .pagination-btn-list .pagination-btn-svg:focus {
-                        color: var(--typography-color-100);
-                        outline: none;
-                    }
     
     
