@@ -181,6 +181,8 @@ namespace BudgetApp.Services
 
             viewModel.NumberOfEmptyRows = GetNumberOfEmptyRows(pageNumber, pageSize, totalItems);
 
+            viewModel.PageInfoText = GetPageInfoText(pageNumber, pageSize, totalItems);
+
             return viewModel;
         }
 
@@ -302,15 +304,14 @@ namespace BudgetApp.Services
         {
             int numberOfEmptyRows = 0;
             int numberOfPages = 0;
+
             double numberOfPagesDiv = totalItems / pageSize; 
             if (totalItems % pageSize == 0)
             {
                 numberOfPages = (int)numberOfPagesDiv;
             }
-            else
-            {
-                numberOfPages = (int)numberOfPagesDiv + 1;
-            }
+
+            numberOfPages = (int)numberOfPagesDiv + 1;
 
             if (pageNumber != numberOfPages)
             {
@@ -321,6 +322,40 @@ namespace BudgetApp.Services
             numberOfEmptyRows = pageSize - numberOfFilledRows;
             
             return numberOfEmptyRows;
+        }
+
+        private string GetPageInfoText(int pageNumber, int pageSize, int totalItems)
+        {
+            string pageInfoText = string.Empty;
+
+            int numberOfPages = GetNumberOfPages(pageSize, totalItems);
+            int previousPagesTotalItems = (pageNumber - 1) * pageSize;
+
+            int pageFirtItemNumber = previousPagesTotalItems + 1;
+            int pageLastItemNumber = previousPagesTotalItems + pageSize;
+
+            if (pageNumber == numberOfPages)
+            {
+                int numberOfFilledRows = totalItems - ((numberOfPages - 1) * pageSize);
+                pageLastItemNumber = previousPagesTotalItems + numberOfFilledRows;
+            }
+
+            pageInfoText = $"Showing {pageFirtItemNumber}-{pageLastItemNumber} of {totalItems} expenses";
+            return pageInfoText;
+        }
+
+        private int GetNumberOfPages(int pageSize, int totalItems)
+        {
+            int numberOfPages = 0;
+            double numberOfPagesDiv = totalItems / pageSize;
+            if (totalItems % pageSize == 0)
+            {
+                numberOfPages = (int)numberOfPagesDiv;
+            }
+
+            numberOfPages = (int)numberOfPagesDiv + 1;
+
+            return numberOfPages;
         }
     }
 }

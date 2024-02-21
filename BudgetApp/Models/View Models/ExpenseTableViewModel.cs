@@ -9,6 +9,7 @@ namespace BudgetApp.Models
         public string MinSearchDateInputValue { get; set; } = string.Empty;
         public int[]? PagingButtonArray{ get; set; }
         public int? NumberOfEmptyRows { get; set; }
+        public string PageInfoText { get; set; } = string.Empty;
 
         public Income? Income { get; set; }
         public List<Income>? Incomes { get; set; }

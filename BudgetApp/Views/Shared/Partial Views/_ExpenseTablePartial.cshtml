@@ -322,7 +322,7 @@
             </tbody>
         </table>
         <div class="table-pagination-container">
-            <p class="page-info">Showing 1-3 of @Model.FilteredExpensesCount expenses</p>
+            <p class="page-info">@Model.PageInfoText</p>
             <nav class="pagination-nav">
                 <ul class="pagination-btn-list">
                     @foreach (int buttonNumber in Model.PagingButtonArray)
