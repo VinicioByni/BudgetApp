@@ -178,6 +178,9 @@ namespace BudgetApp.Services
             }
             
             viewModel.PagingButtonArray = GetPagingButtonArray(pageNumber, pageSize, totalItems);
+
+            viewModel.NumberOfEmptyRows = GetNumberOfEmptyRows(pageNumber, pageSize, totalItems);
+
             return viewModel;
         }
 
@@ -293,6 +296,31 @@ namespace BudgetApp.Services
             }
 
             return pagingButtonArray;
+        }
+    
+        private int GetNumberOfEmptyRows(int pageNumber, int pageSize, int totalItems)
+        {
+            int numberOfEmptyRows = 0;
+            int numberOfPages = 0;
+            double numberOfPagesDiv = totalItems / pageSize; 
+            if (totalItems % pageSize == 0)
+            {
+                numberOfPages = (int)numberOfPagesDiv;
+            }
+            else
+            {
+                numberOfPages = (int)numberOfPagesDiv + 1;
+            }
+
+            if (pageNumber != numberOfPages)
+            {
+                return numberOfEmptyRows;
+            }
+
+            int numberOfFilledRows = totalItems - ((numberOfPages - 1) * pageSize);
+            numberOfEmptyRows = pageSize - numberOfFilledRows;
+            
+            return numberOfEmptyRows;
         }
     }
 }
