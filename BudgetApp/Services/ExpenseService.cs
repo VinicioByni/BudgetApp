@@ -256,18 +256,8 @@ namespace BudgetApp.Services
             int maxNumberOfButtons = 5;
             int minNumberOfButtons = 1;
             int numberOfButtons = 0;
-
-            double numberOfPagesDiv = totalItems / pageSize;
-            int numberOfPages = 0;
-            if (totalItems % pageSize == 0)
-            {
-                numberOfPages = (int)numberOfPagesDiv;
-            }
-            else
-            {
-                numberOfPages = (int)numberOfPagesDiv + 1;
-            }
-            
+            int numberOfPages = GetNumberOfPages(pageSize, totalItems);
+ 
             if (numberOfPages >= maxNumberOfButtons)
             {
                 numberOfButtons = maxNumberOfButtons;
@@ -303,15 +293,7 @@ namespace BudgetApp.Services
         private int GetNumberOfEmptyRows(int pageNumber, int pageSize, int totalItems)
         {
             int numberOfEmptyRows = 0;
-            int numberOfPages = 0;
-
-            double numberOfPagesDiv = totalItems / pageSize; 
-            if (totalItems % pageSize == 0)
-            {
-                numberOfPages = (int)numberOfPagesDiv;
-            }
-
-            numberOfPages = (int)numberOfPagesDiv + 1;
+            int numberOfPages = GetNumberOfPages(pageSize, totalItems);
 
             if (pageNumber != numberOfPages)
             {
