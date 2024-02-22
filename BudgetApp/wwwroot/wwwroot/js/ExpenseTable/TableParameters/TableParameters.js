@@ -6,7 +6,8 @@ export function initializeTableParameters() {
         periodInitialDate: '',
         searchString: '',
         searchDate: '',
-        sort: '',
+        sortOrder: '',
+        sortOption: '',
         pageNumber: 1,
         pageSize: 5
     };
@@ -20,7 +21,8 @@ export function getUrlTableParameters() {
     urlTableParameters += "&periodInitialDate=".concat(tableParameters.periodInitialDate);
     urlTableParameters += "&searchDate=".concat(tableParameters.searchDate);
     urlTableParameters += "&searchString=".concat(tableParameters.searchString);
-    urlTableParameters += "&sort=".concat(tableParameters.sort);
+    urlTableParameters += "&sortOption=".concat(tableParameters.sortOption);
+    urlTableParameters += "&sortOrder=".concat(tableParameters.sortOrder);
     return urlTableParameters;
 }
 export function updateTableParametersState() {
@@ -49,5 +51,11 @@ function updateSearchDateState() {
 }
 export function setPageNumber(pageNumber) {
     tableParameters.pageNumber = pageNumber;
+}
+export function setSortOption(sortOption) {
+    tableParameters.sortOption = sortOption;
+}
+export function setSortOrder(sortOrder) {
+    tableParameters.sortOrder = sortOrder;
 }
 //# sourceMappingURL=TableParameters.js.map

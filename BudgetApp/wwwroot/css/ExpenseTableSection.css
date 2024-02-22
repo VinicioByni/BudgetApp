@@ -204,14 +204,25 @@
             width: 10px;
             height: 10px;
         }
-
-        .expense-table-section thead .th-content .sort-btn .svg-top {
-            fill: var(--primary-color-500);
-        }
-
-        .expense-table-section thead .th-content .sort-btn .svg-bottom {
+        .expense-table-section thead .th-content .sort-btn[data-order ="Asc"] .svg-top {
             fill: var(--typography-color-500);
         }
+        .expense-table-section thead .th-content .sort-btn[data-order ="Asc"] .svg-bottom {
+            fill: var(--primary-color-500);
+        }
+        .expense-table-section thead .th-content .sort-btn[data-order ="Desc"] .svg-top {
+            fill: var(--primary-color-500);
+        }
+        .expense-table-section thead .th-content .sort-btn[data-order ="Desc"] .svg-bottom {
+            fill: var(--typography-color-500);
+        }
+        .expense-table-section thead .th-content .sort-btn[data-order ="Inactive"] .svg-top {
+            fill: var(--typography-color-500);
+        }
+        .expense-table-section thead .th-content .sort-btn[data-order ="Inactive"] .svg-bottom {
+            fill: var(--typography-color-500);
+        }
+
     .expense-table-section .table-container .expense-table thead .th-button-container {
         padding-block: 6px;
     }

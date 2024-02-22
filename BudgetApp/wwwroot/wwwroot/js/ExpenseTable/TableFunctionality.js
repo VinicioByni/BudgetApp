@@ -6,6 +6,7 @@ import { handleExpenseAddRow, closeAddForm, openAddForm } from './ListenerHandle
 import { getTableParameters, initializeTableParameters, updateTableParametersState } from './TableParameters/TableParameters.js';
 import { getExpenseTable } from './ListenerHandlers/GetTableHandler.js';
 import { handlePaging } from './ListenerHandlers/PagingHandler.js';
+import { handleSorting } from './ListenerHandlers/SortingHandler.js';
 initializeTableParameters();
 getExpenseTable();
 export function expenseTableFunctionality() {
@@ -29,6 +30,7 @@ function setUpListeners(table) {
     setUpSearchFormListener(table);
     setUpClearTableParametersListener(table);
     setUpPagination(table);
+    setUpSorting(table);
 }
 function setUpOpenEditingListener(table) {
     var editBtns = table.querySelectorAll('.edit-btn');
@@ -204,6 +206,16 @@ function setUpPagination(table) {
             return;
         btn.addEventListener('click', function () {
             handlePaging(btn);
+        });
+    });
+}
+function setUpSorting(table) {
+    var sortBtns = table.querySelectorAll('.th-content button.sort-btn');
+    sortBtns.forEach(function (btn) {
+        if (!(btn instanceof HTMLButtonElement))
+            return;
+        btn.addEventListener('click', function () {
+            handleSorting(btn, sortBtns);
         });
     });
 }

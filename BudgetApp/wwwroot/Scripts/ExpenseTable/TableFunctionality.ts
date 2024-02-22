@@ -7,6 +7,7 @@ import { getTableParameters, initializeTableParameters, updateTableParametersSta
 import { getExpenseTable } from './ListenerHandlers/GetTableHandler.js'
 import { TableParameters } from './Models/TableParametersType.js'
 import { handlePaging } from './ListenerHandlers/PagingHandler.js'
+import { handleSorting } from './ListenerHandlers/SortingHandler.js'
 
 initializeTableParameters()
 getExpenseTable()
@@ -38,6 +39,7 @@ function setUpListeners(table: HTMLTableElement) {
     setUpSearchFormListener(table)
     setUpClearTableParametersListener(table)
     setUpPagination(table)
+    setUpSorting(table)
 }
 
 function setUpOpenEditingListener(table: HTMLTableElement) {
@@ -238,6 +240,18 @@ function setUpPagination(table: HTMLTableElement) {
         if (!(btn instanceof HTMLButtonElement)) return
         btn.addEventListener('click', () => {
             handlePaging(btn)
+        })
+    })
+}
+
+
+function setUpSorting(table: HTMLTableElement) {
+    const sortBtns = table.querySelectorAll('.th-content button.sort-btn')
+
+    sortBtns.forEach(btn => {
+        if (!(btn instanceof HTMLButtonElement)) return
+        btn.addEventListener('click', () => {
+            handleSorting(btn, sortBtns)
         })
     })
 }

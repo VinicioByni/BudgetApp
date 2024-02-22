@@ -6,7 +6,6 @@ export function enableClearBtnState() {
     var clearBtn = expenseTableSection.querySelector('.clear-table-parameters-btn');
     if (clearBtn == null || !(clearBtn instanceof HTMLButtonElement))
         return;
-    console.log(clearBtn);
     setDisabledFalse(clearBtn);
 }
 //# sourceMappingURL=ClearTableParametersHandler.js.map

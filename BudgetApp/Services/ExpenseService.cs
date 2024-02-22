@@ -183,6 +183,26 @@ namespace BudgetApp.Services
 
             viewModel.PageInfoText = GetPageInfoText(pageNumber, pageSize, totalItems);
 
+            string sortOption = tableParameters.sortOption;
+            string sortOrder = tableParameters.sortOrder;
+
+            if (!(sortOption.IsNullOrEmpty()))
+            {
+                viewModel.SortOption = sortOption;
+            }
+            else
+            {
+                viewModel.SortOption = "Date";
+            }
+            if (!(sortOrder.IsNullOrEmpty()))
+            {
+                viewModel.SortOrder = sortOrder;
+            }
+            else
+            {
+                viewModel.SortOrder = "Desc";
+            }
+
             return viewModel;
         }
 
@@ -190,7 +210,7 @@ namespace BudgetApp.Services
         {
             var searchExpenseString = tableParameters.searchString;
             var searchDate = tableParameters.searchDate;
-            var sortExpenseOrder = tableParameters.sort;
+            var sortExpenseOrder = tableParameters.sortOption + tableParameters.sortOrder;
             // Search Bar
             if (!String.IsNullOrEmpty(searchExpenseString))
             {
@@ -212,37 +232,27 @@ namespace BudgetApp.Services
             // Sort
             switch (sortExpenseOrder)
             {
-                case "AmountAscending":
-                    expenses = expenses
-                        .OrderBy(e => e.Amount);
+                case "AmountAsc":
+                    expenses = expenses.OrderBy(e => e.Amount).OrderBy(e => e.Date);
                     break;
-                case "AmountDescending":
+                case "AmountDesc":
                     expenses = expenses.OrderByDescending(e => e.Amount);
                     break;
-                case "DateAscending":
-                    expenses = expenses.OrderBy(e => e.Date);
-                    break;
-                case "DateDescending":
+                case "DateDesc":
                     expenses = expenses.OrderByDescending(e => e.Date);
                     break;
-                case "CategoryAscending":
+                case "DateAsc":
+                    expenses = expenses.OrderBy(e => e.Date);
+                    break;
+                case "CategoryAsc":
                     expenses = expenses.OrderBy(e => e.ExpenseCategory.Name);
                     break;
-                case "CategoryDescending":
+                case "CategoryDesc":
                     expenses = expenses.OrderByDescending(e => e.ExpenseCategory.Name);
                     break;
-                case "PaymentAscending":
-                    expenses = expenses.OrderBy(e => e.Account.Name);
-                    break;
-                case "PaymentDescending":
-                    expenses = expenses.OrderByDescending(e => e.Account.Name);
-                    break;
-                case "DescriptionAscending":
-                    expenses = expenses.OrderBy(e => e.Description);
-                    break;
-                case "DescriptionDescending":
-                    expenses = expenses.OrderByDescending(e => e.Description);
-                    break;
+                /* PENDING, more complex solution for the multiple columns associated with payment, 
+                 * can be either by account, credit card or debt, subject to the one selected in each expense
+                */
                 default:
                     expenses = expenses.OrderByDescending(e => e.Date);
                     break;

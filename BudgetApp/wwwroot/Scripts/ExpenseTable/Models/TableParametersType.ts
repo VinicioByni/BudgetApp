@@ -7,7 +7,8 @@ export type periodInitialDate = {
 export type TableParameters = periodInitialDate & {
     searchString?: string
     searchDate?: string
-    sort?: string
+    sortOption?: string
+    sortOrder?: string
     pageSize?: number
     pageNumber?: number
 }

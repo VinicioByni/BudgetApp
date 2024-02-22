@@ -8,7 +8,8 @@ export function initializeTableParameters() {
         periodInitialDate: '',
         searchString: '',
         searchDate: '',
-        sort: '',
+        sortOrder: '',
+        sortOption: '',
         pageNumber: 1,
         pageSize: 5
     }
@@ -24,7 +25,8 @@ export function getUrlTableParameters(): string {
     urlTableParameters += `&periodInitialDate=${tableParameters.periodInitialDate}`
     urlTableParameters += `&searchDate=${tableParameters.searchDate}`
     urlTableParameters += `&searchString=${tableParameters.searchString}`
-    urlTableParameters += `&sort=${tableParameters.sort}`
+    urlTableParameters += `&sortOption=${tableParameters.sortOption}`
+    urlTableParameters += `&sortOrder=${tableParameters.sortOrder}`
 
     return urlTableParameters
 }
@@ -60,6 +62,13 @@ function updateSearchDateState() {
 
 export function setPageNumber(pageNumber: number) {
     tableParameters.pageNumber = pageNumber
+}
+
+export function setSortOption(sortOption: string) {
+    tableParameters.sortOption= sortOption
+}
+export function setSortOrder(sortOrder: string) {
+    tableParameters.sortOrder = sortOrder
 }
 
 
